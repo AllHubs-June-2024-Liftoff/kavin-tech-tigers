@@ -2,6 +2,7 @@ package TechTigers.BicycleBuddies.models;
 
 import java.util.ArrayList;
 import java.util.List;
+//import jakarta.persistence.Entity;
 
 //@Entity
 public class User extends AbstractEntity{
