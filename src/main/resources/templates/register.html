@@ -10,27 +10,32 @@
 <form method="post">
     <div>
         <label>Username:
-            <input>
+            <input th:field="${registerFormDTO.username}">
         </label>
     </div>
     <div>
         <label>Full Name:
-            <input>
+            <input th:field="${registerFormDTO.fullName}">
         </label>
     </div>
     <div>
         <label>Email:
-            <input>
+            <input th:field="${registerFormDTO.email}">
         </label>
     </div>
     <div>
         <label>Password:
-            <input>
+            <input th:field="${registerFormDTO}">
         </label>
     </div>
     <div>
         <label>Verify Password:
-            <input>
+            <input th:field="${registerFormDTO.verifyPassword}">
+        </label>
+    </div>
+    <div>
+        <label>Profile Picture:
+            <input type="file" id="userProfilePicture" name="userProfilePicture">
         </label>
     </div>
 

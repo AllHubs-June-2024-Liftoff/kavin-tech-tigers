@@ -1,7 +1,5 @@
 package TechTigers.BicycleBuddies.models.dto;
 
-import TechTigers.BicycleBuddies.models.dto.LoginFormDTO;
-
 public class RegisterFormDTO extends LoginFormDTO {
 
     private String verifyPassword;
