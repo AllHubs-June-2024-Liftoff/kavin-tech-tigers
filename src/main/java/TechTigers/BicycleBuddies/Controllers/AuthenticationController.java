@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class AuthenticationController {
 
-    @Autowired
-    private UserRepository userRepository;
+//    @Autowired
+//    private UserRepository userRepository;
 
     @GetMapping("/register")
     public String displayRegistrationForm(Model model){
