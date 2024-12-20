@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org/">
-<head>
+<head th:replace="~{fragments :: head}">
     <meta charset="UTF-8">
     <title>Hello World</title>
 </head>
 <body>
+<div th:replace="~{fragments :: navbar}"></div>
 <h1>Hello World from Bicycle Buddies!</h1>
 <img src="https://picsum.photos/300/200" alt="random image">
 <p>Lorem Picsum (above) shows a random placeholder image of defined dimensions</p>
