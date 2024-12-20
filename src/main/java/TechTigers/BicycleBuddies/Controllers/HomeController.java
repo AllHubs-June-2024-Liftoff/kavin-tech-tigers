@@ -10,4 +10,9 @@ public class HomeController {
     public String index(){
         return "index";
     }
+
+    @GetMapping("/home-logged-out")
+    public String homePageLoggedOut(){
+        return "home-logged-out";
+    }
 }
