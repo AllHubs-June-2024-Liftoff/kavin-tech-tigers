@@ -15,4 +15,9 @@ public class HomeController {
     public String homePageLoggedOut(){
         return "home-logged-out";
     }
+
+    @GetMapping("/home-logged-in")
+    public String homePageLoggedIn(){
+        return "home-logged-in";
+    }
 }
