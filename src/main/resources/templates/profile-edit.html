@@ -12,10 +12,9 @@
     <img src="https://picsum.photos/200" id="profile-image" />
 </div>
 <div>
-    <form>
-    <input type="file" name="image" id="image">
-</div>
-<div>
+    <p>Choose your profile picture:</p>
+    <form method ="post" enctype="multipart/form-data">
+    <input type="file" name="image" id="image" accept=".jpg, .jpeg, .png"/><br>
     <button type="submit">Submit</button>
     </form>
 </div>
