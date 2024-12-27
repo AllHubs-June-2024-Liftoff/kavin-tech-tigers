@@ -24,4 +24,19 @@
 
 .profile-picture {
     border-radius: 120px;
+    margin: 25px;
+}
+
+.home-element {
+    display: inline-block;
+    text-align:left;
+    background-color: green;
+    border-radius: 15px;
+    padding: 10px 40px
+}
+
+.activity-feed {
+    background-color: honeydew;
+    margin: 25px;
+    padding: 25px;
 }

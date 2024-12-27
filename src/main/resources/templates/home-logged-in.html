@@ -6,28 +6,31 @@
 </head>
 <body>
     <div th:replace="~{fragments :: navbar}"></div>
-    <img
-            class="profile-picture"
-            src="https://picsum.photos/200/200"
-            alt="profile picture"
-            style="float:right">
-    <div style="float:left">
-        <div>
-            Pending Friend Invites
-        </div>
-        <div>
-            Pending Ride Invites
-        </div>
-    </div>
-    <div style="text-align: center">
-        <div style="display: inline-block; text-align:left">
-            Reminder of Next Ride<br/>
-            Date:<br/>
-            Location:<br/>
-            With Friends
-        </div>
-    </div>
     <div>
+        <img
+                class="profile-picture"
+                src="https://picsum.photos/200/200"
+                alt="profile picture"
+                style="float:right">
+        <div style="float:left">
+            <div class="home-element">
+                Pending Friend Invites
+            </div>
+            <div class="home-element">
+                Pending Ride Invites
+            </div>
+        </div>
+        <div style="text-align: center">
+            <div class="home-element">
+                Reminder of Next Ride<br/>
+                Date:<br/>
+                Location:<br/>
+                With Friends
+            </div>
+        </div>
+    </div>
+
+    <div class="activity-feed">
         Activity Feed
     </div>
 
