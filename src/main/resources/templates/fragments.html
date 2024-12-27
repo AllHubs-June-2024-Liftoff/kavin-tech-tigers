@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:fragment="head">
+
+    <link th:href="@{/css/styles.css}" rel="stylesheet" />
+
+    <meta charset="UTF-8"/>
+    <title>Bicycle Buddies</title>
+</head>
+<body>
+
+<div th:fragment="navbar" class="navbar">
+    <div>
+        <ul>
+            <li><a th:href="@{/}">Home</a></li>
+            <li><a th:href="@{/profile}">Profile</a></li>
+            <li><a th:href="@{/rides}">Rides</a></li>
+            <li><a th:href="@{/friends}">Friends</a></li>
+            <li style="float:right"><a th:href="@{/}">Logout</a></li>
+        </ul>
+    </div>
+
+</div>
+
+</body>
+</html>
