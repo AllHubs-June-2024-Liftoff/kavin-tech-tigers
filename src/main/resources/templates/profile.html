@@ -6,20 +6,23 @@
 </head>
 <body>
 <div th:replace="~{fragments :: navbar}"></div>
-
+<h1>User Profile</h1>
 <div>
     <table>
         <tr>
             <td><img src="https://picsum.photos/200" id="profile-image" /></td>
             <td># of Miles Biked</td>
-            <td><button type="button">View Miles Tracker</button></td>
+            <td><button type="button">View Miles Chart</button></td>
         </tr>
         <tr>
-            <td>@Username</td>
+            <td><b>@Username</b></td>
             <td>Pagination goes here <...></td>
         </tr>
         <tr>
             <td># of Friends</td>
+            <td><b>Comments</b><br>
+                Ride information </td>
+              <td><button type="button">Like Ride ★</button></td>
         </tr>
     </table>
     <table>
