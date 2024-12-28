@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+</head>
+<body>
+<h1>Profile Creation</h1>
+
+<form method="post">
+    <div>
+        <label>Username:
+            <input th:field="${registerFormDTO.username}">
+        </label>
+    </div>
+    <div>
+        <label>Full Name:
+            <input th:field="${registerFormDTO.fullName}">
+        </label>
+    </div>
+    <div>
+        <label>Email:
+            <input th:field="${registerFormDTO.email}">
+        </label>
+    </div>
+    <div>
+        <label>Password:
+            <input th:field="${registerFormDTO}">
+        </label>
+    </div>
+    <div>
+        <label>Verify Password:
+            <input th:field="${registerFormDTO.verifyPassword}">
+        </label>
+    </div>
+    <div>
+        <label>Profile Picture:
+            <input type="file" id="userProfilePicture" name="userProfilePicture">
+        </label>
+    </div>
+
+    <input type="submit">
+    <button>
+        <a th:href="@{/}">Home</a>
+    </button>
+</form>
+
+</body>
+</html>
