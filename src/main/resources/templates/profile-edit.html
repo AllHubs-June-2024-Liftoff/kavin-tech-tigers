@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<head>
+<head th:replace="~{fragments :: head}">
     <meta charset="UTF=8"/>
     <title>Profile Edit</title>
 </head>
 <!--TODO: Add CRUD functionality and CSS-->
 <body>
+<div th:replace="~{fragments :: navbar}"></div>
 <h1>Profile Edit</h1>
 <div>
     <h3>Change Profile Image</h3>
