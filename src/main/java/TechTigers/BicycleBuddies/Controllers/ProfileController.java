@@ -5,12 +5,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("")
 public class ProfileController {
-    @GetMapping
+    @GetMapping("/profile")
     public String profileView(){return "profile";}// load mock profile view
 
-    @GetMapping()
+    @GetMapping("/profile-edit")
     public String profileEdit() {
         return "profile-edit";
     } //load mock edit page edit
