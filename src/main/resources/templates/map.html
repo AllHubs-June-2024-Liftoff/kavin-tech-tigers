@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <link th:href="@{/css/styles.css}" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <title>Bicycle Buddies</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCevu4ihQMDMTA7c9r8yjbLyg2BsKOojgI"></script>
+    <style>
+        #map {
+            height: 400px;
+            width: 50%;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{fragments :: navbar}"></div>
+<h1>Google Maps Widget</h1>
+<div id="map"></div>
+<script>
+    function initMap() {
+        // Specify map options
+        let options = {
+            center: { lat: 38.638132, lng: -90.282402 },
+
+
+            zoom: 12
+        };
+
+        let map = new google.maps.Map(document.getElementById("map"), options);
+    }
+
+    window.onload = initMap;
+</script>
+</body>
+</html>
