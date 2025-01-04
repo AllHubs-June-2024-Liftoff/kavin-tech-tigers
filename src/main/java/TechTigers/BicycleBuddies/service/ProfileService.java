@@ -33,10 +33,10 @@
 //        profileRepository.deleteById(id);
 //    }
 //      TODO: Work on CRUD functionality in controller & ask Eric about location SETTER
-//    public Profile updateProfile(int id, Profile profileDetails){
+//      public Profile updateProfile(int id, Profile profileDetails){
 //        Profile profile = profileRepository.findById(id).orElseThrow();
 //        profile.setDisplayName(profileDetails.getDisplayName());
-//        //profile.setLocation(profileDetails.getLocation());
+//        profile.setLocation(profileDetails.getLocation());
 //        profile.setBioPicture(profileDetails.getBioPicture());
 //        profile.setBio(profileDetails.getBio());
 //        return profileRepository.save(profile);  // saves profile information
