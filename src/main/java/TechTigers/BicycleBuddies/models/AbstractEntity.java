@@ -1,16 +1,16 @@
 package TechTigers.BicycleBuddies.models;
 
-//import jakarta.persistence.GeneratedValue;
-//import jakarta.persistence.Id;
-//import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 
 import java.util.Objects;
 
-//@MappedSuperclass
+@MappedSuperclass
 public abstract class AbstractEntity {
 
-//    @Id
-//    @GeneratedValue
+    @Id
+    @GeneratedValue
     private int id;
 
     public int getId(){
