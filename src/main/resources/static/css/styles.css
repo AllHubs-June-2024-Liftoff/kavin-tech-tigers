@@ -1,0 +1,32 @@
+.navbar1 {
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: lightgreen;
+    }
+    li {
+        float: left;
+        a {
+            display: block;
+            text-align: center;
+            padding: 14px 16px;
+            color: black;
+            text-decoration: none;
+        }
+        a:hover {
+            background-color: darkgreen;
+        }
+
+    }
+}
+
+th, td {
+  padding-left: 10px;
+  padding-right: 70px;
+}
+
+#profile-image{
+border-radius: 50%;
+}
