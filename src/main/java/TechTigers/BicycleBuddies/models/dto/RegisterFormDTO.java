@@ -3,7 +3,7 @@ package TechTigers.BicycleBuddies.models.dto;
 public class RegisterFormDTO extends LoginFormDTO {
 
     private String verifyPassword;
-    private String fullName;
+    private String displayName;
     private String email;
 
     public String getVerifyPassword() {
@@ -14,12 +14,12 @@ public class RegisterFormDTO extends LoginFormDTO {
         this.verifyPassword = verifyPassword;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setDisplayName(String fullName) {
+        this.displayName = fullName;
     }
 
     public String getEmail() {

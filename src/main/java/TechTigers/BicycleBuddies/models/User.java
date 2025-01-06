@@ -17,7 +17,7 @@ public class User extends AbstractEntity{
     private String password;
     private String location;
     private String bio;
-    private Image profilePicture;
+//    private Image profilePicture;
 //    private final List<User> friendList = new ArrayList<>();
 
     public User () {}
@@ -29,7 +29,7 @@ public class User extends AbstractEntity{
         this.password = password;
         this.location = location;
         this.bio = bio;
-        this.profilePicture = profilePicture;
+//        this.profilePicture = profilePicture;
     }
 
     public String getUserName() {
@@ -50,9 +50,9 @@ public class User extends AbstractEntity{
         return location;
     }
 
-    public Image getProfilePicture() {
-        return profilePicture;
-    }
+//    public Image getProfilePicture() {
+//        return profilePicture;
+//    }
 
     public String getBio() {
         return bio;
