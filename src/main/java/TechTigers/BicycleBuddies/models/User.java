@@ -12,9 +12,15 @@ public class User extends AbstractEntity{
 
     @NotNull
     private String userName;
+
     private String displayName;
+
+    @NotNull
     private String email;
+
+    @NotNull
     private String password;
+
     private String location;
     private String bio;
 //    private Image profilePicture;
