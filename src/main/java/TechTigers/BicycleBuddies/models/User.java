@@ -4,7 +4,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.Entity;
-
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -36,6 +35,11 @@ public class User extends AbstractEntity{
         this.location = location;
         this.bio = bio;
 //        this.profilePicture = profilePicture;
+    }
+
+    public User(String userName, String password){
+        this.userName = userName;
+        this.password = password;
     }
 
     public String getUserName() {
