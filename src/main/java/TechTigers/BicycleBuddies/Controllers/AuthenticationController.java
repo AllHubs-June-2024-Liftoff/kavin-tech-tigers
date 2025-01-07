@@ -4,6 +4,7 @@ import TechTigers.BicycleBuddies.data.UserRepository;
 import TechTigers.BicycleBuddies.models.User;
 import TechTigers.BicycleBuddies.models.dto.RegisterFormDTO;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,12 +15,34 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 public class AuthenticationController {
 
     @Autowired
     private UserRepository userRepository;
+
+    private static final String userSessionKey = "user";
+
+    public User getUserFromSession(HttpSession session){
+        Integer userId = (Integer) session.getAttribute(userSessionKey);
+        if (userId == null){
+            return null;
+        }
+
+        Optional<User> user = userRepository.findById(userId);
+
+        if(user.isEmpty()){
+            return null;
+        }
+
+        return user.get();
+    }
+
+    private static void setUserInSession(HttpSession session, User user){
+        session.setAttribute(userSessionKey, user.getId());
+    }
 
     @GetMapping("/register")
     public String displayRegistrationForm(Model model){
@@ -38,10 +61,10 @@ public class AuthenticationController {
             return "register";
         }
 
-        User existingUser = userRepository.findByUsername((registerFormDTO.getUserName()));
+        User existingUser = userRepository.findByUserName((registerFormDTO.getUserName()));
 
         if(existingUser != null){
-            errors.rejectValue("username", "username.alreadyexists", "A user with that username already exists");
+            errors.rejectValue("userName", "userName.alreadyexists", "A user with that username already exists");
             model.addAttribute("title", "Register");
             return "register";
         }
@@ -56,7 +79,7 @@ public class AuthenticationController {
 
         User newUser = new User(registerFormDTO.getUserName(), registerFormDTO.getPassword());
         userRepository.save(newUser);
-//        setUserInSession(request.getSession(), newUser);
+        setUserInSession(request.getSession(), newUser);
 
 
         return "redirect:";
