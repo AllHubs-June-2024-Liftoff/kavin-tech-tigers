@@ -2,6 +2,7 @@ package TechTigers.BicycleBuddies.controllers;
 
 import TechTigers.BicycleBuddies.data.UserRepository;
 import TechTigers.BicycleBuddies.models.User;
+import TechTigers.BicycleBuddies.models.dto.LoginFormDTO;
 import TechTigers.BicycleBuddies.models.dto.RegisterFormDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -81,6 +82,44 @@ public class AuthenticationController {
         userRepository.save(newUser);
         setUserInSession(request.getSession(), newUser);
 
+
+        return "redirect:";
+    }
+
+    @GetMapping("/login")
+    public String displayLoginForm(Model model){
+        model.addAttribute(new LoginFormDTO());
+        model.addAttribute("title", "Log In");
+        return "login";
+    }
+
+    @PostMapping("/login")
+    public String processLoginForm(@ModelAttribute @Valid LoginFormDTO loginFormDTO,
+                                   Errors errors, HttpServletRequest request,
+                                   Model model){
+
+        if(errors.hasErrors()){
+            model.addAttribute("title", "Log In");
+            return "login";
+        }
+
+        User theUser = userRepository.findByUserName(loginFormDTO.getUserName());
+
+        if (theUser == null){
+            errors.rejectValue("username", "user.invalid", "The given username does not exist");
+            model.addAttribute("title", "Log In");
+            return "login";
+        }
+
+        String password = loginFormDTO.getPassword();
+
+        if(!theUser.isMatchingPassword(password)){
+            errors.rejectValue("password", "password.invalid", "Invalid password");
+            model.addAttribute("title", "Log In");
+            return "login";
+        }
+
+        setUserInSession(request.getSession(), theUser);
 
         return "redirect:";
     }
