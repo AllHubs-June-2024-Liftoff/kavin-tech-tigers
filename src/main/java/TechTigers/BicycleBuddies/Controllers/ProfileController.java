@@ -12,9 +12,8 @@ import javax.validation.Valid;
 public class ProfileController {
 // @Autowired
 // private final ProfileService profileService;
-
-    //TODO create a view for this
-// @GetMapping("all-profiles")
+//   TODO create a view for this
+//   @GetMapping("all-profiles")
 //    public List<Profile> getAllProfiles(Model model) {
 //    model.addAttribute("title", "List of all Profiles");
 //    return profileService.getAllProfiles();
@@ -32,10 +31,10 @@ public class ProfileController {
 // Views Profile by ID
 //    @GetMapping("/profile/{id}")
 //    public Profile profileViewById(@PathVariable int id, Model model){
-//    profileService.getProfileById(id);
+//    Profile profile = profileService.getProfileById(id);
 //    model.addAttribute("profile", profile);
-//    model.addAttribute("username", profile.getByUsername());
-//    model.addAttribute("title", profile.getUserName()) +"'s profile");
+//    model.addAttribute("username", profile.getUsername());
+//    model.addAttribute("title", profile.getUserName() +"'s profile");
 //    return "profile";
 
 
@@ -49,13 +48,13 @@ public class ProfileController {
     //CREATES Profile
 // @PostMapping("/create")
 // public Profile createProfile(@RequestBody @Valid Profile profile, Errors errors, Model model) {
-//  if(errors.hasError()){
+//  if(errors.hasErrors()){
 //  return "redirect:/create";
 //  } else {
 //  Profile savedProfile = profileService.saveProfile(profile);
-//  model.addAttribute("username", profile.getByUsername());
-//  model.addAttribute("title", profile.getUserName()) +"'s profile")
-//  return "/profile/" + id;
+//  model.addAttribute("username", savedProfile.getUsername());
+//  model.addAttribute("title", profile.getUserName() +"'s profile");
+//  return "redirect:/profile/" + savedProfile.getId();
 //  }
 //
 //    }
@@ -67,9 +66,10 @@ public class ProfileController {
 // if(errors.hasErrors()){
 // return "redirect:/profile-edit";
 // } else {
- //model.addAttribute("username", profile.getByUsername());
-// model.addAttribute("title", profile.getUserName()) +"'s profile")
-//  return "redirect:/profile/" + id;
+//  Profile updatedProfile = profileService.updateProfile(id, profile);
+ //model.addAttribute("username", updatedProfile.getUsername());
+// model.addAttribute("title", updatedProfile.getUserName()) +"'s profile");
+//  return "redirect:/profile/" + updatedProfile.getById();
 // }
 //}
 //
@@ -77,6 +77,6 @@ public class ProfileController {
 //DELETES Profiles
 // @DeleteMapping("/profile/{id}")
 // public Profile deleteProfile(@PathVariable int id, Model model){
-// profileService.deleteProfile(id)
-// return "Profile" + id + "has been deleted";
+// profileService.deleteProfile(id);
+// return "redirect/";
 }
