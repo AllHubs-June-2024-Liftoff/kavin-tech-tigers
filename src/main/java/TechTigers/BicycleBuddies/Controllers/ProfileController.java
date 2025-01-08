@@ -41,5 +41,5 @@ public class ProfileController {
 // @DeleteMapping("/profile/{id}")
 // public Profile deleteProfile(@PathVariable int id){
 // profileService.deleteProfile(id)
-// return "Profile" + id "has been deleted";
+// return "Profile" + id + "has been deleted";
 }

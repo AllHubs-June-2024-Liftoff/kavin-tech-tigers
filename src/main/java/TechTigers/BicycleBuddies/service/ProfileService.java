@@ -30,6 +30,9 @@
 //    }
 //
 //    public void deleteProfile(int id){
+//      if(!profileRepository.existsById(id)) {
+//      throw new RuntimeException("Profile with ID" + id + "not found");
+//      }
 //        profileRepository.deleteById(id);
 //    }
 //      TODO: Work on CRUD functionality in controller & ask Eric about location SETTER
