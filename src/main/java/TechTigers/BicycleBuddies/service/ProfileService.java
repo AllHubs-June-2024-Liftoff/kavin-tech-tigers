@@ -16,15 +16,18 @@
 //    public ProfileService(ProfileRepository profileRepository){
 //        this.profileRepository= profileRepository;
 //    }
-//
+//  //VIEWS LIST OF PROFILES
 //    public List<Profile> getAllProfiles(){
 //        return (List<Profile>) profileRepository.findAll();
 //    }
 //
 //    public Optional<Profile> getProfileById(int id){
+    //  if(profileRepository.existsById(id)
 //        return profileRepository.findById(id);
-//    }
-//
+//    } else {
+//          return "Profile" + id + "not found";
+//       }
+//      CREATE PROFILES
 //    public Profile saveProfile(Profile profile){
 //        return profileRepository.save(profile);
 //    }
@@ -32,7 +35,7 @@
 //    public void deleteProfile(int id){
 //      if(!profileRepository.existsById(id)) {
 //      throw new RuntimeException("Profile with ID" + id + "not found");
-//      }
+//      } else {
 //        profileRepository.deleteById(id);
 //    }
 //      TODO: Work on CRUD functionality in controller & ask Eric about location SETTER
