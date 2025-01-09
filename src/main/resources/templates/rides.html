@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Rides</title>
+</head>
+<body>
+<h1>All Rides</h1>
+
+<!-- Check if there are any rides -->
+<div th:if="${#lists.isEmpty(rides)}">
+    <p>No rides available.</p>
+</div>
+
+<!-- Display the list of rides -->
+<ul>
+    <li th:each="ride : ${rides}">
+        <strong>Date:</strong> <span th:text="${ride.date}"></span><br>
+        <strong>Distance:</strong> <span th:text="${ride.distance}"></span><br>
+        <strong>Duration:</strong> <span th:text="${ride.duration}"></span><br>
+        <strong>Route:</strong> <span th:text="${ride.route}"></span><br>
+        <strong>Description:</strong> <span th:text="${ride.description}"></span><br>
+        <hr>
+    </li>
+</ul>
+
+</body>
+</html>
