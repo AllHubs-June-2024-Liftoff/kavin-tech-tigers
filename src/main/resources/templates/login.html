@@ -8,22 +8,22 @@
 
     <form method="post">
         <div>
-            <label th:for="userName">Username
-                <input th:field="${loginFormDTO.userName}">
+            <label th:for="username">Username
+                <input th:field="${loginFormDTO.username}">
             </label>
-            <p th:errors="${loginFormDTO.userName}"></p>
+            <p th:errors="${loginFormDTO.username}"></p>
         </div>
         <div>
             <label>Password
                 <input th:field="${loginFormDTO.password}" type="password">
             </label>
-            <p th:errors="${loginFromDTO.password}"></p>
+            <p th:errors="${loginFormDTO.password}"></p>
         </div>
 
         <input type="submit" value="Log In" />
     </form>
 
-    <p>Don't have an account? <a href="/register">Register for one.</a></p>
+    <p>Don't have an account? <a href="/register">Register for one here!</a></p>
 
 </body>
 </html>

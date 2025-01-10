@@ -11,35 +11,37 @@
 <form method="post">
     <div>
         <label>Username:
-            <input th:field="${registerFormDTO}" />
+            <input th:field="${registerFormDTO.username}" />
         </label>
-        <p th:errors="${registerFormDTO}"></p>
+        <p th:errors="${registerFormDTO.username}"></p>
     </div>
-    <div>
-        <label>Display Name:
-            <input th:field="${registerFormDTO.displayName}" />
-        </label>
-    </div>
-    <div>
-        <label>Email:
-            <input th:field="${registerFormDTO.email}" />
-        </label>
-    </div>
+<!--    <div>-->
+<!--        <label>Display Name:-->
+<!--            <input th:field="${registerFormDTO.displayName}" />-->
+<!--        </label>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <label>Email:-->
+<!--            <input th:field="${registerFormDTO.email}" />-->
+<!--        </label>-->
+<!--    </div>-->
     <div>
         <label>Password:
-            <input th:field="${registerFormDTO}" type="password" />
+            <input th:field="${registerFormDTO.password}" type="password" />
         </label>
+        <p th:errors="${registerFormDTO.password}"></p>
     </div>
     <div>
         <label>Verify Password:
             <input th:field="${registerFormDTO.verifyPassword}" type="password" />
         </label>
+        <p th:errors="${registerFormDTO.verifyPassword}"></p>
     </div>
-    <div>
-        <label>Profile Picture:
-            <input type="file" id="userProfilePicture" name="userProfilePicture" />
-        </label>
-    </div>
+<!--    <div>-->
+<!--        <label>Profile Picture:-->
+<!--            <input type="file" id="userProfilePicture" name="userProfilePicture" />-->
+<!--        </label>-->
+<!--    </div>-->
 
     <input type="submit" value="Create Profile">
     <button>

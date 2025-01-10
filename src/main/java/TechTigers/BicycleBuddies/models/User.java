@@ -11,7 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class User extends AbstractEntity{
 
     @NotNull
-    private String userName;
+    private String username;
 
     @NotNull
     private String pwHash;
@@ -20,13 +20,13 @@ public class User extends AbstractEntity{
 
     public User () {}
 
-    public User(String userName, String password) {
-        this.userName = userName;
+    public User(String username, String password) {
+        this.username = username;
         this.pwHash = encoder.encode(password);
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
     public boolean isMatchingPassword(String password){

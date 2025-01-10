@@ -22,7 +22,7 @@ import java.util.Optional;
 public class AuthenticationController {
 
     @Autowired
-    private UserRepository userRepository;
+    UserRepository userRepository;
 
     private static final String userSessionKey = "user";
 
@@ -62,10 +62,10 @@ public class AuthenticationController {
             return "register";
         }
 
-        User existingUser = userRepository.findByUserName((registerFormDTO.getUserName()));
+        User existingUser = userRepository.findByUsername(registerFormDTO.getUsername());
 
         if(existingUser != null){
-            errors.rejectValue("userName", "userName.alreadyexists", "A user with that username already exists");
+            errors.rejectValue("username", "username.alreadyexists", "A user with that username already exists");
             model.addAttribute("title", "Register");
             return "register";
         }
@@ -78,12 +78,12 @@ public class AuthenticationController {
             return "register";
         }
 
-        User newUser = new User(registerFormDTO.getUserName(), registerFormDTO.getPassword());
+        User newUser = new User(registerFormDTO.getUsername(), registerFormDTO.getPassword());
         userRepository.save(newUser);
         setUserInSession(request.getSession(), newUser);
 
 
-        return "redirect:";
+        return "redirect:/login";
     }
 
     @GetMapping("/login")
@@ -103,7 +103,7 @@ public class AuthenticationController {
             return "login";
         }
 
-        User theUser = userRepository.findByUserName(loginFormDTO.getUserName());
+        User theUser = userRepository.findByUsername(loginFormDTO.getUsername());
 
         if (theUser == null){
             errors.rejectValue("username", "user.invalid", "The given username does not exist");
@@ -121,7 +121,13 @@ public class AuthenticationController {
 
         setUserInSession(request.getSession(), theUser);
 
-        return "redirect:";
+        return "redirect:/profile";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request){
+        request.getSession().invalidate();
+        return "redirect:/login";
     }
 
 }
