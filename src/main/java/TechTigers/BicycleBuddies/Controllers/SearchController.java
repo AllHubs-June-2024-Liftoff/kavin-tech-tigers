@@ -28,7 +28,7 @@ public class SearchController {
         if (searchTerm.toLowerCase().equals("all") || searchTerm.equals("")){
             users = userRepository.findAll();
         } else {
-            users = UserData.findByUsername(searchTerm, userRepository.findAll());
+            users = UserData.findByValue(searchTerm, userRepository.findAll());
         }
         model.addAttribute("title", "Results");
         model.addAttribute("users", users);

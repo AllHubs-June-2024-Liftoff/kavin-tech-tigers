@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class UserData {
 
-    public static ArrayList<User> findByUsername(String value, Iterable<User> allUsers){
+    public static ArrayList<User> findByValue(String value, Iterable<User> allUsers){
 
         ArrayList<User> results = new ArrayList<>();
 
