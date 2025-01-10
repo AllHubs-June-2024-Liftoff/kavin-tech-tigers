@@ -7,8 +7,8 @@ import javax.validation.constraints.Size;
 
 public class RegisterFormDTO extends LoginFormDTO {
 
-//    @NotNull
-//    @NotBlank
+    @NotNull
+    @NotBlank
     private String verifyPassword;
 
 //    private String displayName;

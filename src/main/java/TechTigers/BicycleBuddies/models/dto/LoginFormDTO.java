@@ -20,7 +20,7 @@ public class LoginFormDTO {
         return username;
     }
 
-    public void setUserName(String username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 
