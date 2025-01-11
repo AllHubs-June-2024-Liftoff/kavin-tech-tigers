@@ -27,7 +27,8 @@ public class ProfileController {
         return "profile";
     }
 
-//  TODO: Work titles with UserNames on error handling and Create CRUD Functionality for Comments
+//  TODO: Create CRUD Functionality for Comments
+//  TODO: Work on Error handling if profile is not found
 // Views Profile by ID
 //    @GetMapping("/profile/{id}")
 //    public Profile profileViewById(@PathVariable int id, Model model){
@@ -53,7 +54,7 @@ public class ProfileController {
 //  } else {
 //  Profile savedProfile = profileService.saveProfile(profile);
 //  model.addAttribute("username", savedProfile.getUsername());
-//  model.addAttribute("title", profile.getUserName() +"'s profile");
+//  model.addAttribute("title", savedProfile.getUserName() +"'s profile");
 //  return "redirect:/profile/" + savedProfile.getId();
 //  }
 //
