@@ -2,24 +2,23 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="~{fragments :: head}">
     <meta charset="UTF-8"/>
-    <title></title>
+    <title th:text="${title}"></title>
 </head>
 <body>
 <div th:replace="~{fragments :: navbar}"></div>
 <div class="container text-center py-5">
     <div class="row">
-        <h1 class="display-5">User Profile</h1>
+        <h1 class="display-5" th:text="${title}"></h1>
     </div>
 </div>
 <div class="container">
     <div class="row">
-        <!--Left Column-->
         <div class="col-4">
             <div class="mb-3 text-center">
              <img src="https://picsum.photos/200" id="profile-image" class="img-fluid" alt="Profile Image" />
             </div>
         <div class="text-bg-light p-3 mb-3">
-            <b>@Username</b><br>
+            <b th:text = "${username}">@Username</b><br>
               # of Friends<br>
                 Display Name<br>
                Location<br>
@@ -27,7 +26,6 @@
         <button type="button" class="btn btn-success">Add to Friends</button>
             </div>
         </div>
-            <!--  Right Column-->
             <div class="col-8 align-self-center">
                 <div class="mb-5">
                     <h5># of Miles Biked</h5>
@@ -35,8 +33,6 @@
                     </div>
                 <div class="text-bg-light p-3">
                 <h5 class="mb-4">Comment Section</h5>
-
-                    <!--Pagination-->
                     <nav aria-label="Page navigation example" class="mb-4">
                         <ul class="pagination">
                             <li class="page-item">
@@ -54,9 +50,6 @@
                             </li>
                         </ul>
                     </nav>
-
-                <!-- Ride Information-->
-
 
                     <div class="mb-3">
                         Ride information
