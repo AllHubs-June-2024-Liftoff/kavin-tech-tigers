@@ -11,7 +11,7 @@ public class RegisterFormDTO extends LoginFormDTO {
     @NotBlank
     private String verifyPassword;
 
-//    private String displayName;
+    private String displayName;
 //
 //    @Email
 //    private String email;
@@ -24,13 +24,13 @@ public class RegisterFormDTO extends LoginFormDTO {
         this.verifyPassword = verifyPassword;
     }
 
-//    public String getDisplayName() {
-//        return displayName;
-//    }
+    public String getDisplayName() {
+        return displayName;
+    }
 //
-//    public void setDisplayName(String fullName) {
-//        this.displayName = fullName;
-//    }
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
 //
 //    public String getEmail() {
 //        return email;

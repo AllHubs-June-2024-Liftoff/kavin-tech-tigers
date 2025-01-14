@@ -8,7 +8,7 @@
 <div th:replace="~{fragments :: navbar}"></div>
 <div class="container text-center py-5">
     <div class="row">
-        <h1 class="display-5">User Profile</h1>
+        <h1 class="display-5" th:text="${user.displayName}"></h1>
     </div>
 </div>
 <div class="container">
