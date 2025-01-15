@@ -19,6 +19,14 @@
 
     </form>
 
+    <table>
+        <tr th:each="user : ${users}">
+            <td>
+                <p th:text="${user.username}"></p>
+            </td>
+        </tr>
+    </table>
+
 
 </body>
 </html>
