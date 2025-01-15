@@ -2,7 +2,7 @@ package TechTigers.BicycleBuddies.Controllers;
 
 import TechTigers.BicycleBuddies.models.User;
 import TechTigers.BicycleBuddies.models.UserData;
-import TechTigers.BicycleBuddies.models.data.UserRepository;
+import TechTigers.BicycleBuddies.data.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("search")
+@RequestMapping("friends/search")
 public class SearchController {
 
     @Autowired
@@ -19,7 +19,8 @@ public class SearchController {
 
     @RequestMapping("")
     public String search(Model model){
-        return "search";
+        model.addAttribute("users", userRepository.findAll());
+        return "friends/search";
     }
 
     @PostMapping("results")

@@ -1,12 +1,12 @@
-package TechTigers.BicycleBuddies.models.data;
-
-import TechTigers.BicycleBuddies.models.User;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
-
-@Repository
-public interface UserRepository extends CrudRepository<User, Integer> {
-
-    User findByUsername(String username);
-
-}
+//package TechTigers.BicycleBuddies.models.data;
+//
+//import TechTigers.BicycleBuddies.models.User;
+//import org.springframework.data.repository.CrudRepository;
+//import org.springframework.stereotype.Repository;
+//
+//@Repository
+//public interface UserRepository extends CrudRepository<User, Integer> {
+//
+//    User findByUsername(String username);
+//
+//}
