@@ -15,17 +15,25 @@
 <h1>Google Maps Widget</h1>
 <div id="map"></div>
 <script>
+
+    let map, marker;
+
     function initMap() {
 
+        let center = { lat: 38.638132, lng: -90.282402 }
         let options = {
-            center: { lat: 38.638132, lng: -90.282402 },
-
-
+            center: center,
             zoom: 12
         };
 
-        let map = new google.maps.Map(document.getElementById("map"), options);
+        map = new google.maps.Map(document.getElementById("map"), options);
         const bikeLayer = new google.maps.BicyclingLayer();
+
+        marker = new google.maps.Marker({
+        position: center,
+        map: map,
+        draggable: true,
+        });
 
         bikeLayer.setMap(map);
     }
