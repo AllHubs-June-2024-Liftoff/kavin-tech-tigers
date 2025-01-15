@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("friends/search")
+@RequestMapping("search")
 public class SearchController {
 
     @Autowired
@@ -34,7 +34,7 @@ public class SearchController {
         model.addAttribute("title", "Results");
         model.addAttribute("users", users);
 
-        return "search";
+        return "friends/search";
     }
 
 }
