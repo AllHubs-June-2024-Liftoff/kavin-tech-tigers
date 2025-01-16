@@ -1,10 +1,9 @@
 package TechTigers.BicycleBuddies.Controllers;
-
-
 import TechTigers.BicycleBuddies.models.User;
 import TechTigers.BicycleBuddies.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -62,11 +61,31 @@ public class ProfileController {
     }
 
 @PostMapping("/create")
-    public String createProfile(@RequestBody @Valid User user, Error errors, Model model){
+    public String createProfile(@RequestBody @Valid User user, Errors errors, Model model){
       if(errors.hasErrors()) {
-
+          model.addAttribute("error", "Validation error has occured.");
+          return "create-profile"; // might need to be changed to log-on page register
       }
+      User savedProfile = userService.saveProfile(user);
+      return "redirect:/profile/" + savedProfile.getId();
  }
+
+ @PutMapping("/profile-edit/{id}")
+ public String profileUpdate(@PathVariable int id, @RequestBody @Valid User user, Errors errors, Model model) {
+        if(errors.hasErrors()){
+            model.addAttribute("error", "Validation error has occured.");
+            return "redirect:/profile-edit" + id;
+        }
+        User updatedProfile = userService.updateProfile(id, user);
+        model.addAttribute("username", updatedProfile.getUserName());
+        model.addAttribute("title", updatedProfile.getUserName());
+       return "redirect:/profile/" + updatedProfile.getId();
+ }
+    @DeleteMapping("/profile/{id}")
+    public String deleteProfile(@PathVariable int id) {
+        userService.deleteProfile(id);
+        return "redirect:/index";
+    }
 }
 
 
