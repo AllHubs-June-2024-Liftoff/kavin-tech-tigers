@@ -1,23 +1,28 @@
 package TechTigers.BicycleBuddies.Controllers;
 
-import TechTigers.BicycleBuddies.models.Profile;
+
+import TechTigers.BicycleBuddies.models.User;
+import TechTigers.BicycleBuddies.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class ProfileController {
-// @Autowired
-// private final ProfileService profileService;
-//   TODO create a view for this
-//   @GetMapping("all-profiles")
-//    public List<Profile> getAllProfiles(Model model) {
-//    model.addAttribute("title", "List of all Profiles");
-//    return profileService.getAllProfiles();
-//}
+    // @Autowired
+    private UserService userService;
+    //   TODO create a view for this
+    @GetMapping("all-profiles")
+    public String getAllProfiles(Model model) {
+        List<User> profiles = userService.getAllProfiles();
+        model.addAttribute("title", "List of all Profiles");
+        model.addAttribute("profiles", profiles);
+        return "all-profiles";
+    }
 
 
     //Loads Mockup of profile View
@@ -27,57 +32,42 @@ public class ProfileController {
         return "profile";
     }
 
-//  TODO: Create CRUD Functionality for Comments
+    //  TODO: Create CRUD Functionality for Comments
 //  TODO: Work on Error handling if profile is not found
-// Views Profile by ID
-//    @GetMapping("/profile/{id}")
-//    public Profile profileViewById(@PathVariable int id, Model model){
-//    Profile profile = profileService.getProfileById(id);
-//    model.addAttribute("profile", profile);
-//    model.addAttribute("username", profile.getUsername());
-//    model.addAttribute("title", profile.getUserName() +"'s profile");
-//    return "profile";
+    @GetMapping("/profile/{id}")
+    public String profileViewById(@PathVariable int id, Model model) {
+        Optional<User> profile = userService.getProfileById(id);
+        if(profile.isEmpty()) {
+            model.addAttribute("error", "Profile with ID" + id + "not found.");
+            return "error"; // need to create error page
+        }
 
+        User user = profile.get();
+        model.addAttribute("profile", user);
+        model.addAttribute("username", user.getUserName());
+        model.addAttribute("title", user.getUserName() + "'s Profile");
+        return "profile";
+    }
 
-    // LOADS Profile Edit View
-    @GetMapping("/profile-edit") //add {id}
-    public String profileEdit(Model model) {
-        model.addAttribute("title", "Profile Edit");
+    @GetMapping("/profile-edit{id}")
+    public String profileEdit(@PathVariable int id, Model model) {
+        Optional<User>profile= userService.getProfileById(id);
+        if(profile.isEmpty()){
+            model.addAttribute("error", "Profile with ID " +id +" doesn't exist.");
+            return "error";
+        }
+        model.addAttribute("title", "Edit Profile");
+        model.addAttribute("profile", profile.get());
         return "profile-edit";
-    } //load mock edit page edit
+    }
 
-    //CREATES Profile
-// @PostMapping("/create")
-// public Profile createProfile(@RequestBody @Valid Profile profile, Errors errors, Model model) {
-//  if(errors.hasErrors()){
-//  return "redirect:/create";
-//  } else {
-//  Profile savedProfile = profileService.saveProfile(profile);
-//  model.addAttribute("username", savedProfile.getUsername());
-//  model.addAttribute("title", savedProfile.getUserName() +"'s profile");
-//  return "redirect:/profile/" + savedProfile.getId();
-//  }
-//
-//    }
+@PostMapping("/create")
+    public String createProfile(@RequestBody @Valid User user, Error errors, Model model){
+      if(errors.hasErrors()) {
 
-// UPDATES Profiles
-
-//@PutMapping("/profile-edit/{id}")
-//public Profile profileUpdate(@PathVariable int id, @RequestBody @Valid Profile profile, Errors errors, Model model) {
-// if(errors.hasErrors()){
-// return "redirect:/profile-edit";
-// } else {
-//  Profile updatedProfile = profileService.updateProfile(id, profile);
- //model.addAttribute("username", updatedProfile.getUsername());
-// model.addAttribute("title", updatedProfile.getUserName()) +"'s profile");
-//  return "redirect:/profile/" + updatedProfile.getById();
-// }
-//}
-//
-
-//DELETES Profiles
-// @DeleteMapping("/profile/{id}")
-// public Profile deleteProfile(@PathVariable int id, Model model){
-// profileService.deleteProfile(id);
-// return "redirect/";
+      }
+ }
 }
+
+
+
