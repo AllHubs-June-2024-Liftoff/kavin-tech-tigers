@@ -1,5 +1,6 @@
 package TechTigers.BicycleBuddies.service;
 
+//@Service
 public class RideService {
     /**
      * private final RideRepository rideRepository;

@@ -24,7 +24,7 @@ public class User extends AbstractEntity{
     private Comment comments;
     private MilesTracker tracker;
     private final List<User> friendList = new ArrayList<>();
-    public User () {}
+    public User() {}
 
     public User(String userName, String fullName, String email, String password, String location, String displayName, String bio, Image bioPicture, Comment comments, MilesTracker tracker) {
         this.userName = userName;
