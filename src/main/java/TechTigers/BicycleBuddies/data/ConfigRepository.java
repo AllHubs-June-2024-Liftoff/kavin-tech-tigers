@@ -1,4 +1,4 @@
-package TechTigers.BicycleBuddies.models.data;
+package TechTigers.BicycleBuddies.data;
 
 import TechTigers.BicycleBuddies.models.Config;
 import org.springframework.data.repository.CrudRepository;
