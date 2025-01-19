@@ -1,5 +1,6 @@
 package TechTigers.BicycleBuddies.Controllers;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -18,6 +19,7 @@ public class EmailController {
 
     @RequestMapping("/send-email")
     public String sendEmail(){
+        //This will not work if you have anitvirus turned on
         try {
             SimpleMailMessage message = new SimpleMailMessage();
 
@@ -27,7 +29,7 @@ public class EmailController {
             message.setText("Test Email");
 
             mailSender.send(message);
-            return "success";
+            return "success!";
         } catch (Exception e){
             return e.getMessage();
         }
