@@ -78,12 +78,12 @@ public class AuthenticationController {
             return "register";
         }
 
-        User newUser = new User(registerFormDTO.getUsername(), registerFormDTO.getPassword());
+        User newUser = new User(registerFormDTO.getUsername(), registerFormDTO.getPassword(), registerFormDTO.getEmail(), false);
         userRepository.save(newUser);
         setUserInSession(request.getSession(), newUser);
 
 
-        return "redirect:/verification-email-sent";
+        return "redirect:/email";
     }
 
     @GetMapping("/login")

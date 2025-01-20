@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("verification-email-sent")
+@RequestMapping("email")
 public class EmailController {
 
     @Autowired
@@ -29,6 +29,7 @@ public class EmailController {
         this.mailSender = mailSender;
     }
 
+    @GetMapping("")
     public String sendEmail(){
         //This will not work if you have anitvirus turned on
         try {
@@ -40,49 +41,38 @@ public class EmailController {
             message.setText("Test Email");
 
             mailSender.send(message);
-            return "verification-email-sent";
+            return "redirect:/email/verification-email-sent";
         } catch (Exception e){
             return e.getMessage();
         }
 
     }
 
-    @GetMapping("")
+    @GetMapping("verification-email-sent")
     public String displayVerificationForm(Model model){
         model.addAttribute(new VerifyFormDTO());
-        return "verification-email-sent";
+        return "email/verification-email-sent";
     }
 
-//    @PostMapping("/")
-//    public String processVerifyForm(@ModelAttribute @Valid VerifyFormDTO verifyFormDTO,
-//                                          Errors errors, HttpServletRequest request,
-//                                          Model model, RegisterFormDTO registerFormDTO){
-//
-//        if(errors.hasErrors()){
-//            return "verification-email-sent";
-//        }
-//
-//        int userSubmittedVerification = userRepository.findByUsername((registerFormDTO.getUsername()).get);
-//        User existingUser = userRepository.findByUsername(registerFormDTO.getUsername());
-//
-//        if(existingUser != null){
-//            errors.rejectValue("username", "username.alreadyexists", "A user with that username already exists");
-//            model.addAttribute("title", "Register");
-//            return "register";
-//        }
-//
-//        String password = registerFormDTO.getPassword();
-//        String verifyPassword = registerFormDTO.getVerifyPassword();
-//        if(!password.equals(verifyPassword)){
-//            errors.rejectValue("password", "passwords.mismatch", "Passwords do not match");
-//            model.addAttribute("title", "Register");
-//            return "register";
-//        }
-//
-//        User newUser = new User(registerFormDTO.getUsername(), registerFormDTO.getPassword());
-//        userRepository.save(newUser);
-//
-//        return "redirect:/login";
-//    }
+    @PostMapping("verification-email-sent")
+    public String processVerifyForm(@ModelAttribute @Valid VerifyFormDTO verifyFormDTO,
+                                          Errors errors, HttpServletRequest request,
+                                          Model model, RegisterFormDTO registerFormDTO){
+
+        if(errors.hasErrors()){
+            return "email/verification-email-sent";
+        }
+
+        User user = userRepository.findByUsername(registerFormDTO.getUsername());
+        int userSubmittedVerification = verifyFormDTO.getUserSubmittedVerification();
+        int userGivenVerification = user.getVerificationCode();
+
+        if(userGivenVerification != userSubmittedVerification){
+            errors.rejectValue("userSubmittedVerification", "userSubmittedVerification.incorrect", "Verification code does not match");
+            return "email/verification-email-sent";
+        }
+
+        return "redirect:/login";
+    }
 
 }
