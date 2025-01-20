@@ -52,18 +52,28 @@ public class ProfileController {
     }
 
 
-//    @GetMapping("/profile-edit{id}")
-//    public String profileEdit(@PathVariable int id, Model model) {
-//        Optional<User>profile= userService.getProfileById(id);
-//        if(profile.isEmpty()){
-//            model.addAttribute("error", "Profile with ID " +id +" doesn't exist.");
-//            return "error";
-//        }
-//        model.addAttribute("title", "Edit Profile");
-//        model.addAttribute("profile", profile.get());
-//        return "profile-edit";
-//    }
-//
+    @GetMapping("/profile-edit/{profileId}")
+    public String profileEdit(@PathVariable int profileId, Model model) {
+        Optional<User>optionalUser= userService.getProfileById(profileId);
+        if(optionalUser.isPresent()){
+            User user = (User) optionalUser.get();
+            model.addAttribute("user", optionalUser.get());
+            return "profile-edit";
+        } else{
+            return "redirect:";
+        }
+    }
+ @PostMapping("/profile-edit/{profileId}")
+ public String profileUpdate(@PathVariable int profileId, @Valid User updatedUser, Errors errors, Model model) {
+        if(errors.hasErrors()){
+            model.addAttribute("user", updatedUser);
+            return "redirect:/profile-edit";
+        }
+        User updatedProfile = userService.updateProfile(profileId, updatedUser);
+        model.addAttribute("username", updatedUser.getUserName());
+        model.addAttribute("title", updatedUser.getUserName() +"'s profile");
+       return "redirect:/profile/" + profileId;
+ }
 //@PostMapping("/create")
 //    public String createProfile(@RequestBody @Valid User user, Errors errors, Model model){
 //      if(errors.hasErrors()) {
@@ -72,18 +82,6 @@ public class ProfileController {
 //      }
 //      User savedProfile = userService.saveProfile(user);
 //      return "redirect:/profile/" + savedProfile.getId();
-// }
-//
-// @PutMapping("/profile-edit/{id}")
-// public String profileUpdate(@PathVariable int id, @RequestBody @Valid User user, Errors errors, Model model) {
-//        if(errors.hasErrors()){
-//            model.addAttribute("error", "Validation error has occured.");
-//            return "redirect:/profile-edit" + id;
-//        }
-//        User updatedProfile = userService.updateProfile(id, user);
-//        model.addAttribute("username", updatedProfile.getUserName());
-//        model.addAttribute("title", updatedProfile.getUserName());
-//       return "redirect:/profile/" + updatedProfile.getId();
 // }
 //    @DeleteMapping("/profile/{id}")
 //    public String deleteProfile(@PathVariable int id) {

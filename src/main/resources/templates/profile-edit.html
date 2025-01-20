@@ -30,18 +30,18 @@
 
 <div class="col-8 text-bg-light p-3">
     <h4>Change Profile Information</h4>
-<form method="post">
+<form th:action="@{/profile-edit/{id}(id=${user.id})}" method="post">
     <div class="mb-3">
         <label for="display-name">Name:</label>
-        <input type="text" id="display-name" name="display-name" class="form-control">
+        <input type="text" id="display-name" name="display-name" th:field="*{user.displayName}" class="form-control">
     </div>
     <div class="mb-3">
         <label for="location">Location:</label>
-        <input type="text" id="location" name="location" class="form-control">
+        <input type="text" id="location" th:field="*{user.location}" name="location" class="form-control">
     </div>
     <div class="mb-3">
         <label for="bio">Bio:</label>
-        <textarea id="bio" name="bio" class="form-control"></textarea>
+        <textarea id="bio" name="bio" th:field="*{user.bio}"class="form-control"></textarea>
          </div>
     <div>
         <button type="submit" class="btn btn-success">Submit</button>

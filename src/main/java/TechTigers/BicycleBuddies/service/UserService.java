@@ -45,7 +45,6 @@ public class UserService {
                 .orElseThrow(()-> new RuntimeException("Profile with ID "+ id +" does not exist."));
         existingUser.setDisplayName(updatedUser.getDisplayName());
         existingUser.setLocation(updatedUser.getLocation());
-//        existingUser.setBioPicture(updatedUser.getBioPicture());
         existingUser.setBio(updatedUser.getBio());
         return userRepository.save(existingUser);
     }
