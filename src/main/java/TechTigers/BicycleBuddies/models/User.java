@@ -9,7 +9,6 @@ import jakarta.persistence.Entity;
 
 @Entity
 public class User extends AbstractEntity{
-
     private String userName;
     private String fullName;
     private String email;
@@ -42,6 +41,7 @@ public class User extends AbstractEntity{
 //    public List<User> getFriendList() {
 //        return friendList;
 //    }
+
 
     public String getUserName() {
         return userName;

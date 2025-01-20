@@ -19,13 +19,13 @@ public class ProfileController {
         this.userService = userService;
     }
     //    //   TODO create a view for this
-//    @GetMapping("all-profiles")
-//    public String getAllProfiles(Model model) {
-//        List<User> profiles = userService.getAllProfiles();
-//        model.addAttribute("title", "List of all Profiles");
-//        model.addAttribute("profiles", profiles);
-//        return "all-profiles";
-//    }
+    @GetMapping("all-profiles")
+    public String getAllProfiles(Model model) {
+        List<User> profiles = userService.getAllProfiles();
+        model.addAttribute("title", "List of all Profiles");
+        model.addAttribute("profiles", profiles);
+        return "all-profiles";
+    }
 
 
     //Loads Mockup of profile View
