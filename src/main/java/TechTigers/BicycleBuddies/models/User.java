@@ -20,10 +20,10 @@ public class User extends AbstractEntity{
     @Size(min = 3, max = 15, message = "Name must be between 3 and 15 characters.")
     private String displayName; // display name entered by user for profile
     private String bio;
-    private Image bioPicture;  // not sure if this is the right datatype found in Java Documentation https://docs.oracle.com/javase/8/docs/api/java/awt/Image.html
-    private Comment comments;
-    private MilesTracker tracker;
-    private final List<User> friendList = new ArrayList<>();
+//    private Image bioPicture;  // not sure if this is the right datatype found in Java Documentation https://docs.oracle.com/javase/8/docs/api/java/awt/Image.html
+//    private Comment comments;
+//    private MilesTracker tracker;
+//    private final List<User> friendList = new ArrayList<>();
     public User() {}
 
     public User(String userName, String fullName, String email, String password, String location, String displayName, String bio, Image bioPicture, Comment comments, MilesTracker tracker) {
@@ -34,14 +34,14 @@ public class User extends AbstractEntity{
         this.location = location;
         this.displayName = displayName;
         this.bio = bio;
-        this.bioPicture = bioPicture;
-        this.comments = comments;
-        this.tracker = tracker;
+//        this.bioPicture = bioPicture;
+//        this.comments = comments;
+//        this.tracker = tracker;
     }
 
-    public List<User> getFriendList() {
-        return friendList;
-    }
+//    public List<User> getFriendList() {
+//        return friendList;
+//    }
 
     public String getUserName() {
         return userName;
@@ -85,29 +85,29 @@ public class User extends AbstractEntity{
         this.bio = bio;
     }
 
-    public Image getBioPicture() {
-        return bioPicture;
-    }
+//    public Image getBioPicture() {
+//        return bioPicture;
+//    }
 
-    public void setBioPicture(Image bioPicture) {
-        this.bioPicture = bioPicture;
-    }
+//    public void setBioPicture(Image bioPicture) {
+//        this.bioPicture = bioPicture;
+//    }
 
-    public Comment getComments() {
-        return comments;
-    }
-
-    public void setComments(Comment comments) {
-        this.comments = comments;
-    }
-
-    public MilesTracker getTracker() {
-        return tracker;
-    }
-
-    public void setTracker(MilesTracker tracker) {
-        this.tracker = tracker;
-    }
+//    public Comment getComments() {
+//        return comments;
+//    }
+//
+//    public void setComments(Comment comments) {
+//        this.comments = comments;
+//    }
+//
+//    public MilesTracker getTracker() {
+//        return tracker;
+//    }
+//
+//    public void setTracker(MilesTracker tracker) {
+//        this.tracker = tracker;
+//    }
 
     @Override
     public String toString() {
@@ -119,10 +119,10 @@ public class User extends AbstractEntity{
                 ", location='" + location + '\'' +
                 ", displayName='" + displayName + '\'' +
                 ", bio='" + bio + '\'' +
-                ", bioPicture=" + bioPicture +
-                ", comments=" + comments +
-                ", tracker=" + tracker +
-                ", friendList=" + friendList +
+//                ", bioPicture=" + bioPicture +
+//                ", comments=" + comments +
+//                ", tracker=" + tracker +
+//                ", friendList=" + friendList +
                 '}';
     }
 
