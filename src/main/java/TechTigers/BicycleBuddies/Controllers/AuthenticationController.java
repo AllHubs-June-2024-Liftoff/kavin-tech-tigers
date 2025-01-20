@@ -1,4 +1,4 @@
-package TechTigers.BicycleBuddies.controllers;
+package TechTigers.BicycleBuddies.Controllers;
 
 import TechTigers.BicycleBuddies.data.UserRepository;
 import TechTigers.BicycleBuddies.models.User;
