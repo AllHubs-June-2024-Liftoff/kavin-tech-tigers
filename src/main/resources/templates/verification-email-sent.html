@@ -6,6 +6,17 @@
 </head>
 <body>
     <div th:replace="~{fragments :: navbar}"></div>
-    <p>Success!!!</p>
+
+    <div style="text-align:center">
+        <h1>Welcome to Bicycle Buddies!!!</h1>
+        <p>Before logging in, please verify your account by typing in the 6-digit code sent to your email</p>
+
+        <form method="post">
+            <input th:field="${verifyFormDTO.userSubmittedVerification}" />
+            <input type="submit" value="Verify Account">
+        </form>
+
+    </div>
+
 </body>
 </html>

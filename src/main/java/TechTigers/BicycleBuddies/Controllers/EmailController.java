@@ -1,17 +1,27 @@
 package TechTigers.BicycleBuddies.Controllers;
 
+import TechTigers.BicycleBuddies.data.UserRepository;
+import TechTigers.BicycleBuddies.models.User;
+import TechTigers.BicycleBuddies.models.dto.RegisterFormDTO;
+import TechTigers.BicycleBuddies.models.dto.VerifyFormDTO;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("verification-email-sent")
 public class EmailController {
+
+    @Autowired
+    UserRepository userRepository;
 
     private final JavaMailSender mailSender;
 
@@ -19,7 +29,6 @@ public class EmailController {
         this.mailSender = mailSender;
     }
 
-    @GetMapping("")
     public String sendEmail(){
         //This will not work if you have anitvirus turned on
         try {
@@ -37,5 +46,43 @@ public class EmailController {
         }
 
     }
+
+    @GetMapping("")
+    public String displayVerificationForm(Model model){
+        model.addAttribute(new VerifyFormDTO());
+        return "verification-email-sent";
+    }
+
+//    @PostMapping("/")
+//    public String processVerifyForm(@ModelAttribute @Valid VerifyFormDTO verifyFormDTO,
+//                                          Errors errors, HttpServletRequest request,
+//                                          Model model, RegisterFormDTO registerFormDTO){
+//
+//        if(errors.hasErrors()){
+//            return "verification-email-sent";
+//        }
+//
+//        int userSubmittedVerification = userRepository.findByUsername((registerFormDTO.getUsername()).get);
+//        User existingUser = userRepository.findByUsername(registerFormDTO.getUsername());
+//
+//        if(existingUser != null){
+//            errors.rejectValue("username", "username.alreadyexists", "A user with that username already exists");
+//            model.addAttribute("title", "Register");
+//            return "register";
+//        }
+//
+//        String password = registerFormDTO.getPassword();
+//        String verifyPassword = registerFormDTO.getVerifyPassword();
+//        if(!password.equals(verifyPassword)){
+//            errors.rejectValue("password", "passwords.mismatch", "Passwords do not match");
+//            model.addAttribute("title", "Register");
+//            return "register";
+//        }
+//
+//        User newUser = new User(registerFormDTO.getUsername(), registerFormDTO.getPassword());
+//        userRepository.save(newUser);
+//
+//        return "redirect:/login";
+//    }
 
 }
