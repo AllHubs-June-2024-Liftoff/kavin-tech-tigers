@@ -83,7 +83,7 @@ public class AuthenticationController {
         setUserInSession(request.getSession(), newUser);
 
 
-        return "redirect:/login";
+        return "redirect:/verification-email-sent";
     }
 
     @GetMapping("/login")

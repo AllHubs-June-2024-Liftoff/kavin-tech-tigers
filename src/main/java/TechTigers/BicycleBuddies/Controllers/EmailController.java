@@ -5,10 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
+@RequestMapping("verification-email-sent")
 public class EmailController {
 
     private final JavaMailSender mailSender;
@@ -17,7 +19,7 @@ public class EmailController {
         this.mailSender = mailSender;
     }
 
-    @RequestMapping("/send-email")
+    @GetMapping("")
     public String sendEmail(){
         //This will not work if you have anitvirus turned on
         try {
@@ -29,7 +31,7 @@ public class EmailController {
             message.setText("Test Email");
 
             mailSender.send(message);
-            return "success!";
+            return "verification-email-sent";
         } catch (Exception e){
             return e.getMessage();
         }
