@@ -83,11 +83,11 @@ public class ProfileController {
 //      User savedProfile = userService.saveProfile(user);
 //      return "redirect:/profile/" + savedProfile.getId();
 // }
-    @DeleteMapping("/profile-edit/{profileId}")
-    public String deleteProfile(@PathVariable int profileId) {
-        userService.deleteProfile(profileId);
-        return "redirect:/index";
-    }
+//    @DeleteMapping("/profile-edit/{profileId}")
+//    public String deleteProfile(@PathVariable int profileId) {
+//        userService.deleteProfile(profileId);
+//        return "redirect:/index";
+//    }
 }
 
 
