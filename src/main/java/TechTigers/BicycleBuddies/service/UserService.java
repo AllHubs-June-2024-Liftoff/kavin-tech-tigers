@@ -29,9 +29,7 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public User saveProfile(User user) {
-        return userRepository.save(user);
-    }
+    public User saveProfile(User user) {return userRepository.save(user);}
 
     public void deleteProfile(int id) {
         if (!userRepository.existsById(id)) {

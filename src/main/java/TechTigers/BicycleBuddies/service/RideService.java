@@ -4,7 +4,7 @@ package TechTigers.BicycleBuddies.service;
 public class RideService {
     /**
      * private final RideRepository rideRepository;
-     *     private final UserRepository userRepository;
+     *     private final RideRepository rideRepository;
      *
      *     @Autowired
      *     public RideService(RideRepository rideRepository) {

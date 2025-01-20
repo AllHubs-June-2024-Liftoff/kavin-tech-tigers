@@ -1,6 +1,7 @@
 package TechTigers.BicycleBuddies.Controllers;
 import TechTigers.BicycleBuddies.models.User;
 import TechTigers.BicycleBuddies.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -12,7 +13,7 @@ import java.util.Optional;
 
 @Controller
 public class ProfileController {
-    // @Autowired
+    @Autowired
     private UserService userService;
 
     public ProfileController(UserService userService) {
