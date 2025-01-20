@@ -82,5 +82,4 @@ public class Comment extends AbstractEntity{
                 '}';
     }
 
-
 }
