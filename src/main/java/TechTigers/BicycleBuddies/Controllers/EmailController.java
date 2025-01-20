@@ -15,6 +15,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("email")
@@ -22,6 +23,27 @@ public class EmailController {
 
     @Autowired
     UserRepository userRepository;
+
+    private static final String userSessionKey = "user";
+
+    public User getUserFromSession(HttpSession session){
+        Integer userId = (Integer) session.getAttribute(userSessionKey);
+        if (userId == null){
+            return null;
+        }
+
+        Optional<User> user = userRepository.findById(userId);
+
+        if(user.isEmpty()){
+            return null;
+        }
+
+        return user.get();
+    }
+
+    private static void setUserInSession(HttpSession session, User user){
+        session.setAttribute(userSessionKey, user.getId());
+    }
 
     private final JavaMailSender mailSender;
 
@@ -49,7 +71,7 @@ public class EmailController {
     }
 
     @GetMapping("verification-email-sent")
-    public String displayVerificationForm(Model model){
+    public String displayVerifyForm(Model model){
         model.addAttribute(new VerifyFormDTO());
         return "email/verification-email-sent";
     }
@@ -63,7 +85,7 @@ public class EmailController {
             return "email/verification-email-sent";
         }
 
-        User user = userRepository.findByUsername(registerFormDTO.getUsername());
+        User user = getUserFromSession(request.getSession());
         int userSubmittedVerification = verifyFormDTO.getUserSubmittedVerification();
         int userGivenVerification = user.getVerificationCode();
 
