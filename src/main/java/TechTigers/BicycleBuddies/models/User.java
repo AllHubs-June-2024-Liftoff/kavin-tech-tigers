@@ -5,7 +5,10 @@ import javax.validation.constraints.Size;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class User extends AbstractEntity{
@@ -20,7 +23,8 @@ public class User extends AbstractEntity{
     private String displayName; // display name entered by user for profile
     private String bio;
 //    private Image bioPicture;  // not sure if this is the right datatype found in Java Documentation https://docs.oracle.com/javase/8/docs/api/java/awt/Image.html
-//    private Comment comments;
+    @OneToMany(mappedBy = "author", cascade= CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments;
 //    private MilesTracker tracker;
 //    private final List<User> friendList = new ArrayList<>();
     public User() {}

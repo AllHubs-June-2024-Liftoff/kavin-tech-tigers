@@ -2,8 +2,7 @@ package TechTigers.BicycleBuddies.models;
 
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -16,7 +15,9 @@ public class Comment extends AbstractEntity{
    @GeneratedValue
     private int id;
 
-    private String author;
+    @ManyToOne(cascade= CascadeType.ALL)
+    @JoinColumn(name= "user_id")
+    private User author;
 
     @NotBlank(message = "Comment must not be blank")
     @Size(min =3, max = 250, message= "Comment must be between 3 and 250 characters.")
@@ -24,12 +25,11 @@ public class Comment extends AbstractEntity{
     private LocalDateTime timestamp;
     private int likes;
     private Set<String> likedByUsers;
-
     public Comment(){
         this.likedByUsers = new HashSet<>();
     }
 
-    public Comment(int id, String author, String content, LocalDateTime timestamp, int likes) {
+    public Comment(int id, User author, String content, LocalDateTime timestamp, int likes) {
         this.id = id;
         this.author = author;
         this.content = content;
@@ -39,9 +39,9 @@ public class Comment extends AbstractEntity{
 
     public int getId() { return id; }
 
-    public String getAuthor() { return author;}
+    public User getAuthor() { return author;}
 
-    public void setAuthor(String author) {this.author = author;}
+    public void setAuthor(User author) {this.author = author;}
 
     public String getContent() {return content;}
 
