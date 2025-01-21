@@ -102,6 +102,7 @@ public class EmailController {
             return "email/verification-email-sent";
         }else{
             user.setVerified(true);
+            userRepository.save(user);
         }
 
         return "redirect:/login";
