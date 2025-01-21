@@ -1,8 +1,8 @@
 package TechTigers.BicycleBuddies.Controllers;
 
 import TechTigers.BicycleBuddies.models.Ride;
-import TechTigers.BicycleBuddies.models.data.ConfigRepository;
-import TechTigers.BicycleBuddies.models.data.RideInfoRepository;
+import TechTigers.BicycleBuddies.data.RideInfoRepository;
+import TechTigers.BicycleBuddies.data.ConfigRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

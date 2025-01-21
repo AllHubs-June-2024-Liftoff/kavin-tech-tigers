@@ -30,3 +30,19 @@ th, td {
 #profile-image{
 border-radius: 50%;
 }
+
+.friend-list-container{
+
+}
+
+.friend-container{
+    margin: 20px;
+    position:relative;
+    height: 300px;
+}
+
+.add-friend-button{
+    position:absolute;
+    right:70px;
+    top:30px;
+}

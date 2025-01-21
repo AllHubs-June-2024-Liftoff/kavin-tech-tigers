@@ -13,8 +13,10 @@ public class RegisterFormDTO extends LoginFormDTO {
 
 //    private String displayName;
 //
-//    @Email
-//    private String email;
+    @NotNull
+    @NotBlank(message = "Field may not be left blank")
+    @Email(message = "Please enter a valid email")
+    private String email;
 
     public String getVerifyPassword() {
         return verifyPassword;
@@ -32,12 +34,12 @@ public class RegisterFormDTO extends LoginFormDTO {
 //        this.displayName = fullName;
 //    }
 //
-//    public String getEmail() {
-//        return email;
-//    }
-//
-//    public void setEmail(String email) {
-//        this.email = email;
-//    }
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
 }
