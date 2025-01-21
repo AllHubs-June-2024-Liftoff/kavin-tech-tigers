@@ -18,7 +18,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Entity
 public class User extends AbstractEntity{
 
+    @NotNull
+    @NotBlank
     private String userName;
+
     private String fullName;
 
     @NotNull
@@ -63,9 +66,10 @@ public class User extends AbstractEntity{
 //    }
 
 
-    public User(String userName, String password) {
+    public User(String userName, String password, String email) {
         this.userName = userName;
         this.pwHash = encoder.encode(password);
+        this.email = email;
     }
 
     public String getUserName() {

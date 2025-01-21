@@ -44,7 +44,7 @@ public class ProfileController {
         if (optionalUser.isPresent()) {
             User user = (User) optionalUser.get();
             model.addAttribute("user", user);
-            model.addAttribute("username", user.getUserName());
+            model.addAttribute("userName", user.getUserName());
             model.addAttribute("title", user.getDisplayName() +"'s profile");
             return "profile";
         } else {
@@ -71,7 +71,7 @@ public class ProfileController {
             return "redirect:/profile-edit";
         }
         User updatedProfile = userService.updateProfile(profileId, updatedUser);
-        model.addAttribute("username", updatedUser.getUserName());
+        model.addAttribute("userName", updatedUser.getUserName());
         model.addAttribute("title", updatedUser.getUserName() +"'s profile");
        return "redirect:/profile/" + profileId;
  }
