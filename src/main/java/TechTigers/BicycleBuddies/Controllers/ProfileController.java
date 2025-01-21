@@ -1,83 +1,95 @@
 package TechTigers.BicycleBuddies.Controllers;
-
-import TechTigers.BicycleBuddies.models.Profile;
+import TechTigers.BicycleBuddies.models.User;
+import TechTigers.BicycleBuddies.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class ProfileController {
-// @Autowired
-// private final ProfileService profileService;
-//   TODO create a view for this
-//   @GetMapping("all-profiles")
-//    public List<Profile> getAllProfiles(Model model) {
-//    model.addAttribute("title", "List of all Profiles");
-//    return profileService.getAllProfiles();
-//}
+    @Autowired
+    private UserService userService;
+
+    public ProfileController(UserService userService) {
+        this.userService = userService;
+    }
+    //    //   TODO create a view for this
+    @GetMapping("all-profiles")
+    public String getAllProfiles(Model model) {
+        List<User> profiles = userService.getAllProfiles();
+        model.addAttribute("title", "List of all Profiles");
+        model.addAttribute("profiles", profiles);
+        return "all-profiles";
+    }
 
 
     //Loads Mockup of profile View
-    @GetMapping("/profile")
-    public String profileView(Model model) {
-        model.addAttribute("title", "User Profile");
-        return "profile";
-    }
-
-//  TODO: Create CRUD Functionality for Comments
-//  TODO: Work on Error handling if profile is not found
-// Views Profile by ID
-//    @GetMapping("/profile/{id}")
-//    public Profile profileViewById(@PathVariable int id, Model model){
-//    Profile profile = profileService.getProfileById(id);
-//    model.addAttribute("profile", profile);
-//    model.addAttribute("username", profile.getUsername());
-//    model.addAttribute("title", profile.getUserName() +"'s profile");
-//    return "profile";
-
-
-    // LOADS Profile Edit View
-    @GetMapping("/profile-edit") //add {id}
-    public String profileEdit(Model model) {
-        model.addAttribute("title", "Profile Edit");
-        return "profile-edit";
-    } //load mock edit page edit
-
-    //CREATES Profile
-// @PostMapping("/create")
-// public Profile createProfile(@RequestBody @Valid Profile profile, Errors errors, Model model) {
-//  if(errors.hasErrors()){
-//  return "redirect:/create";
-//  } else {
-//  Profile savedProfile = profileService.saveProfile(profile);
-//  model.addAttribute("username", savedProfile.getUsername());
-//  model.addAttribute("title", savedProfile.getUserName() +"'s profile");
-//  return "redirect:/profile/" + savedProfile.getId();
-//  }
-//
+//    @GetMapping("/profile")
+//    public String profileView(Model model) {
+//        model.addAttribute("title", "User Profile");
+//        return "profile";
 //    }
 
-// UPDATES Profiles
+    //  TODO: Create CRUD Functionality for Comments
+//  TODO: Work on Error handling if profile is not found
+    @GetMapping("/profile/{profileId}")
+    public String profileViewById(@PathVariable int profileId, Model model) {
+        Optional<User> optionalUser = userService.getProfileById(profileId);
+        if (optionalUser.isPresent()) {
+            User user = (User) optionalUser.get();
+            model.addAttribute("user", user);
+            model.addAttribute("username", user.getUserName());
+            model.addAttribute("title", user.getDisplayName() +"'s profile");
+            return "profile";
+        } else {
+        return "redirect:";
+        }
+    }
 
-//@PutMapping("/profile-edit/{id}")
-//public Profile profileUpdate(@PathVariable int id, @RequestBody @Valid Profile profile, Errors errors, Model model) {
-// if(errors.hasErrors()){
-// return "redirect:/profile-edit";
-// } else {
-//  Profile updatedProfile = profileService.updateProfile(id, profile);
- //model.addAttribute("username", updatedProfile.getUsername());
-// model.addAttribute("title", updatedProfile.getUserName()) +"'s profile");
-//  return "redirect:/profile/" + updatedProfile.getById();
+
+    @GetMapping("/profile-edit/{profileId}")
+    public String profileEdit(@PathVariable int profileId, Model model) {
+        Optional<User>optionalUser= userService.getProfileById(profileId);
+        if(optionalUser.isPresent()){
+            User user = (User) optionalUser.get();
+            model.addAttribute("user", optionalUser.get());
+            return "profile-edit";
+        } else{
+            return "redirect:";
+        }
+    }
+ @PostMapping("/profile-edit/{profileId}")
+ public String profileUpdate(@PathVariable int profileId, @Valid User updatedUser, Errors errors, Model model) {
+        if(errors.hasErrors()){
+            model.addAttribute("user", updatedUser);
+            return "redirect:/profile-edit";
+        }
+        User updatedProfile = userService.updateProfile(profileId, updatedUser);
+        model.addAttribute("username", updatedUser.getUserName());
+        model.addAttribute("title", updatedUser.getUserName() +"'s profile");
+       return "redirect:/profile/" + profileId;
+ }
+//@PostMapping("/create")
+//    public String createProfile(@RequestBody @Valid User user, Errors errors, Model model){
+//      if(errors.hasErrors()) {
+//          model.addAttribute("error", "Validation error has occured.");
+//          return "create-profile"; // might need to be changed to log-on page register
+//      }
+//      User savedProfile = userService.saveProfile(user);
+//      return "redirect:/profile/" + savedProfile.getId();
 // }
-//}
-//
-
-//DELETES Profiles
-// @DeleteMapping("/profile/{id}")
-// public Profile deleteProfile(@PathVariable int id, Model model){
-// profileService.deleteProfile(id);
-// return "redirect/";
+//    @DeleteMapping("/profile-edit/{profileId}")
+//    public String deleteProfile(@PathVariable int profileId) {
+//        userService.deleteProfile(profileId);
+//        return "redirect:/index";
+//    }
 }
+
+
+

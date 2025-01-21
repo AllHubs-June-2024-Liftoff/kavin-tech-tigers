@@ -1,9 +1,10 @@
-package TechTigers.BicycleBuddies.controllers;
+package TechTigers.BicycleBuddies.Controllers;
 
 import TechTigers.BicycleBuddies.data.UserRepository;
 import TechTigers.BicycleBuddies.models.User;
 import TechTigers.BicycleBuddies.models.dto.LoginFormDTO;
 import TechTigers.BicycleBuddies.models.dto.RegisterFormDTO;
+import TechTigers.BicycleBuddies.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -23,7 +23,7 @@ public class AuthenticationController {
 
     @Autowired
     UserRepository userRepository;
-
+    UserService userService;
     private static final String userSessionKey = "user";
 
     public User getUserFromSession(HttpSession session){
@@ -62,7 +62,7 @@ public class AuthenticationController {
             return "register";
         }
 
-        User existingUser = userRepository.findByUsername(registerFormDTO.getUsername());
+        User existingUser = userRepository.findByUserName(registerFormDTO.getUserName());
 
         if(existingUser != null){
             errors.rejectValue("username", "username.alreadyexists", "A user with that username already exists");
@@ -78,7 +78,7 @@ public class AuthenticationController {
             return "register";
         }
 
-        User newUser = new User(registerFormDTO.getUsername(), registerFormDTO.getPassword());
+        User newUser = new User(registerFormDTO.getUserName(), registerFormDTO.getPassword());
         userRepository.save(newUser);
         setUserInSession(request.getSession(), newUser);
 
@@ -103,7 +103,7 @@ public class AuthenticationController {
             return "login";
         }
 
-        User theUser = userRepository.findByUsername(loginFormDTO.getUsername());
+        User theUser = userRepository.findByUserName(loginFormDTO.getUserName());
 
         if (theUser == null){
             errors.rejectValue("username", "user.invalid", "The given username does not exist");
