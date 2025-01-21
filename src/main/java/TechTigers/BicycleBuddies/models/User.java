@@ -31,7 +31,7 @@ public class User extends AbstractEntity{
     private String pwHash;
     private String location;
     private boolean isVerified;
-    private int verificationCode = generateToken();
+    private final int verificationCode = generateToken();
 
     @NotBlank(message = "Name must not be blank.")
     @Size(min = 3, max = 15, message = "Name must be between 3 and 15 characters.")
