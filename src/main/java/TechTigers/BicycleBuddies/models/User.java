@@ -9,13 +9,14 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 public class User extends AbstractEntity{
     private String userName;
     private String fullName;
     private String email;
-    private String password;
+    private String pwHash;
     private String location;
 
     @NotBlank(message = "Name must not be blank.")
@@ -27,13 +28,14 @@ public class User extends AbstractEntity{
     private List<Comment> comments;
 //    private MilesTracker tracker;
 //    private final List<User> friendList = new ArrayList<>();
+    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     public User() {}
 
     public User(String userName, String fullName, String email, String password, String location, String displayName, String bio, Image bioPicture, Comment comments, MilesTracker tracker) {
         this.userName = userName;
         this.fullName = fullName;
         this.email = email;
-        this.password = password;
+        this.pwHash = encoder.encode(password);
         this.location = location;
         this.displayName = displayName;
         this.bio = bio;
@@ -46,6 +48,11 @@ public class User extends AbstractEntity{
 //        return friendList;
 //    }
 
+
+    public User(String userName, String password) {
+        this.userName = userName;
+        this.pwHash = this.pwHash = encoder.encode(password);
+    }
 
     public String getUserName() {
         return userName;
@@ -60,9 +67,8 @@ public class User extends AbstractEntity{
         return email;
     }
 
-
-    public String getPassword() {
-        return password;
+    public boolean isMatchingPassword(String password){
+        return encoder.matches(password, pwHash);
     }
 
     public String getLocation() {
@@ -119,7 +125,7 @@ public class User extends AbstractEntity{
                 "userName='" + userName + '\'' +
                 ", fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
+                ", password='" +  + '\'' +
                 ", location='" + location + '\'' +
                 ", displayName='" + displayName + '\'' +
                 ", bio='" + bio + '\'' +
