@@ -13,7 +13,9 @@ public class RegisterFormDTO extends LoginFormDTO {
 
 //    private String displayName;
 //
-    @Email
+    @NotNull
+    @NotBlank(message = "Field may not be left blank")
+    @Email(message = "Please enter a valid email")
     private String email;
 
     public String getVerifyPassword() {

@@ -24,6 +24,7 @@
         <label>Email:
             <input th:field="${registerFormDTO.email}" />
         </label>
+        <p th:errors="${registerFormDTO.email}"></p>
     </div>
     <div>
         <label>Password:

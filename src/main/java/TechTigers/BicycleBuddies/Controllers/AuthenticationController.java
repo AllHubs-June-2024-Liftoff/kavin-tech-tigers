@@ -119,6 +119,12 @@ public class AuthenticationController {
             return "login";
         }
 
+        if(theUser.isVerified() == false){
+            errors.rejectValue("password", "password.invalid", "Account not yet verified!");
+            model.addAttribute("title", "Log In");
+            return "login";
+        }
+
         setUserInSession(request.getSession(), theUser);
 
         return "redirect:/profile";

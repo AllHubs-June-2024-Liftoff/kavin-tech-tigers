@@ -52,17 +52,26 @@ public class EmailController {
     }
 
     @GetMapping("")
-    public String sendEmail(){
-        //This will not work if you have anitvirus turned on
+    public String sendEmail(HttpServletRequest request){
+
+        User user = getUserFromSession(request.getSession());
+        String userEmail = user.getEmail();
+        int userVerifyCode = user.getVerificationCode();
+
+        //Your antivirus might throw an error here
         try {
             SimpleMailMessage message = new SimpleMailMessage();
 
+
             message.setFrom("bicyclebuddies8080@gmail.com");
-            message.setTo("bicyclebuddies8080@gmail.com");
+            //Message may be sent to spam folder
+            message.setTo(userEmail);
             message.setSubject("Please Verify Your Account");
-            message.setText("Test Email");
+            message.setText("Your verification code is " + userVerifyCode + ". Use this code to finish setting up your account.");
 
             mailSender.send(message);
+            user.setVerified(true);
+
             return "redirect:/email/verification-email-sent";
         } catch (Exception e){
             return e.getMessage();
