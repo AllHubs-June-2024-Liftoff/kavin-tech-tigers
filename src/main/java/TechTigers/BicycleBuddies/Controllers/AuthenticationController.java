@@ -62,7 +62,7 @@ public class AuthenticationController {
             return "register";
         }
 
-        User existingUser = findByUserName(registerFormDTO.getUserName());
+        User existingUser = userRepository.findByUserName(registerFormDTO.getUserName());
 
         if(existingUser != null){
             errors.rejectValue("username", "username.alreadyexists", "A user with that username already exists");
