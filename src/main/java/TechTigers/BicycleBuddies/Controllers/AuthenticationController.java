@@ -4,6 +4,7 @@ import TechTigers.BicycleBuddies.data.UserRepository;
 import TechTigers.BicycleBuddies.models.User;
 import TechTigers.BicycleBuddies.models.dto.LoginFormDTO;
 import TechTigers.BicycleBuddies.models.dto.RegisterFormDTO;
+import TechTigers.BicycleBuddies.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class AuthenticationController {
 
     @Autowired
     UserRepository userRepository;
-
+    UserService userService;
     private static final String userSessionKey = "user";
 
     public User getUserFromSession(HttpSession session){
@@ -61,7 +62,7 @@ public class AuthenticationController {
             return "register";
         }
 
-        User existingUser = userRepository.findByUsername(registerFormDTO.getUserName());
+        User existingUser = findByUserName(registerFormDTO.getUserName());
 
         if(existingUser != null){
             errors.rejectValue("username", "username.alreadyexists", "A user with that username already exists");
@@ -102,7 +103,7 @@ public class AuthenticationController {
             return "login";
         }
 
-        User theUser = userRepository.findByUsername(loginFormDTO.getUserName());
+        User theUser = userRepository.findByUserName(loginFormDTO.getUserName());
 
         if (theUser == null){
             errors.rejectValue("username", "user.invalid", "The given username does not exist");
