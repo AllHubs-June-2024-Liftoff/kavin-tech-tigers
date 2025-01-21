@@ -70,7 +70,6 @@ public class EmailController {
             message.setText("Your verification code is " + userVerifyCode + ". Use this code to finish setting up your account.");
 
             mailSender.send(message);
-            user.setVerified(true);
 
             return "redirect:/email/verification-email-sent";
         } catch (Exception e){
@@ -101,6 +100,8 @@ public class EmailController {
         if(userGivenVerification != userSubmittedVerification){
             errors.rejectValue("userSubmittedVerification", "userSubmittedVerification.incorrect", "Verification code does not match");
             return "email/verification-email-sent";
+        }else{
+            user.setVerified(true);
         }
 
         return "redirect:/login";

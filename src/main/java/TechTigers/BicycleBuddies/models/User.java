@@ -24,7 +24,7 @@ public class User extends AbstractEntity{
     @Email
     private String email;
 
-    private boolean isVerified = false;
+    private boolean isVerified;
 
     private int verificationCode = generateToken();
 
