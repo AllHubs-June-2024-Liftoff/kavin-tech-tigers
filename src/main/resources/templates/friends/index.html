@@ -7,17 +7,22 @@
 <body>
     <div th:replace="~{fragments :: navbar}"></div>
 
-    <p th:unless="${friends} and ${friends.size()}">You don't have any friends yet!</p>
+    <div style="text-align:center">
 
-    <div>
-        <h2>Friends</h2>
-        <ul>
-            <li th:each="friend : ${friends}">
-                <a th:href="@{'/friends/view/' + {friend.id}}" th:text="${friend.name}"></a>
-            </li>
-        </ul>
-        <a th:href="@{'/friends/search'}">Search for Friends</a>
+        <p th:unless="${friends} and ${friends.size()}">You don't have any friends yet!</p>
+
+        <div >
+            <h2>Friends</h2>
+            <ul>
+                <li th:each="friend : ${friends}">
+                    <a th:href="@{'/friends/view/' + {friend.id}}" th:text="${friend.name}"></a>
+                </li>
+            </ul>
+            <a th:href="@{'/friends/search'}">Search for Friends</a>
+        </div>
+
     </div>
+
 
 </body>
 </html>

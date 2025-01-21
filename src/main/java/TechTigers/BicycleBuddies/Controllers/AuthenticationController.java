@@ -1,4 +1,4 @@
-package TechTigers.BicycleBuddies.Controllers;
+package TechTigers.BicycleBuddies.controllers;
 
 import TechTigers.BicycleBuddies.data.UserRepository;
 import TechTigers.BicycleBuddies.models.User;
@@ -14,6 +14,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -78,12 +79,12 @@ public class AuthenticationController {
             return "register";
         }
 
-        User newUser = new User(registerFormDTO.getUserName(), registerFormDTO.getPassword());
+        User newUser = new User(registerFormDTO.getUserName(), registerFormDTO.getPassword(), registerFormDTO.getEmail());
         userRepository.save(newUser);
         setUserInSession(request.getSession(), newUser);
 
 
-        return "redirect:/login";
+        return "redirect:/email";
     }
 
     @GetMapping("/login")
@@ -115,6 +116,12 @@ public class AuthenticationController {
 
         if(!theUser.isMatchingPassword(password)){
             errors.rejectValue("password", "password.invalid", "Invalid password");
+            model.addAttribute("title", "Log In");
+            return "login";
+        }
+
+        if(theUser.isVerified() == false){
+            errors.rejectValue("password", "password.invalid", "Account not yet verified!");
             model.addAttribute("title", "Log In");
             return "login";
         }
