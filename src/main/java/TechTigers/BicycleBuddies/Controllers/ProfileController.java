@@ -19,7 +19,7 @@ public class ProfileController {
     public ProfileController(UserService userService) {
         this.userService = userService;
     }
-    //    //   TODO create a view for this
+
     @GetMapping("all-profiles")
     public String getAllProfiles(Model model) {
         List<User> profiles = userService.getAllProfiles();
@@ -28,16 +28,6 @@ public class ProfileController {
         return "all-profiles";
     }
 
-
-    //Loads Mockup of profile View
-//    @GetMapping("/profile")
-//    public String profileView(Model model) {
-//        model.addAttribute("title", "User Profile");
-//        return "profile";
-//    }
-
-    //  TODO: Create CRUD Functionality for Comments
-//  TODO: Work on Error handling if profile is not found
     @GetMapping("/profile/{profileId}")
     public String profileViewById(@PathVariable int profileId, Model model) {
         Optional<User> optionalUser = userService.getProfileById(profileId);
@@ -52,7 +42,6 @@ public class ProfileController {
         }
     }
 
-
     @GetMapping("/profile-edit/{profileId}")
     public String profileEdit(@PathVariable int profileId, Model model) {
         Optional<User>optionalUser= userService.getProfileById(profileId);
@@ -64,7 +53,8 @@ public class ProfileController {
             return "redirect:";
         }
     }
- @PostMapping("/profile-edit/{profileId}")
+
+ @PostMapping("/profile-edit/{profileId}/edit")
  public String profileUpdate(@PathVariable int profileId, @Valid User updatedUser, Errors errors, Model model) {
         if(errors.hasErrors()){
             model.addAttribute("user", updatedUser);
@@ -75,20 +65,29 @@ public class ProfileController {
         model.addAttribute("title", updatedUser.getUserName() +"'s profile");
        return "redirect:/profile/" + profileId;
  }
-//@PostMapping("/create")
-//    public String createProfile(@RequestBody @Valid User user, Errors errors, Model model){
-//      if(errors.hasErrors()) {
-//          model.addAttribute("error", "Validation error has occured.");
-//          return "create-profile"; // might need to be changed to log-on page register
-//      }
-//      User savedProfile = userService.saveProfile(user);
-//      return "redirect:/profile/" + savedProfile.getId();
-// }
-//    @DeleteMapping("/profile-edit/{profileId}")
-//    public String deleteProfile(@PathVariable int profileId) {
-//        userService.deleteProfile(profileId);
-//        return "redirect:/index";
-//    }
+
+ @GetMapping("/create-profile")
+ public String displayCreateProfile(Model model){
+        model.addAttribute("title","Create a new profile");
+        model.addAttribute("user", new User());
+        return "create-profile";
+ }
+
+@PostMapping("/create-profile")
+    public String createProfile(@ModelAttribute @Valid User user, Errors errors, Model model){
+      if(errors.hasErrors()) {
+          model.addAttribute("error", "Validation error has occured.");
+          return "create-profile";
+      }
+      User savedProfile = userService.saveProfile(user);
+      return "redirect:/profile/" + savedProfile.getId();
+ }
+
+    @DeleteMapping("/profile-edit/{profileId}/delete")
+    public String deleteProfile(@PathVariable int profileId) {
+        userService.deleteProfile(profileId);
+        return "redirect:/all-profiles";
+    }
 }
 
 
