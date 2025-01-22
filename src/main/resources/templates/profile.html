@@ -18,7 +18,7 @@
              <img src="https://picsum.photos/200" id="profile-image" class="img-fluid" alt="Profile Image" />
             </div>
         <div class="text-bg-light p-3 mb-3">
-            <b th:text = "${user.userName}"></b><br>
+            <b th:text="${'@'+user.userName}">Default Username</b><br>
               <span></span> # Friends<br>
                <span th:text="${'Name: ' + user.displayName}"></span><br>
                <span th:text="${'Location: ' + user.location}"></span><br>
