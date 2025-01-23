@@ -26,7 +26,9 @@ public class SMSController {
                         new com.twilio.type.PhoneNumber("+16363687378"),
                         "Your login code is " + generateToken())
                         .create();
-        return message.getBody();
+//        return message.getBody();
+        return "redirect:/sms-verification/sent";
+
 //        sendRequest.setSmsMessage("Your login code is " + generateToken());
 //        sendRequest.setDestinationSMSNumber("+16363687378");
 //        return smsService.sendSMS(sendRequest.getDestinationSMSNumber(), sendRequest.getSmsMessage());
