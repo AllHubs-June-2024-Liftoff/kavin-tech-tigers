@@ -2,14 +2,14 @@ package TechTigers.BicycleBuddies.models.dto;
 
 public class SMSVerificaitonFormDTO {
 
-    private int userSubmittedVerification;
+    private int userSubmittedSMSVerification;
 
-    public int getUserSubmittedVerification() {
-        return userSubmittedVerification;
+    public int getUserSubmittedSMSVerification() {
+        return userSubmittedSMSVerification;
     }
 
-    public void setUserSubmittedVerification(int userSubmittedVerification) {
-        this.userSubmittedVerification = userSubmittedVerification;
+    public void setUserSubmittedSMSVerification(int userSubmittedSMSVerification) {
+        this.userSubmittedSMSVerification = userSubmittedSMSVerification;
     }
 
 }

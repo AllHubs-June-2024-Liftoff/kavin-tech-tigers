@@ -31,7 +31,9 @@ public class User extends AbstractEntity{
     private String pwHash;
     private String location;
     private boolean isVerified;
+    private boolean isSMSVerified;
     private final int verificationCode = generateToken();
+    private int smsVerificationCode;
 
     @NotBlank(message = "Name must not be blank.")
     @Size(min = 3, max = 15, message = "Name must be between 3 and 15 characters.")
@@ -162,8 +164,24 @@ public class User extends AbstractEntity{
         isVerified = verified;
     }
 
+    public boolean isSMSVerified() {
+        return isSMSVerified;
+    }
+
+    public void setSMSVerified(boolean SMSVerified) {
+        isSMSVerified = SMSVerified;
+    }
+
     public int getVerificationCode() {
         return verificationCode;
+    }
+
+    public int getSmsVerificationCode() {
+        return smsVerificationCode;
+    }
+
+    public void setSmsVerificationCode(int smsVerificationCode) {
+        this.smsVerificationCode = smsVerificationCode;
     }
 
     //Generates a number between 100000 and 999999
