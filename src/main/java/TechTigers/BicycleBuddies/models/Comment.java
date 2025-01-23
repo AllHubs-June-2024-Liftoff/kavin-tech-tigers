@@ -12,8 +12,6 @@ import java.util.Set;
 
 @Entity
 public class Comment extends AbstractEntity{
-   @GeneratedValue
-    private int id;
 
     @ManyToOne(cascade= CascadeType.ALL)
     @JoinColumn(name= "user_id")
@@ -25,19 +23,15 @@ public class Comment extends AbstractEntity{
     private LocalDateTime timestamp;
     private int likes;
     private Set<String> likedByUsers;
-    public Comment(){
-        this.likedByUsers = new HashSet<>();
-    }
 
-    public Comment(int id, User author, String content, LocalDateTime timestamp, int likes) {
-        this.id = id;
+    public Comment( User author, String content, LocalDateTime timestamp, int likes) {
+
         this.author = author;
         this.content = content;
         this.timestamp = timestamp;
         this.likes = likes;
     }
 
-    public int getId() { return id; }
 
     public User getAuthor() { return author;}
 
@@ -73,7 +67,6 @@ public class Comment extends AbstractEntity{
     @Override
     public String toString() {
         return "Comment{" +
-                "id=" + id +
                 ", author='" + author + '\'' +
                 ", content='" + content + '\'' +
                 ", timestamp=" + timestamp +

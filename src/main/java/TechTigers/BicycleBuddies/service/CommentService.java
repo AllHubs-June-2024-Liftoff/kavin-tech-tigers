@@ -42,10 +42,14 @@ public class CommentService {
     public Comment updateComment(int id, Comment updatedComment){
         Comment existingComment = commentRepository.findById(id)
                 .orElseThrow(()-> new RuntimeException("Comment with ID "+ id +" does not exist."));
-        //existingComment.setAuthor(updatedComment.getAuthor());
+        existingComment.setAuthor(updatedComment.getAuthor());
         existingComment.setContent(updatedComment.getContent());
         existingComment.setTimestamp(updatedComment.getTimestamp());
         existingComment.setLikes(updatedComment.getLikes());
         return commentRepository.save(existingComment);
     }
+
+//    public List<Comment>getCommentsByProfileId(int profileId){
+//        return commentRepository.findByProfileId(profileId);
+//    }
 }
