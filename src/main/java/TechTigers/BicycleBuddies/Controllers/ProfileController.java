@@ -1,5 +1,7 @@
 package TechTigers.BicycleBuddies.Controllers;
+import TechTigers.BicycleBuddies.models.Comment;
 import TechTigers.BicycleBuddies.models.User;
+import TechTigers.BicycleBuddies.service.CommentService;
 import TechTigers.BicycleBuddies.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,9 +17,11 @@ import java.util.Optional;
 public class ProfileController {
     @Autowired
     private UserService userService;
+    private CommentService commentService;
 
-    public ProfileController(UserService userService) {
+    public ProfileController(UserService userService, CommentService commentService) {
         this.userService = userService;
+        this.commentService = commentService;
     }
 
     @GetMapping("all-profiles")
@@ -33,6 +37,8 @@ public class ProfileController {
         Optional<User> optionalUser = userService.getProfileById(profileId);
         if (optionalUser.isPresent()) {
             User user = (User) optionalUser.get();
+            List<Comment> comments = commentService.getCommentsByProfileId(profileId);
+            model.addAttribute("comments",comments);
             model.addAttribute("user", user);
             model.addAttribute("userName", user.getUserName());
             model.addAttribute("title", user.getDisplayName() +"'s profile");

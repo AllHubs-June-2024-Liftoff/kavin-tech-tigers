@@ -12,11 +12,11 @@ import java.util.Set;
 
 @Entity
 public class Comment extends AbstractEntity{
-
-    @ManyToOne(cascade= CascadeType.ALL)
-    @JoinColumn(name= "user_id")
-    private User author;
-
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+    @NotBlank
+    private String author;
     @NotBlank(message = "Comment must not be blank")
     @Size(min =3, max = 250, message= "Comment must be between 3 and 250 characters.")
     private String content;
@@ -24,18 +24,18 @@ public class Comment extends AbstractEntity{
     private int likes;
     private Set<String> likedByUsers;
 
-    public Comment( User author, String content, LocalDateTime timestamp, int likes) {
+    public Comment( String author, String content, LocalDateTime timestamp, int likes) {
 
         this.author = author;
         this.content = content;
         this.timestamp = timestamp;
         this.likes = likes;
     }
+    public Comment(){}
 
+    public String getAuthor() { return author;}
 
-    public User getAuthor() { return author;}
-
-    public void setAuthor(User author) {this.author = author;}
+    public void setAuthor(String author) {this.author = author;}
 
     public String getContent() {return content;}
 
@@ -74,5 +74,6 @@ public class Comment extends AbstractEntity{
                 ", likedByUsers=" + likedByUsers +
                 '}';
     }
+
 
 }

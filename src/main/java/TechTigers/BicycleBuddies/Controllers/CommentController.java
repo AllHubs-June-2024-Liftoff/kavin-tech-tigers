@@ -10,13 +10,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
 public class CommentController {
-
+//TODO: Update & Delete methods
     private CommentService commentService;
 
     @Autowired
@@ -30,12 +32,15 @@ public class CommentController {
         model.addAttribute("comments", comments);
         return "all-comments";
     }
+@GetMapping("add-comments")
+    public String addComments(@RequestParam int profileId, @RequestParam String content, Model model){
+        Comment comment = new Comment();
+        comment.setContent(content);
+        comment.setTimestamp(LocalDateTime.now());
+        comment.setLikes(0);
+        commentService.saveComment(comment);
+        return "redirect:/profile/ + profileId";
+}
 
-//    @GetMapping("/profile/{profileId}")
-//    public String displayCommentsForProfile(@PathVariable int profileId, Model model){
-////        List<Comment> comments = commentService.getCommentsByProfileId(profileId);
-//        model.addAttribute("comments", comments);
-//        return "";
-//    }
 }
 
