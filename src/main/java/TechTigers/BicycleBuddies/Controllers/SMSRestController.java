@@ -5,21 +5,25 @@ import TechTigers.BicycleBuddies.service.SMSService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
+
 import static TechTigers.BicycleBuddies.models.User.generateToken;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("sms-verification")
 public class SMSRestController {
 
     @Autowired
     SMSService smsService;
 
-    @GetMapping("/processSMS")
+    @GetMapping("")
     public String processSMS(){
         return "todo";
     }
 
-    @PostMapping("/processSMS")
+    @PostMapping("")
     public String processSMS(@RequestBody SMSSendRequest sendRequest){
         sendRequest.setSmsMessage("Your login code is " + generateToken());
         sendRequest.setDestinationSMSNumber("+16363687378");
