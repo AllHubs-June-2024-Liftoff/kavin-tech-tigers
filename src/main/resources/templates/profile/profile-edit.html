@@ -29,7 +29,7 @@
 
 <div class="col-8 text-bg-light p-3">
     <h4>Change Profile Information</h4>
-<form th:action="@{/profile-edit/{id}/edit(id=${user.id})}" method="post">
+<form th:action="@{/profile/profile-edit/{id}/edit(id=${user.id})}" method="post">
     <div class="mb-3">
         <label for="display-name">Name:</label>
         <input type="text" id="display-name" name="display-name" th:field="*{user.displayName}" class="form-control">
@@ -45,14 +45,14 @@
     <div class="d-flex justify-content-between">
         <button type="submit" class="btn btn-success">Submit</button>
         </form>
-        <form method="post" th:action="@{/profile-edit/{profileId}/delete(profileId=${user.id})}">
+        <form method="post" th:action="@{/profile/profile-edit/{profileId}/delete(profileId=${user.id})}">
             <input type="hidden" name="_method" value="DELETE" />
             <button type="submit" class="btn btn-danger">Delete Profile</button>
         </form>
     </div>
- </div>
         </div>
-
+</div>
+        </div>
         </div>
     </div>
 </body>

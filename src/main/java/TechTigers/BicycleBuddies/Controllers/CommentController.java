@@ -7,16 +7,14 @@ import TechTigers.BicycleBuddies.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
+@RequestMapping("comments")
 public class CommentController {
 //TODO: Update & Delete methods
     private CommentService commentService;
@@ -32,6 +30,7 @@ public class CommentController {
         model.addAttribute("comments", comments);
         return "all-comments";
     }
+
 @GetMapping("add-comments")
     public String addComments(@RequestParam int profileId, @RequestParam String content, Model model){
         Comment comment = new Comment();
@@ -39,6 +38,7 @@ public class CommentController {
         comment.setTimestamp(LocalDateTime.now());
         comment.setLikes(0);
         commentService.saveComment(comment);
+        model.addAttribute("title", "Add a Comment");
         return "redirect:/profile/ + profileId";
 }
 

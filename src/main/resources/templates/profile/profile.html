@@ -25,7 +25,7 @@
             <p class="mt-3" th:text="'Bio: ' + ${user.bio}"></p>
         <button type="button" class="btn btn-success">Add to Friends</button>
             <br>
-            <a th:href="@{/profile-edit/{id}(id=${user.id})}">Edit Profile</a>
+            <a th:href="@{/profile/profile-edit/{id}(id=${user.id})}">Edit Profile</a>
             </div>
         </div>
             <div class="col-8 align-self-center">
