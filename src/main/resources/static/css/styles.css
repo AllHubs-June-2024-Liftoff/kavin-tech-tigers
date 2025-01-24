@@ -30,3 +30,25 @@ th, td {
 #profile-image{
 border-radius: 50%;
 }
+
+
+body {
+    background-color: #ADD8E6; /* Light blue color */
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+h1 {
+    color: #0044cc; /* Dark blue header */
+}
+
+a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+

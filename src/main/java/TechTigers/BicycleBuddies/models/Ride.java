@@ -3,23 +3,25 @@ package TechTigers.BicycleBuddies.models;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
-@Entity // Marks this class as a JPA Entity
-//@Table(name = "rides") // Maps the class to a table named "rides" in the database
+@Entity
 public class Ride extends AbstractEntity {
 
-    @Column(nullable = false) // Makes this column non-nullable
+    @Column(nullable = false)
     private LocalDate date; // Date of the ride
 
-    @Column(nullable = false) // Makes this column non-nullable
+    @Column(nullable = false)
     private double distance; // Distance covered during the ride in miles or kilometers
 
-    @Column(nullable = false) // Makes this column non-nullable
+    @Column(nullable = false)
     private double duration; // Duration of the ride in hours
 
-    @Column(length = 500) // Sets the maximum length of the description
+    @Column(length = 500)
     private String description; // Optional description of the ride
 
     private String route; // The route or location where the ride took place
+
+    @Column(nullable = false)
+    private String status = "scheduled"; // Default status (could be "scheduled", "completed", "canceled")
 
     // Default constructor (required by JPA)
     public Ride() {
@@ -34,9 +36,7 @@ public class Ride extends AbstractEntity {
         this.route = route;
     }
 
-    // Getters and Setters (required for JPA and to access data)
-
-
+    // Getters and Setters
     public LocalDate getDate() {
         return date;
     }
@@ -77,6 +77,14 @@ public class Ride extends AbstractEntity {
         this.route = route;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     // Optional: Override toString for debugging or logging purposes
     @Override
     public String toString() {
@@ -87,6 +95,12 @@ public class Ride extends AbstractEntity {
                 ", duration=" + duration +
                 ", description='" + description + '\'' +
                 ", route='" + route + '\'' +
+                ", status='" + status + '\'' +
                 '}';
+    }
+
+    // Method to cancel the ride (update status)
+    public void cancelRide() {
+        this.status = "canceled"; // Set status to canceled
     }
 }
