@@ -64,9 +64,11 @@ public class LoginVerifyController {
 
         User user = getUserFromSession(request.getSession());
         String userEmail = user.getEmail();
-        user.setEmailVerificationCode(generateToken());
-        int userVerifyCode = user.getEmailVerificationCode();
 
+        //generates new token upon every login attempt
+        user.setEmailVerificationCode(generateToken());
+        userRepository.save(user);
+        int userVerifyCode = user.getEmailVerificationCode();
 
         SimpleMailMessage message = new SimpleMailMessage();
 
@@ -110,7 +112,7 @@ public class LoginVerifyController {
         setUserInSession(request.getSession(), user);
 //        int profileId = user.getId();
 //        userService.getProfileById(profileId);
-        return "redirect:/profile";
+        return "redirect:/map";
     }
 
 }
