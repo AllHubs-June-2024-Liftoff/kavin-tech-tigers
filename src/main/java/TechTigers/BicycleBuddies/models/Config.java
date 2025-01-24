@@ -11,6 +11,7 @@ public class Config extends AbstractEntity{
     @NotNull
     @Size(min = 2, max = 150, message = "Invalid Key.  Must be between 2 and 150 characters.")
     private String ConfigKey;
+
     @NotNull
     @Size(min = 2, max = 150, message = "Invalid value.  Must be between 2 and 150 characters.")
     private String ConfigValue;
