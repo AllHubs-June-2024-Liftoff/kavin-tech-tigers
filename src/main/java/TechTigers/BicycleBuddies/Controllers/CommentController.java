@@ -14,32 +14,49 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("comments")
+@RequestMapping("/comments")
 public class CommentController {
 //TODO: Update & Delete methods
     private CommentService commentService;
+    private UserService userService;
 
     @Autowired
-    public CommentController(CommentService commentService) {
-        this.commentService = commentService;
-    }
+    public CommentController(UserService userService, CommentService commentService) {
+        this.userService = userService;
+        this.commentService= commentService;}
 
-    @GetMapping("all-comments")
+
+
+    @GetMapping("/all-comments")
     public String viewAllComments(Model model){
         List<Comment> comments = commentService.getAllComments();
         model.addAttribute("comments", comments);
+        model.addAttribute("title", "All Comments");
         return "all-comments";
     }
 
-@GetMapping("add-comments")
+@GetMapping("/add-comments/{profileId}")
+public String showAddCommentForm(@PathVariable int profileId, Model model){
+        Optional<User> user = userService.getProfileById(profileId);
+        if(user.isPresent()){
+            model.addAttribute("user", user.get());
+            model.addAttribute("title", "Add a Comment");
+        } else{
+            model.addAttribute("error", "User not found");
+        }
+        return "/add-comments";
+}
+
+@PostMapping("/add-comments/{profileId}/add")
     public String addComments(@RequestParam int profileId, @RequestParam String content, Model model){
+        Optional<User> user = userService.getProfileById(profileId);
         Comment comment = new Comment();
         comment.setContent(content);
         comment.setTimestamp(LocalDateTime.now());
         comment.setLikes(0);
+        comment.setUser(user.orElse(null));
         commentService.saveComment(comment);
-        model.addAttribute("title", "Add a Comment");
-        return "redirect:/profile/ + profileId";
+        return "redirect:/comments/all-comments";
 }
 
 }

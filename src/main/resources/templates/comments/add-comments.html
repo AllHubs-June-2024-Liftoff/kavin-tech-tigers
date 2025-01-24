@@ -12,8 +12,13 @@
     </div>
 </div>
 <div class="container">
-    <form action="" class="">
-
+    <form action="@{/comments/add-comments}" method="post">
+        <input type="hidden" name="profileId" value="${user.id}" />
+        <div class="mb-3">
+            <label for="content">Comment: </label>
+            <textarea id="content" th:field="*{comment.content}" name="content" class="form-control"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Comment</button>
     </form>
 </div>
 </body>

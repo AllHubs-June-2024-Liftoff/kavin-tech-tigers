@@ -48,7 +48,13 @@ public class Comment extends AbstractEntity{
     public int getLikes() { return likes;}
 
     public void setLikes(int likes) { this.likes = likes;}
+    public User getUser() {
+        return user;
+    }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
     public Set<String> getLikedByUsers() { return likedByUsers;}
 
     public void setLikedByUsers(Set<String> likedByUsers) { this.likedByUsers = likedByUsers;}
