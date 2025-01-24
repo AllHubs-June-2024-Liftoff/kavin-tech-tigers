@@ -1,5 +1,6 @@
 package TechTigers.BicycleBuddies.service;
 
+
 import TechTigers.BicycleBuddies.models.Ride;
 import TechTigers.BicycleBuddies.models.data.RideRepository;
 import org.springframework.beans.factory.annotation.Autowired;

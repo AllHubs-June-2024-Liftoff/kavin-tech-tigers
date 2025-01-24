@@ -102,5 +102,6 @@ public class Ride extends AbstractEntity {
     // Method to cancel the ride (update status)
     public void cancelRide() {
         this.status = "canceled"; // Set status to canceled
+
     }
 }

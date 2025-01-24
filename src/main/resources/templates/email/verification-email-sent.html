@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head">
+    <meta charset="UTF-8"/>
+    <title></title>
+</head>
+<body>
+    <div th:replace="~{fragments :: navbar}"></div>
+
+    <div style="text-align:center">
+        <h1>Welcome to Bicycle Buddies!!!</h1>
+        <p>Before logging in, please verify your account by typing in the 6-digit code sent to your email</p>
+
+        <form method="post">
+            <input th:field="${verifyFormDTO.userSubmittedVerification}" />
+            <input type="submit" value="Verify Account">
+        </form>
+
+    </div>
+
+</body>
+</html>

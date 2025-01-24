@@ -2,37 +2,36 @@ package TechTigers.BicycleBuddies.models;
 
 
 
+import jakarta.persistence.*;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
-//@Entity
-public class Comment {
-   // @GeneratedValue
-    private int id;
+@Entity
+public class Comment extends AbstractEntity{
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+    @NotBlank
     private String author;
-    // @NotBlank(message = "Comment must not be blank")
-    //@Size(min =3, max = 250, message= "Comment must be between 3 and 250 characters.")
+    @NotBlank(message = "Comment must not be blank")
+    @Size(min =3, max = 250, message= "Comment must be between 3 and 250 characters.")
     private String content;
     private LocalDateTime timestamp;
     private int likes;
     private Set<String> likedByUsers;
 
-    //    constructors
-    public Comment(){
-        this.likedByUsers = new HashSet<>();
-    }
+    public Comment( String author, String content, LocalDateTime timestamp, int likes) {
 
-    public Comment(int id, String author, String content, LocalDateTime timestamp, int likes) {
-        this.id = id;
         this.author = author;
         this.content = content;
         this.timestamp = timestamp;
         this.likes = likes;
     }
-    // getters & setters
-    public int getId() { return id; }
+    public Comment(){}
 
     public String getAuthor() { return author;}
 
@@ -49,7 +48,13 @@ public class Comment {
     public int getLikes() { return likes;}
 
     public void setLikes(int likes) { this.likes = likes;}
+    public User getUser() {
+        return user;
+    }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
     public Set<String> getLikedByUsers() { return likedByUsers;}
 
     public void setLikedByUsers(Set<String> likedByUsers) { this.likedByUsers = likedByUsers;}
@@ -65,11 +70,9 @@ public class Comment {
             this.likes--;
         }
     }
-    // to string method
     @Override
     public String toString() {
         return "Comment{" +
-                "id=" + id +
                 ", author='" + author + '\'' +
                 ", content='" + content + '\'' +
                 ", timestamp=" + timestamp +
@@ -78,18 +81,5 @@ public class Comment {
                 '}';
     }
 
-//    hashmap & equals method
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Comment comment = (Comment) o;
-        return id == comment.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }
