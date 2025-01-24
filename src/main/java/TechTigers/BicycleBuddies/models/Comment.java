@@ -13,8 +13,8 @@ import java.util.Set;
 @Entity
 public class Comment extends AbstractEntity{
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "ride_id")
+    private Ride ride;
     @NotBlank
     private String author;
     @NotBlank(message = "Comment must not be blank")
@@ -48,12 +48,12 @@ public class Comment extends AbstractEntity{
     public int getLikes() { return likes;}
 
     public void setLikes(int likes) { this.likes = likes;}
-    public User getUser() {
-        return user;
+    public Ride getRide() {
+        return ride;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setRide(Ride ride){
+        this.ride = ride;
     }
     public Set<String> getLikedByUsers() { return likedByUsers;}
 

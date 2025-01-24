@@ -1,6 +1,7 @@
 package TechTigers.BicycleBuddies.data;
 
 import TechTigers.BicycleBuddies.models.Comment;
+import TechTigers.BicycleBuddies.models.Ride;
 import TechTigers.BicycleBuddies.models.User;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.repository.CrudRepository;
@@ -10,5 +11,5 @@ import java.util.List;
 
 @Repository
 public interface CommentRepository extends CrudRepository<Comment, Integer> {
-    List<Comment> findByUser(User user);
+    List<Comment> findByRide(Ride ride);
 }
