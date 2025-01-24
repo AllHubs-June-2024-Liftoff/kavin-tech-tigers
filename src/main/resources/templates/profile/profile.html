@@ -18,14 +18,14 @@
              <img src="https://picsum.photos/200" id="profile-image" class="img-fluid" alt="Profile Image" />
             </div>
         <div class="text-bg-light p-3 mb-3">
-            <b th:text = "${user.userName}"></b><br>
+            <b th:text="${'@'+user.userName}">Default Username</b><br>
               <span></span> # Friends<br>
                <span th:text="${'Name: ' + user.displayName}"></span><br>
                <span th:text="${'Location: ' + user.location}"></span><br>
             <p class="mt-3" th:text="'Bio: ' + ${user.bio}"></p>
         <button type="button" class="btn btn-success">Add to Friends</button>
             <br>
-            <a th:href="@{/profile-edit/{id}(id=${user.id})}">Edit Profile</a>
+            <a th:href="@{/profile/profile-edit/{id}(id=${user.id})}">Edit Profile</a>
             </div>
         </div>
             <div class="col-8 align-self-center">
@@ -57,7 +57,7 @@
                         Ride information
                         <button type="button" class="btn btn-link">Like Ride ★</button>
                     </div>
-                    <button type="button" class="btn btn-secondary">Comment on Ride</button>
+                    <a th:href="@{/comments/add-comments/{profileId}(profileId=${user.id})}" class="btn btn-secondary">Comment on Ride</a>
                     <div class="mb-3">
                         Ride information
                         <button type="button" class="btn btn-link">Like Ride ★</button>

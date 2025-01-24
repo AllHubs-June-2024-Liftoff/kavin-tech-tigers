@@ -12,36 +12,30 @@ import java.util.Set;
 
 @Entity
 public class Comment extends AbstractEntity{
-   @GeneratedValue
-    private int id;
-
-    @ManyToOne(cascade= CascadeType.ALL)
-    @JoinColumn(name= "user_id")
-    private User author;
-
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+    @NotBlank
+    private String author;
     @NotBlank(message = "Comment must not be blank")
     @Size(min =3, max = 250, message= "Comment must be between 3 and 250 characters.")
     private String content;
     private LocalDateTime timestamp;
     private int likes;
     private Set<String> likedByUsers;
-    public Comment(){
-        this.likedByUsers = new HashSet<>();
-    }
 
-    public Comment(int id, User author, String content, LocalDateTime timestamp, int likes) {
-        this.id = id;
+    public Comment( String author, String content, LocalDateTime timestamp, int likes) {
+
         this.author = author;
         this.content = content;
         this.timestamp = timestamp;
         this.likes = likes;
     }
+    public Comment(){}
 
-    public int getId() { return id; }
+    public String getAuthor() { return author;}
 
-    public User getAuthor() { return author;}
-
-    public void setAuthor(User author) {this.author = author;}
+    public void setAuthor(String author) {this.author = author;}
 
     public String getContent() {return content;}
 
@@ -54,7 +48,13 @@ public class Comment extends AbstractEntity{
     public int getLikes() { return likes;}
 
     public void setLikes(int likes) { this.likes = likes;}
+    public User getUser() {
+        return user;
+    }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
     public Set<String> getLikedByUsers() { return likedByUsers;}
 
     public void setLikedByUsers(Set<String> likedByUsers) { this.likedByUsers = likedByUsers;}
@@ -73,7 +73,6 @@ public class Comment extends AbstractEntity{
     @Override
     public String toString() {
         return "Comment{" +
-                "id=" + id +
                 ", author='" + author + '\'' +
                 ", content='" + content + '\'' +
                 ", timestamp=" + timestamp +
@@ -81,5 +80,6 @@ public class Comment extends AbstractEntity{
                 ", likedByUsers=" + likedByUsers +
                 '}';
     }
+
 
 }
