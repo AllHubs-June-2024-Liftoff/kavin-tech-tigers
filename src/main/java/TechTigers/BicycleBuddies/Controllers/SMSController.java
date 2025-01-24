@@ -1,15 +1,15 @@
 package TechTigers.BicycleBuddies.Controllers;
 
 import TechTigers.BicycleBuddies.data.UserRepository;
-import TechTigers.BicycleBuddies.models.SMSSendRequest;
 //import TechTigers.BicycleBuddies.service.SMSService;
 import TechTigers.BicycleBuddies.models.User;
 import TechTigers.BicycleBuddies.models.dto.RegisterFormDTO;
-import TechTigers.BicycleBuddies.models.dto.SMSVerificaitonFormDTO;
-import TechTigers.BicycleBuddies.models.dto.VerifyFormDTO;
+import TechTigers.BicycleBuddies.models.dto.EmailVerificationFormDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -25,7 +25,7 @@ import java.util.Optional;
 import static TechTigers.BicycleBuddies.models.User.generateToken;
 
 @Controller
-@RequestMapping("sms-verification")
+@RequestMapping("email-verification")
 public class SMSController {
 
     @Autowired
@@ -55,37 +55,44 @@ public class SMSController {
         session.setAttribute(userSessionKey, user.getId());
     }
 
+    private final JavaMailSender mailSender;
+
+    public SMSController(JavaMailSender mailSender){
+        this.mailSender = mailSender;
+    }
+
     @GetMapping("")
     public String sendSMS(HttpServletRequest request){
 
         User user = getUserFromSession(request.getSession());
-        user.setSmsVerificationCode(generateToken());
+        String userEmail = user.getEmail();
+        user.setEmailVerificationCode(generateToken());
+        int userVerifyCode = user.getEmailVerificationCode();
 
-        final String ACCOUNT_SID = System.getenv("twilio_account_sid");
-        final String AUTH_TOKEN = System.getenv("twilio_auth_token");
-        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 
-        //First phone number is the TO the second phone number is the FROM
-        Message message = Message.creator(new com.twilio.type.PhoneNumber("+16363687378"),
-                        new com.twilio.type.PhoneNumber("+16363687378"),
-                        "Your login code is " + user.getSmsVerificationCode())
-                        .create();
-//        return message.getBody();
-        return "redirect:/sms-verification/sent";
+        SimpleMailMessage message = new SimpleMailMessage();
 
-//        sendRequest.setSmsMessage("Your login code is " + generateToken());
-//        sendRequest.setDestinationSMSNumber("+16363687378");
-//        return smsService.sendSMS(sendRequest.getDestinationSMSNumber(), sendRequest.getSmsMessage());
+        message.setFrom("bicyclebuddies8080@gmail.com");
+        //Message may be sent to spam folder
+        message.setTo(userEmail);
+        message.setSubject("Login Code from Bicycle Buddies");
+        message.setText("Your login code is " + userVerifyCode);
+
+        mailSender.send(message);
+
+        return "redirect:/email/verification-email-sent";
+
+//
     }
 
     @GetMapping("sent")
     public String displayVerifyForm(Model model){
-        model.addAttribute(new SMSVerificaitonFormDTO());
+        model.addAttribute(new EmailVerificationFormDTO());
         return "sms-verification/sent";
     }
 
     @PostMapping("sent")
-    public String processVerifyForm(@ModelAttribute @Valid SMSVerificaitonFormDTO smsVerificaitonFormDTO,
+    public String processVerifyForm(@ModelAttribute @Valid EmailVerificationFormDTO emailVerificaitonFormDTO,
                                     Errors errors, HttpServletRequest request,
                                     Model model, RegisterFormDTO registerFormDTO){
 
@@ -94,10 +101,10 @@ public class SMSController {
         }
 
         User user = getUserFromSession(request.getSession());
-        int userSubmittedSMSVerification = smsVerificaitonFormDTO.getUserSubmittedSMSVerification();
-        int userGivenSMSVerification = user.getSmsVerificationCode();
+        int userSubmittedEmailVerification = emailVerificaitonFormDTO.getUserSubmittedEmailVerification();
+        int userGivenEmailVerification = user.getEmailVerificationCode();
 
-        if(userGivenSMSVerification != userSubmittedSMSVerification){
+        if(userGivenEmailVerification != userSubmittedEmailVerification){
             errors.rejectValue("userSubmittedSMSVerification", "userSubmittedSMSVerification.incorrect", "Verification code does not match");
             return "email/verification-email-sent";
         }else{
