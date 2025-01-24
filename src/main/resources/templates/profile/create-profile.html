@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/" xmlns="http://www.w3.org/1999/html">
+<head th:replace="~{fragments :: head}">
+    <meta charset="UTF=8"/>
+    <title th:text="${title}"></title>
+</head>
+<body>
+<div th:replace="~{fragments :: navbar}"></div>
+<div class="container text-center py-5">
+    <div class="row">
+        <h1 class="display-5" th:text="${title}"></h1>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            <div class="mb-3 text-center">
+                <h4>Change Profile Image</h4>
+                <img src="https://picsum.photos/200" id="profile-image" />
+                <div class="mb-3">
+                    <label for="formFile" class="form-label">Choose your profile picture:</label>
+                    <form method ="post" enctype="multipart/form-data">
+                        <input type="file" class="form-control" id="formFile" accept=".jpg, .jpeg, .png"/><br>
+                        <button type="button" class="btn btn-success">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+<div class="col-8 text-bg-light p-3">
+    <h4>Add Profile Information</h4>
+    <form th:action="@{/profile/create-profile}" method="post" th:object="${user}">
+        <div class="mb-3">
+            <label for="user-name">Username:</label>
+            <input type="text" id="user-name" name="user-name" th:field="*{userName}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="display-name">Name:</label>
+            <input type="text" id="display-name" name="displayName" th:field="*{displayName}" class="form-control">
+            </div>
+        <div class="mb-3">
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" th:field="*{location}" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="bio">Bio:</label>
+            <textarea id="bio" name="bio" th:field="*{bio}" class="form-control"></textarea>
+            </div>
+        <div class="mb-3">
+            <button type="submit" class="btn btn-success">Create Profile</button>
+        </div>
+    </form>
+</div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,46 +1,41 @@
 package TechTigers.BicycleBuddies.service;
 
-//@Service
+
+import TechTigers.BicycleBuddies.models.Ride;
+import TechTigers.BicycleBuddies.models.data.RideRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
 public class RideService {
-    /**
-     * private final RideRepository rideRepository;
-     *     private final RideRepository rideRepository;
-     *
-     *     @Autowired
-     *     public RideService(RideRepository rideRepository) {
-     *         this.rideRepository = rideRepository;
-     *     }
-     *
-     *     public List<Ride> getAllRides(){
-     *         return (List<Ride>) rideRepository.findAll();
-     *     }
-     *
-     *     public Optional<Ride> getRideById(int id){
-     *         if(!rideRepository.existsById(id)) {
-     *             throw new RuntimeException("Ride with ID " +id+ " doesn't exist.");
-     *         }
-     *         return rideRepository.findById(id);
-     *     }
-     *
-     *     public User saveRide(Ride ride) {
-     *         return rideRepository.save(ride);
-     *     }
-     *
-     *     public void deleteRide(int id) {
-     *         if (!rideRepository.existsById(id)) {
-     *         throw new RuntimeException("Ride with ID "+ id + "doesn't exist.");
-     *         }
-     *         rideRepository.deleteById(id);
-     *     }
-     *
-     *     public User updateRide(int id, User updatedRide){
-     *         ride existingRide = rideRepository.findById(id)
-     *                 .orElseThrow(()-> new RuntimeException("Ride with ID "+ id +" does not exist."));
-     *         existingRide.setDate(updatedRide.getDate());
-     *         existingRide.setDistance(updatedRide.getDistance());
-     *         existingRide.setDuration(updatedRide.getDuration());
-     *         existingRide.setDescription(updatedRide.getDescription());
-     *         return rideRepository.save(existingRide);
-     *     }
-     */
+
+    @Autowired
+    private RideRepository rideRepository;
+
+    public List<Ride> getAllRides() {
+        return rideRepository.findAll();
+    }
+
+    public void saveRide(Ride ride) {
+        rideRepository.save(ride);
+    }
+
+    public Ride getRideById(Long id) {
+        return rideRepository.findById(id).orElse(null);
+    }
+
+    public void deleteRide(Long id) {
+        rideRepository.deleteById(id);
+    }
+
+    // New method to cancel a ride
+    public void cancelRide(Long id) {
+        Ride ride = rideRepository.findById(id).orElse(null);
+        if (ride != null) {
+            ride.setStatus("canceled"); // Mark as "canceled"
+            rideRepository.save(ride); // Save the updated ride
+        }
+    }
 }

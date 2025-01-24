@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
@@ -41,14 +42,12 @@ public class User extends AbstractEntity{
 //    private Image bioPicture;  // not sure if this is the right datatype found in Java Documentation https://docs.oracle.com/javase/8/docs/api/java/awt/Image.html
     @OneToMany(mappedBy = "author", cascade= CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
-//    private MilesTracker tracker;
-//    private final List<User> friendList = new ArrayList<>();
 
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     public User () {}
 
-    public User(String userName, String fullName, String email, String password, String location, String displayName, String bio, Image bioPicture, Comment comments, MilesTracker tracker) {
+    public User(String userName, String fullName, String email, String password, String location, String displayName, String bio, Image bioPicture) {
         this.userName = userName;
         this.fullName = fullName;
         this.email = email;
@@ -57,19 +56,18 @@ public class User extends AbstractEntity{
         this.displayName = displayName;
         this.bio = bio;
 //        this.bioPicture = bioPicture;
-//        this.comments = comments;
-//        this.tracker = tracker;
     }
 
-//    public List<User> getFriendList() {
-//        return friendList;
-//    }
 
 
     public User(String userName, String password, String email) {
         this.userName = userName;
         this.pwHash = encoder.encode(password);
         this.email = email;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getUserName() {
@@ -117,25 +115,6 @@ public class User extends AbstractEntity{
 //        return bioPicture;
 //    }
 
-//    public void setBioPicture(Image bioPicture) {
-//        this.bioPicture = bioPicture;
-//    }
-
-//    public Comment getComments() {
-//        return comments;
-//    }
-//
-//    public void setComments(Comment comments) {
-//        this.comments = comments;
-//    }
-//
-//    public MilesTracker getTracker() {
-//        return tracker;
-//    }
-//
-//    public void setTracker(MilesTracker tracker) {
-//        this.tracker = tracker;
-//    }
 
     @Override
     public String toString() {
@@ -148,9 +127,6 @@ public class User extends AbstractEntity{
                 ", displayName='" + displayName + '\'' +
                 ", bio='" + bio + '\'' +
 //                ", bioPicture=" + bioPicture +
-//                ", comments=" + comments +
-//                ", tracker=" + tracker +
-//                ", friendList=" + friendList +
                 '}';
     }
 
