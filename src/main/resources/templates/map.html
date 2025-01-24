@@ -17,8 +17,8 @@
 <h1>Google Maps Widget</h1>
 <div id="map" style="height: 400px; width: 50%"></div>
 <form id="rideSubmitForm" th:action="@{map}" method="post">
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name"/>
+    <label for="userNameRideOwner">Name:</label>
+    <input type="text" id="userNameRideOwner" name="userNameRideOwner"/>
     <input type="hidden" id="latitude" name="latitude"/>
     <input type="hidden" id="longitude" name="longitude"/>
     <input type="datetime-local" id="date" name="date"/>
@@ -36,7 +36,7 @@
         <tr th:each="ride : ${rides}">
             <td th:text="${ride.latitude}"></td>
             <td th:text="${ride.longitude}"></td>
-            <td th:text="${ride.name}"></td>
+            <td th:text="${ride.userNameRideOwner}"></td>
             <td th:text="${ride.date}"></td>
         </tr>
     </table>
@@ -83,7 +83,7 @@ async function initMap() {
         const marker = new AdvancedMarkerElement({
                     position: { lat: ride.latitude, lng: ride.longitude },
                     map: map,
-                    title: ride.name,
+                    title: ride.userNameRideOwner,
                     })
             });
 
