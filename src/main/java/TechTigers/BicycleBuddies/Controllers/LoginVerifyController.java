@@ -5,6 +5,7 @@ import TechTigers.BicycleBuddies.data.UserRepository;
 import TechTigers.BicycleBuddies.models.User;
 import TechTigers.BicycleBuddies.models.dto.RegisterFormDTO;
 import TechTigers.BicycleBuddies.models.dto.EmailVerificationFormDTO;
+import TechTigers.BicycleBuddies.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import com.twilio.Twilio;
-import com.twilio.rest.api.v2010.account.Message;
-
 import javax.validation.Valid;
 
 import java.util.Optional;
@@ -25,14 +23,14 @@ import java.util.Optional;
 import static TechTigers.BicycleBuddies.models.User.generateToken;
 
 @Controller
-@RequestMapping("email-verification")
-public class SMSController {
+@RequestMapping("login-verification")
+public class LoginVerifyController {
 
     @Autowired
     UserRepository userRepository;
 
-    //    @Autowired
-//    SMSService smsService;
+    @Autowired
+    UserService userService;
 
     private static final String userSessionKey = "user";
 
@@ -57,7 +55,7 @@ public class SMSController {
 
     private final JavaMailSender mailSender;
 
-    public SMSController(JavaMailSender mailSender){
+    public LoginVerifyController(JavaMailSender mailSender){
         this.mailSender = mailSender;
     }
 
@@ -80,39 +78,39 @@ public class SMSController {
 
         mailSender.send(message);
 
-        return "redirect:/email/verification-email-sent";
+        return "redirect:/login-verification/login-email-sent";
 
 //
     }
 
-    @GetMapping("sent")
+    @GetMapping("login-email-sent")
     public String displayVerifyForm(Model model){
         model.addAttribute(new EmailVerificationFormDTO());
-        return "sms-verification/sent";
+        return "login-verification/login-email-sent";
     }
 
-    @PostMapping("sent")
-    public String processVerifyForm(@ModelAttribute @Valid EmailVerificationFormDTO emailVerificaitonFormDTO,
+    @PostMapping("login-email-sent")
+    public String processVerifyForm(@ModelAttribute @Valid EmailVerificationFormDTO emailVerificationFormDTO,
                                     Errors errors, HttpServletRequest request,
                                     Model model, RegisterFormDTO registerFormDTO){
 
         if(errors.hasErrors()){
-            return "sms-verification/sent";
+            return "login-verification/login-email-sent";
         }
 
         User user = getUserFromSession(request.getSession());
-        int userSubmittedEmailVerification = emailVerificaitonFormDTO.getUserSubmittedEmailVerification();
+        int userSubmittedEmailVerification = emailVerificationFormDTO.getUserSubmittedEmailVerification();
         int userGivenEmailVerification = user.getEmailVerificationCode();
 
         if(userGivenEmailVerification != userSubmittedEmailVerification){
             errors.rejectValue("userSubmittedSMSVerification", "userSubmittedSMSVerification.incorrect", "Verification code does not match");
-            return "email/verification-email-sent";
-        }else{
-            user.setVerified(true);
-            userRepository.save(user);
+            return "login-verification/login-email-sent";
         }
 
-        return "redirect:/login";
+        setUserInSession(request.getSession(), user);
+//        int profileId = user.getId();
+//        userService.getProfileById(profileId);
+        return "redirect:/profile";
     }
 
 }
