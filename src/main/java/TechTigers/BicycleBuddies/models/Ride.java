@@ -1,70 +1,107 @@
 package TechTigers.BicycleBuddies.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Transient;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import jakarta.persistence.*;
+import java.time.LocalDate;
 
 @Entity
-public class Ride extends AbstractEntity{
-    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-    private String name;
+public class Ride extends AbstractEntity {
 
-    private double latitude;
+    @Column(nullable = false)
+    private LocalDate date; // Date of the ride
 
-    private double longitude;
+    @Column(nullable = false)
+    private double distance; // Distance covered during the ride in miles or kilometers
 
-    @Transient
-    private String date;
+    @Column(nullable = false)
+    private double duration; // Duration of the ride in hours
 
-    private long time;
+    @Column(length = 500)
+    private String description; // Optional description of the ride
 
+    private String route; // The route or location where the ride took place
+
+    @Column(nullable = false)
+    private String status = "scheduled"; // Default status (could be "scheduled", "completed", "canceled")
+
+    // Default constructor (required by JPA)
     public Ride() {
     }
 
-    public String getName() {
-        return name;
+    // Constructor for convenience
+    public Ride(LocalDate date, double distance, double duration, String description, String route) {
+        this.date = date;
+        this.distance = distance;
+        this.duration = duration;
+        this.description = description;
+        this.route = route;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    // Getters and Setters
+    public LocalDate getDate() {
+        return date;
     }
 
-    public double getLatitude() {
-        return latitude;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
+    public double getDistance() {
+        return distance;
     }
 
-    public double getLongitude() {
-        return longitude;
+    public void setDistance(double distance) {
+        this.distance = distance;
     }
 
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
+    public double getDuration() {
+        return duration;
     }
 
-    public long getTime() {
-        return time;
+    public void setDuration(double duration) {
+        this.duration = duration;
     }
 
-    public void setTime(long time) {
-        this.time = time;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDate(String date) {
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-        try {
-            this.time = sdf.parse(date).getTime();
-        } catch(Exception e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
+    public void setDescription(String description) {
+        this.description = description;
     }
-    public String getDate() {
-        return sdf.format(new Date(time));
+
+    public String getRoute() {
+        return route;
+    }
+
+    public void setRoute(String route) {
+        this.route = route;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    // Optional: Override toString for debugging or logging purposes
+    @Override
+    public String toString() {
+        return "Ride{" +
+                "id=" + this.getId() +
+                ", date=" + date +
+                ", distance=" + distance +
+                ", duration=" + duration +
+                ", description='" + description + '\'' +
+                ", route='" + route + '\'' +
+                ", status='" + status + '\'' +
+                '}';
+    }
+
+    // Method to cancel the ride (update status)
+    public void cancelRide() {
+        this.status = "canceled"; // Set status to canceled
+
     }
 }
