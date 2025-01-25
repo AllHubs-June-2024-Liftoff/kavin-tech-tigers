@@ -57,6 +57,7 @@
                         <p class="card-text mt-2" th:text="${comment.content}"></p>
                         <div class="d-flex justify-content-end">
                             <form th:action="@{/comments/delete/{id}(id=${comment.id})}" method="post">
+                                <input type="hidden" name="_method" value="delete" />
                                 <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" class="text-danger">
                                     <small>Delete Comment</small>
                                 </a>

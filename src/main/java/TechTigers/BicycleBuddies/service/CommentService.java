@@ -36,12 +36,7 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
-    public void deleteComment(int id) {
-        if (!commentRepository.existsById(id)) {
-            throw new RuntimeException("Comment with ID "+ id + "doesn't exist.");
-        }
-        commentRepository.deleteById(id);
-    }
+    public void deleteComment(int id) { commentRepository.deleteById(id);}
 
     public Comment updateComment(int id, Comment updatedComment){
         Comment existingComment = commentRepository.findById(id)

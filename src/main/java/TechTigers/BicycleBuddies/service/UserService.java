@@ -33,15 +33,9 @@ public class UserService {
         return userRepository.findByUserName(userName);
     }
 
-    public User saveProfile(User user) {
-        return userRepository.save(user);}
+    public User saveProfile(User user) {return userRepository.save(user);}
 
-    public void deleteProfile(int id) {
-        if (!userRepository.existsById(id)) {
-        throw new RuntimeException("Profile with ID "+ id + "doesn't exist.");
-        }
-        userRepository.deleteById(id);
-    }
+    public void deleteProfile(int id) { userRepository.deleteById(id);}
 
     public User updateProfile(int id, User updatedUser){
         User existingUser = userRepository.findById(id)

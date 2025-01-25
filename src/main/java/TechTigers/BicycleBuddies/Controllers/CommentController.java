@@ -32,7 +32,7 @@ public class CommentController {
     @GetMapping("/all-comments")
     public String viewAllComments(Model model){
         Ride ride = rideService.getFirstRide();
-        if(ride==null){
+        if(ride == null){
             model.addAttribute("error", "No rides found");
         }
         List<Comment> comments = commentService.getCommentsByRideId(ride.getId());
@@ -70,7 +70,7 @@ public String showAddCommentForm(@PathVariable Long rideId, Model model){
 }
 
 @PostMapping("/like/{id}")
-public String likeComment(@PathVariable int id) {
+public String likeComment(@PathVariable int id, Model model) {
         Optional<Comment> optionalComment = commentService.getCommentById(id);
 
         if (optionalComment.isPresent()) {
@@ -78,7 +78,7 @@ public String likeComment(@PathVariable int id) {
             comment.addLike();
             commentService.saveComment(comment);
         } else {
-            throw new RuntimeException("Comment with ID " + id + " not found");
+            model.addAttribute("error", "Comment not found.");
         }
          return "redirect:/comments/all-comments";
     }
@@ -88,7 +88,7 @@ public String likeComment(@PathVariable int id) {
         return "redirect:/comments/add-comments/" + rideId;
     }
 
-    @PostMapping("/delete/{commentId}")
+    @DeleteMapping("/delete/{commentId}")
     public String deleteProfile(@PathVariable int commentId) {
         commentService.deleteComment(commentId);
         return "redirect:/comments/all-comments";

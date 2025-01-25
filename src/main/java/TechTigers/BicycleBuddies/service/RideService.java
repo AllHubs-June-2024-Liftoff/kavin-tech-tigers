@@ -38,8 +38,6 @@ public class RideService {
             rideRepository.save(ride); // Save the updated ride
         }
     }
-  public Ride getFirstRide(){
-        return rideRepository.findAll().stream().findFirst().orElse(null);
-  }
+  public Ride getFirstRide(){ return rideRepository.findAll().stream().findFirst().orElse(null);}
 }
 
