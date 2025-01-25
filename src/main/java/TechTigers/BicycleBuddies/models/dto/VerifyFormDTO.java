@@ -1,5 +1,6 @@
 package TechTigers.BicycleBuddies.models.dto;
 
+//used for registering account for first time
 public class VerifyFormDTO {
 
     private int userSubmittedVerification;

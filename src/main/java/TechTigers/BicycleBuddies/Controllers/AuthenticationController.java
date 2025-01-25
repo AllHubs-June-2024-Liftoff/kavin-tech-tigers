@@ -128,7 +128,7 @@ public class AuthenticationController {
 
         setUserInSession(request.getSession(), theUser);
 
-        return "redirect:/profile";
+        return "redirect:/login-verification";
     }
 
     @GetMapping("/logout")
