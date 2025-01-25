@@ -1,9 +1,9 @@
 package TechTigers.BicycleBuddies.service;
 
 import TechTigers.BicycleBuddies.data.CommentRepository;
-import TechTigers.BicycleBuddies.data.UserRepository;
 import TechTigers.BicycleBuddies.models.Comment;
-import TechTigers.BicycleBuddies.models.User;
+import TechTigers.BicycleBuddies.models.Ride;
+import TechTigers.BicycleBuddies.data.RideRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +13,12 @@ import java.util.Optional;
 @Service
 public class CommentService {
     private final CommentRepository commentRepository;
-    private final UserRepository userRepository;
+    private final RideRepository rideRepository;
 
     @Autowired
-    public CommentService(CommentRepository commentRepository, UserRepository userRepository) {
+    public CommentService(CommentRepository commentRepository, RideRepository rideRepository) {
         this.commentRepository= commentRepository;
-        this.userRepository = userRepository;
+        this.rideRepository= rideRepository;
     }
 
     public List<Comment> getAllComments(){
@@ -53,8 +53,8 @@ public class CommentService {
         return commentRepository.save(existingComment);
     }
 
-    public List<Comment>getCommentsByProfileId(int id){
-        User user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("Profile not found.") );
-        return commentRepository.findByUser(user);
+    public List<Comment>getCommentsByRideId(Long id){
+        Optional<Ride> ride = rideRepository.findById((id) );
+        return commentRepository.findByRide(ride.orElse(null));
     }
 }

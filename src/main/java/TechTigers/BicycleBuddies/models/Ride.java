@@ -2,6 +2,8 @@ package TechTigers.BicycleBuddies.models;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Ride extends AbstractEntity {
@@ -22,6 +24,10 @@ public class Ride extends AbstractEntity {
 
     @Column(nullable = false)
     private String status = "scheduled"; // Default status (could be "scheduled", "completed", "canceled")
+
+    @OneToMany(mappedBy= "ride")
+    private List<Comment> comments = new ArrayList<>();
+
 
     // Default constructor (required by JPA)
     public Ride() {
@@ -83,6 +89,14 @@ public class Ride extends AbstractEntity {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
     // Optional: Override toString for debugging or logging purposes

@@ -49,3 +49,11 @@ border-radius: 50%;
     top:30px;
 }
 
+.heart-link {
+    color: #ff69b4;
+    text-decoration: none
+}
+
+.heart-link:hover {
+    color: #ff1493;
+}

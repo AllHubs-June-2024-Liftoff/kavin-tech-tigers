@@ -38,8 +38,6 @@ public class ProfileController {
         Optional<User> optionalUser = userService.getProfileById(profileId);
         if (optionalUser.isPresent()) {
             User user = (User) optionalUser.get();
-            List<Comment> comments = commentService.getCommentsByProfileId(profileId);
-            model.addAttribute("comments",comments);
             model.addAttribute("user", user);
             model.addAttribute("userName", user.getUserName());
             model.addAttribute("title", user.getDisplayName() +"'s profile");
