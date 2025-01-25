@@ -17,8 +17,8 @@
 <h1>Google Maps Widget</h1>
 <div id="map" style="height: 400px; width: 50%"></div>
 <form id="rideSubmitForm" th:action="@{map}" method="post">
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name"/>
+    <label for="userNameRideOwner">Name:</label>
+    <input type="text" id="userNameRideOwner" name="userNameRideOwner"/>
     <input type="hidden" id="latitude" name="latitude"/>
     <input type="hidden" id="longitude" name="longitude"/>
     <input type="datetime-local" id="date" name="date"/>
@@ -28,19 +28,60 @@
 <div id="rideTable" th:if="${ not#lists.isEmpty(rides)}">
     <table>
         <tr>
-            <th>Latitude</th>
-            <th>Longitude</th>
-            <th>Name</th>
+<!--            <th>Latitude</th>-->
+<!--            <th>Longitude</th>-->
+<!--            <th>Name</th>-->
             <th>Date</th>
         </tr>
         <tr th:each="ride : ${rides}">
-            <td th:text="${ride.latitude}"></td>
-            <td th:text="${ride.longitude}"></td>
-            <td th:text="${ride.name}"></td>
+<!--            <td th:text="${ride.latitude}"></td>-->
+<!--            <td th:text="${ride.longitude}"></td>-->
+<!--            <td th:text="${ride.userNameRideOwner}"></td>-->
             <td th:text="${ride.date}"></td>
         </tr>
     </table>
 </div>
+
+<script>
+    (function(d, s, id) {
+        if (d.getElementById(id)) {
+            if (window.__TOMORROW__) {
+                window.__TOMORROW__.renderWidget();
+            }
+            return;
+        }
+        const fjs = d.getElementsByTagName(s)[0];
+        const js = d.createElement(s);
+        js.id = id;
+        js.src = "https://www.tomorrow.io/v1/widget/sdk/sdk.bundle.min.js";
+
+        fjs.parentNode.insertBefore(js, fjs);
+    })(document, 'script', 'tomorrow-sdk');
+</script>
+
+<div class="tomorrow"
+     data-location-id="126928"
+     data-language="EN"
+     data-unit-system="IMPERIAL"
+     data-skin="light"
+     data-widget-type="upcoming"
+     style="padding-bottom:22px;position:relative;"
+>
+    <a
+            href="https://www.tomorrow.io/weather-api/"
+            rel="nofollow noopener noreferrer"
+            target="_blank"
+            style="position: absolute; bottom: 0; transform: translateX(-50%); left: 50%;"
+    >
+        <img
+                alt="Powered by the Tomorrow.io Weather API"
+                src="https://weather-website-client.tomorrow.io/img/powered-by.svg"
+                width="250"
+                height="18"
+        />
+    </a>
+</div>
+
 <script th:inline="javascript">
 
     let map, center = { lat: 38.638132, lng: -90.282402 };
@@ -83,7 +124,7 @@ async function initMap() {
         const marker = new AdvancedMarkerElement({
                     position: { lat: ride.latitude, lng: ride.longitude },
                     map: map,
-                    title: ride.name,
+                    title: ride.userNameRideOwner,
                     })
             });
 

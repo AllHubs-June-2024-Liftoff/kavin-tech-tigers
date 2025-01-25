@@ -78,7 +78,7 @@
 
 <form action="/rides/save" method="post" th:object="${ride}">
   <label for="date">Date:</label>
-  <input type="date" id="date" th:field="*{date}" required><br><br>
+  <input type="datetime-local" id="date" th:field="*{date}" required><br><br>
 
   <label for="distance">Distance:</label>
   <input type="number" id="distance" th:field="*{distance}" step="any" required><br><br>
