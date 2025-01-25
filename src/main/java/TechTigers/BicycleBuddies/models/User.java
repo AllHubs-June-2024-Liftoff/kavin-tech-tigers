@@ -19,12 +19,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class User extends AbstractEntity{
 
     @NotNull
-    @NotBlank
+    @NotBlank(message = "Username is required")
+    @Size(min = 2, max = 20, message = "Username must be between 3 and 15 characters")
     private String userName;
 
     private String fullName;
 
     @NotNull
+    @NotBlank(message = "Email is required")
     @Email
     private String email;
 

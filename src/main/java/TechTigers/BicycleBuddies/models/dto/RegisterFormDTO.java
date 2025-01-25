@@ -7,14 +7,12 @@ import javax.validation.constraints.Size;
 
 public class RegisterFormDTO extends LoginFormDTO {
 
-    @NotNull
-    @NotBlank
+    @NotBlank(message = "Field is required")
     private String verifyPassword;
 
 //    private String displayName;
 //
-    @NotNull
-    @NotBlank(message = "Field may not be left blank")
+    @NotBlank(message = "Field is required")
     @Email(message = "Please enter a valid email")
     private String email;
 

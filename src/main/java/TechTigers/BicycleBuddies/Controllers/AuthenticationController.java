@@ -60,13 +60,17 @@ public class AuthenticationController {
 
         if(errors.hasErrors()){
             model.addAttribute("title", "Register");
+            errors.rejectValue("userName", "userName.error", "${error.message}");
+            errors.rejectValue("email", "email.error", "${error.message}");
+            errors.rejectValue("password", "password.error", "${error.message}");
+            errors.rejectValue("verifyPassword", "VerifyPassword.error", "${error.message}");
             return "register";
         }
 
         User existingUser = userRepository.findByUserName(registerFormDTO.getUserName());
 
         if(existingUser != null){
-            errors.rejectValue("username", "username.alreadyexists", "A user with that username already exists");
+            errors.rejectValue("userName", "username.alreadyexists", "A user with that username already exists");
             model.addAttribute("title", "Register");
             return "register";
         }

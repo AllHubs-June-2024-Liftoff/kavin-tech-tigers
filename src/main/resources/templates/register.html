@@ -13,7 +13,7 @@
         <label>Username:
             <input th:field="${registerFormDTO.userName}" />
         </label>
-        <p th:errors="${registerFormDTO.userName}"></p>
+        <p th:errors="${registerFormDTO.userName}" style="color:red"></p>
     </div>
 <!--    <div>-->
 <!--        <label>Display Name:-->
@@ -24,19 +24,19 @@
         <label>Email:
             <input th:field="${registerFormDTO.email}" />
         </label>
-        <p th:errors="${registerFormDTO.email}"></p>
+        <p th:errors="${registerFormDTO.email}" style="color:red"></p>
     </div>
     <div>
         <label>Password:
             <input th:field="${registerFormDTO.password}" type="password" />
         </label>
-        <p th:errors="${registerFormDTO.password}"></p>
+        <p th:errors="${registerFormDTO.password}" style="color:red"></p>
     </div>
     <div>
         <label>Verify Password:
             <input th:field="${registerFormDTO.verifyPassword}" type="password" />
         </label>
-        <p th:errors="${registerFormDTO.verifyPassword}"></p>
+        <p th:errors="${registerFormDTO.verifyPassword}" style="color:red"></p>
     </div>
 <!--    <div>-->
 <!--        <label>Profile Picture:-->
