@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/" xmlns="http://www.w3.org/1999/html">
+<head th:replace="~{fragments :: head}">
+    <title th:text="${title}"></title>
+</head>
+<!--TODO: Add CRUD functionality and CSS-->
+<body>
+<div th:replace="~{fragments :: navbar}"></div>
+<div class="container text-center py-5">
+    <div class="row">
+        <h1 class="display-5" th:text="${title}"></h1>
+    </div>
+</div>
+<div class="container py-5">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item" th:each="user : ${profiles}">
+            <a th:href="@{/profile/profile/{id}(id=${user.id})}" th:text="${user.displayName}">User Display Name</a>
+            - <span th:text="${user.location}">Location</span>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>

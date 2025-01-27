@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="~{fragments :: head}"></head>
+
+<script th:inline="javascript">
+    let ApiKey = [[${mapsApi.ConfigValue}]];
+    (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+      key: ApiKey,
+      v: "weekly",
+      // Use the 'v' parameter to indicate the version to use (weekly, beta, alpha, etc.).
+      // Add other bootstrap parameters as needed, using camel case.
+    });
+</script>
+
+<body>
+<div th:replace="~{fragments :: navbar}"></div>
+<h1>Google Maps Widget</h1>
+<div id="map" style="height: 400px; width: 50%"></div>
+<form id="rideSubmitForm" th:action="@{map}" method="post">
+    <label for="userNameRideOwner">Name:</label>
+    <input type="text" id="userNameRideOwner" name="userNameRideOwner"/>
+    <input type="hidden" id="latitude" name="latitude"/>
+    <input type="hidden" id="longitude" name="longitude"/>
+    <input type="datetime-local" id="date" name="date"/>
+
+    <button type="submit">Submit</button>
+</form>
+<div id="rideTable" th:if="${ not#lists.isEmpty(rides)}">
+    <table>
+        <tr>
+<!--            <th>Latitude</th>-->
+<!--            <th>Longitude</th>-->
+<!--            <th>Name</th>-->
+            <th>Date</th>
+        </tr>
+        <tr th:each="ride : ${rides}">
+<!--            <td th:text="${ride.latitude}"></td>-->
+<!--            <td th:text="${ride.longitude}"></td>-->
+<!--            <td th:text="${ride.userNameRideOwner}"></td>-->
+            <td th:text="${ride.date}"></td>
+        </tr>
+    </table>
+</div>
+
+<script>
+    (function(d, s, id) {
+        if (d.getElementById(id)) {
+            if (window.__TOMORROW__) {
+                window.__TOMORROW__.renderWidget();
+            }
+            return;
+        }
+        const fjs = d.getElementsByTagName(s)[0];
+        const js = d.createElement(s);
+        js.id = id;
+        js.src = "https://www.tomorrow.io/v1/widget/sdk/sdk.bundle.min.js";
+
+        fjs.parentNode.insertBefore(js, fjs);
+    })(document, 'script', 'tomorrow-sdk');
+</script>
+
+<div class="tomorrow"
+     data-location-id="126928"
+     data-language="EN"
+     data-unit-system="IMPERIAL"
+     data-skin="light"
+     data-widget-type="upcoming"
+     style="padding-bottom:22px;position:relative;"
+>
+    <a
+            href="https://www.tomorrow.io/weather-api/"
+            rel="nofollow noopener noreferrer"
+            target="_blank"
+            style="position: absolute; bottom: 0; transform: translateX(-50%); left: 50%;"
+    >
+        <img
+                alt="Powered by the Tomorrow.io Weather API"
+                src="https://weather-website-client.tomorrow.io/img/powered-by.svg"
+                width="250"
+                height="18"
+        />
+    </a>
+</div>
+
+<script th:inline="javascript">
+
+    let map, center = { lat: 38.638132, lng: -90.282402 };
+    let mapId = [[${mapId.ConfigValue}]];
+
+async function initMap() {
+    const { Map, InfoWindow } = await google.maps.importLibrary("maps");
+    const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+    const rides = [[${rides}]];
+
+
+    map = new Map(document.getElementById("map"), {
+        center: center,
+        zoom: 10,
+        mapId: mapId,
+    });
+
+    const bikeLayer = new google.maps.BicyclingLayer();
+    bikeLayer.setMap(map);
+
+    const infoWindow = new InfoWindow();
+
+    const activeRideSelector = new google.maps.marker.PinElement({
+        scale: 1.5,
+        background: "#36f136",
+        borderColor: "#000000"
+    });
+
+    const pinRideSelector = new AdvancedMarkerElement({
+        map,
+        position: center,
+        title: "Let's Bike!",
+        gmpDraggable: true,
+        content: activeRideSelector.element,
+    });
+
+
+
+    rides.forEach(ride => {
+        const marker = new AdvancedMarkerElement({
+                    position: { lat: ride.latitude, lng: ride.longitude },
+                    map: map,
+                    title: ride.userNameRideOwner,
+                    })
+            });
+
+    pinRideSelector.addListener("dragend", (event) => {
+        const position = pinRideSelector.position;
+        infoWindow.close();
+        infoWindow.setContent(`Select Where to Meet!: ${position.lat}, ${position.lng}`);
+        infoWindow.open(pinRideSelector.map, pinRideSelector);
+        document.getElementById("latitude").value = position.lat;
+        document.getElementById("longitude").value = position.lng;
+    });
+
+}
+
+window.onload = initMap;
+
+</script>
+
+</body>
+</html>

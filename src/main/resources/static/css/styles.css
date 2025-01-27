@@ -1,4 +1,4 @@
-.navbar {
+.navbar1 {
     ul {
         list-style-type: none;
         margin: 0;
@@ -22,21 +22,30 @@
     }
 }
 
-.profile-picture {
-    border-radius: 120px;
-    margin: 25px;
+th, td {
+  padding-left: 10px;
+  padding-right: 70px;
 }
 
-.home-element {
-    display: inline-block;
-    text-align:left;
-    background-color: green;
-    border-radius: 15px;
-    padding: 10px 40px
+#profile-image{
+border-radius: 50%;
 }
 
-.activity-feed {
-    background-color: honeydew;
-    margin: 25px;
-    padding: 25px;
+
+
+.friend-list-container{
+
 }
+
+.friend-container{
+    margin: 20px;
+    position:relative;
+    height: 300px;
+}
+
+.add-friend-button{
+    position:absolute;
+    right:70px;
+    top:30px;
+}
+
