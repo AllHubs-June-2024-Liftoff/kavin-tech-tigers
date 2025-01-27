@@ -2,14 +2,15 @@ package TechTigers.BicycleBuddies.models;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Entity
 public class Ride extends AbstractEntity {
 
+    private String userNameRideOwner;
+
     @Column(nullable = false)
-    private LocalDate date; // Date of the ride
+    private LocalDateTime date; // Date of the ride
 
     @Column(nullable = false)
     private double distance; // Distance covered during the ride in miles or kilometers
@@ -25,29 +26,31 @@ public class Ride extends AbstractEntity {
     @Column(nullable = false)
     private String status = "scheduled"; // Default status (could be "scheduled", "completed", "canceled")
 
-    @OneToMany(mappedBy= "ride")
-    private List<Comment> comments = new ArrayList<>();
-
+    private double latitude;
+    private double longitude;
 
     // Default constructor (required by JPA)
     public Ride() {
     }
 
-    // Constructor for convenience
-    public Ride(LocalDate date, double distance, double duration, String description, String route) {
+    public Ride(String userNameRideOwner, LocalDateTime date, double distance, double duration, String description, String route, String status, double latitude, double longitude) {
+        this.userNameRideOwner = userNameRideOwner;
         this.date = date;
         this.distance = distance;
         this.duration = duration;
         this.description = description;
         this.route = route;
+        this.status = status;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     // Getters and Setters
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
@@ -91,25 +94,42 @@ public class Ride extends AbstractEntity {
         this.status = status;
     }
 
-    public List<Comment> getComments() {
-        return comments;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
-    // Optional: Override toString for debugging or logging purposes
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getUserNameRideOwner() {
+        return userNameRideOwner;
+    }
+
+    public void setUserNameRideOwner(String userNameRideOwner) {
+        this.userNameRideOwner = userNameRideOwner;
+    }
+
     @Override
     public String toString() {
         return "Ride{" +
-                "id=" + this.getId() +
+                "userNameRideOwner='" + userNameRideOwner + '\'' +
                 ", date=" + date +
                 ", distance=" + distance +
                 ", duration=" + duration +
                 ", description='" + description + '\'' +
                 ", route='" + route + '\'' +
                 ", status='" + status + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
                 '}';
     }
 
