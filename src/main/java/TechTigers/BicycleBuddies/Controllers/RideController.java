@@ -1,5 +1,6 @@
 package TechTigers.BicycleBuddies.Controllers;
 
+import TechTigers.BicycleBuddies.data.ConfigRepository;
 import TechTigers.BicycleBuddies.models.Ride;
 import TechTigers.BicycleBuddies.service.RideService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,14 @@ public class RideController {
     @Autowired
     private RideService rideService;
 
+    @Autowired
+    private ConfigRepository configRepository;
+
     // View all rides
     @GetMapping
     public String getAllRides(Model model) {
+        model.addAttribute("mapsApi", configRepository.findById(1).get());
+        model.addAttribute("mapId", configRepository.findById(2).get());
         model.addAttribute("rides", rideService.getAllRides());  // Get all rides
         return "rides";  // Refers to rides.html
     }
@@ -24,6 +30,9 @@ public class RideController {
     // Show form to create a new ride
     @GetMapping("/new")
     public String showNewRideForm(Model model) {
+        model.addAttribute("mapsApi", configRepository.findById(1).get());
+        model.addAttribute("mapId", configRepository.findById(2).get());
+        model.addAttribute("rides", rideService.getAllRides());
         model.addAttribute("ride", new Ride());  // New ride object for the form
         return "rideForm";  // Refers to rideForm.html for adding a new ride
     }
