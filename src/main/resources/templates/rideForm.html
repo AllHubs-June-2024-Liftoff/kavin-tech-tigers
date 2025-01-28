@@ -161,16 +161,6 @@
         content: activeRideSelector.element,
     });
 
-
-
-    rides.forEach(ride => {
-        const marker = new AdvancedMarkerElement({
-                    position: { lat: ride.latitude, lng: ride.longitude },
-                    map: map,
-                    title: ride.userNameRideOwner,
-                    })
-            });
-
     pinRideSelector.addListener("dragend", (event) => {
         const position = pinRideSelector.position;
         infoWindow.close();
