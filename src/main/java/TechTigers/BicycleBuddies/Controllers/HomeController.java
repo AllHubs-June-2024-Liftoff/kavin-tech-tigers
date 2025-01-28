@@ -16,33 +16,20 @@ public class HomeController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    AuthenticationController authenticationController;
+
     private static final String userSessionKey = "user";
-
-    public User getUserFromSession(HttpSession session){
-        Integer userId = (Integer) session.getAttribute(userSessionKey);
-        if (userId == null){
-            return null;
-        }
-
-        Optional<User> user = userRepository.findById(userId);
-
-        if(user.isEmpty()){
-            return null;
-        }
-
-        return user.get();
-    }
-
-    private static void setUserInSession(HttpSession session, User user){
-        session.setAttribute(userSessionKey, user.getId());
-    }
 
     @GetMapping("")
     public String index(HttpServletRequest request){
 
-        if(request.getSession() == null){
+        HttpSession session = request.getSession();
+        User user = authenticationController.getUserFromSession(session);
+
+        if(user == null){
             return "login";
-        } else if (getUserFromSession(request.getSession())) {
+        } else {
             return "home";
         }
     }
