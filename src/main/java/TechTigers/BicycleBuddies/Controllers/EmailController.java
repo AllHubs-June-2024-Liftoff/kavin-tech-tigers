@@ -106,8 +106,9 @@ public class EmailController {
             setUserInSession(request.getSession(), user);
         }
 
-//        return "redirect:/login";
-        return "redirect:/profile/profile";
+        return "redirect:/login";
+        //TODO:Redirect user to Edit Profile after verifying account
+//        return "redirect:/profile/profile";
     }
 
 }
