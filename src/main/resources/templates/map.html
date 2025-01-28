@@ -157,22 +157,22 @@ window.onload = initMap;
 <!--<script th:src="@{/js/MapScript.js}"></script>-->
 
 
-<div id="rideTable" th:if="${ not#lists.isEmpty(rides)}">
-    <table>
-        <tr>
-            <!--            <th>Latitude</th>-->
-            <!--            <th>Longitude</th>-->
-            <!--            <th>Name</th>-->
-            <th>Date</th>
-        </tr>
-        <tr th:each="ride : ${rides}">
-            <!--            <td th:text="${ride.latitude}"></td>-->
-            <!--            <td th:text="${ride.longitude}"></td>-->
-            <!--            <td th:text="${ride.userNameRideOwner}"></td>-->
-            <td th:text="${ride.date}"></td>
-        </tr>
-    </table>
-</div>
+<!--<div id="rideTable" th:if="${ not#lists.isEmpty(rides)}">-->
+<!--    <table>-->
+<!--        <tr>-->
+<!--            &lt;!&ndash;            <th>Latitude</th>&ndash;&gt;-->
+<!--            &lt;!&ndash;            <th>Longitude</th>&ndash;&gt;-->
+<!--            &lt;!&ndash;            <th>Name</th>&ndash;&gt;-->
+<!--            <th>Date</th>-->
+<!--        </tr>-->
+<!--        <tr th:each="ride : ${rides}">-->
+<!--            &lt;!&ndash;            <td th:text="${ride.latitude}"></td>&ndash;&gt;-->
+<!--            &lt;!&ndash;            <td th:text="${ride.longitude}"></td>&ndash;&gt;-->
+<!--            &lt;!&ndash;            <td th:text="${ride.userNameRideOwner}"></td>&ndash;&gt;-->
+<!--            <td th:text="${ride.date}"></td>-->
+<!--        </tr>-->
+<!--    </table>-->
+<!--</div>-->
 
 </body>
 </html>
