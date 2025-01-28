@@ -28,9 +28,9 @@ public class HomeController {
         User user = authenticationController.getUserFromSession(session);
 
         if(user == null){
-            return "login";
+            return "redirect:/login";
         } else {
-            return "home";
+            return "redirect:/home";
         }
     }
 
