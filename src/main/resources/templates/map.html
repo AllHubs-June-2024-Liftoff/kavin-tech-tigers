@@ -2,6 +2,28 @@
 <html xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="~{fragments :: head}"></head>
 
+<style>
+    /* Layout styling */
+    .container {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        height: 100%; /* Optional: ensures the height is responsive */
+    }
+
+    /* Map styling */
+    .map-container {
+        flex: 1; /* Map takes up the remaining width */
+        height: 400px; /* Set the height for the container */
+    }
+
+    /* Weather widget styling */
+    .weather-widget {
+        width: 350px;
+        height: 400px; /* Matches the height of the map */
+        box-sizing: border-box;
+    }
+</style>
 
 <script th:inline="javascript">
     let ApiKey = [[${mapsApi.ConfigValue}]];
@@ -10,36 +32,6 @@
       v: "weekly",
     });
 </script>
-
-<body>
-<div th:replace="~{fragments :: navbar}"></div>
-<h1>Google Maps Widget</h1>
-<div id="map" style="height: 400px; width: 50%"></div>
-<form id="rideSubmitForm" th:action="@{map}" method="post">
-    <label for="userNameRideOwner">Name:</label>
-    <input type="text" id="userNameRideOwner" name="userNameRideOwner"/>
-    <input type="hidden" id="latitude" name="latitude"/>
-    <input type="hidden" id="longitude" name="longitude"/>
-    <input type="datetime-local" id="date" name="date"/>
-
-    <button type="submit">Submit</button>
-</form>
-<div id="rideTable" th:if="${ not#lists.isEmpty(rides)}">
-    <table>
-        <tr>
-            <!--            <th>Latitude</th>-->
-            <!--            <th>Longitude</th>-->
-            <!--            <th>Name</th>-->
-            <th>Date</th>
-        </tr>
-        <tr th:each="ride : ${rides}">
-            <!--            <td th:text="${ride.latitude}"></td>-->
-            <!--            <td th:text="${ride.longitude}"></td>-->
-            <!--            <td th:text="${ride.userNameRideOwner}"></td>-->
-            <td th:text="${ride.date}"></td>
-        </tr>
-    </table>
-</div>
 
 <script>
     (function(d, s, id) {
@@ -57,31 +49,6 @@
         fjs.parentNode.insertBefore(js, fjs);
     })(document, 'script', 'tomorrow-sdk');
 </script>
-
-<div class="tomorrow"
-     data-location-id="126928"
-     data-language="EN"
-     data-unit-system="IMPERIAL"
-     data-skin="light"
-     data-widget-type="upcoming"
-     style="padding-bottom:22px;position:relative;"
->
-    <a
-            href="https://www.tomorrow.io/weather-api/"
-            rel="nofollow noopener noreferrer"
-            target="_blank"
-            style="position: absolute; bottom: 0; transform: translateX(-50%); left: 50%;"
-    >
-        <img
-                alt="Powered by the Tomorrow.io Weather API"
-                src="https://weather-website-client.tomorrow.io/img/powered-by.svg"
-                width="250"
-                height="18"
-        />
-    </a>
-</div>
-
-<!--<script th:src="@{/js/MapScript.js}"></script>-->
 
 <script th:inline="javascript">
 
@@ -143,6 +110,69 @@ async function initMap() {
 window.onload = initMap;
 
 </script>
+
+<body>
+<div th:replace="~{fragments :: navbar}"></div>
+<h1>Google Maps Widget</h1>
+<div class="container">
+    <div id="map" style="height: 500px; width: 80%"></div>
+
+    <div class="tomorrow"
+         data-location-id="126928"
+         data-language="EN"
+         data-unit-system="IMPERIAL"
+         data-skin="light"
+         data-widget-type="upcoming"
+         style="padding-bottom:22px;position:relative;"
+    >
+        <a
+                href="https://www.tomorrow.io/weather-api/"
+                rel="nofollow noopener noreferrer"
+                target="_blank"
+                style="position: absolute; bottom: 0; transform: translateX(-50%); left: 50%;"
+        >
+            <img
+                    alt="Powered by the Tomorrow.io Weather API"
+                    src="https://weather-website-client.tomorrow.io/img/powered-by.svg"
+                    width="250"
+                    height="18"
+            />
+        </a>
+    </div>
+
+
+</div>
+
+<form id="rideSubmitForm" th:action="@{map}" method="post">
+    <label for="userNameRideOwner">Name:</label>
+    <input type="text" id="userNameRideOwner" name="userNameRideOwner"/>
+    <input type="hidden" id="latitude" name="latitude"/>
+    <input type="hidden" id="longitude" name="longitude"/>
+    <input type="datetime-local" id="date" name="date"/>
+
+    <button type="submit">Submit</button>
+</form>
+
+
+<!--<script th:src="@{/js/MapScript.js}"></script>-->
+
+
+<div id="rideTable" th:if="${ not#lists.isEmpty(rides)}">
+    <table>
+        <tr>
+            <!--            <th>Latitude</th>-->
+            <!--            <th>Longitude</th>-->
+            <!--            <th>Name</th>-->
+            <th>Date</th>
+        </tr>
+        <tr th:each="ride : ${rides}">
+            <!--            <td th:text="${ride.latitude}"></td>-->
+            <!--            <td th:text="${ride.longitude}"></td>-->
+            <!--            <td th:text="${ride.userNameRideOwner}"></td>-->
+            <td th:text="${ride.date}"></td>
+        </tr>
+    </table>
+</div>
 
 </body>
 </html>
