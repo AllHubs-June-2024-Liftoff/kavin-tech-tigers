@@ -1,17 +1,22 @@
 package TechTigers.BicycleBuddies.models;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 
 import java.util.LinkedList;
-import java.util.Objects;
 import java.util.Queue;
 
-//TODO: SERVICE LAYER
 //TODO : NEEDS METHODS FOR MONTHLY TOTAL CALCULATION AND TOTAL MILES
 @Entity
 public class MilesTracker extends AbstractEntity{
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    User user;
+
     private Queue<Integer> dayTotal = new LinkedList<>();
-    private int numofRides = 0;
+    private int numofRides;
     private int milesEntered = 0;
     private int milesMonthly = 0;
     private int milesTotal = 0;
@@ -20,12 +25,32 @@ public class MilesTracker extends AbstractEntity{
 
     public MilesTracker(){}
 
-    public MilesTracker(Queue<Integer> dayTotal, int numofRides, int milesEntered, int milesMonthly, int milesTotal) {
+    public MilesTracker(User user, Queue<Integer> dayTotal, int numofRides, int milesEntered, int milesMonthly, int milesTotal) {
+        this.user= user;
         this.dayTotal = dayTotal;
         this.numofRides = numofRides;
         this.milesEntered = milesEntered;
         this.milesMonthly = milesMonthly;
         this.milesTotal = milesTotal;
+    }
+
+    //method I created for adding monthly miles total & total sum of miles
+    public void trackerSum(int num){
+        if(dayTotal.size() == MONTH){
+            milesMonthly -= dayTotal.poll();
+        }
+        dayTotal.add(num);
+        milesMonthly += num;
+        milesTotal += num;
+    }
+
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Queue<Integer> getDayTotal() {
@@ -36,8 +61,9 @@ public class MilesTracker extends AbstractEntity{
         return numofRides;
     }
 
-    public void setNumofRides(int numofRides) {
+    public int setNumofRides(int numofRides) {
         this.numofRides = numofRides;
+        return numofRides;
     }
 
     public int getMilesEntered() {

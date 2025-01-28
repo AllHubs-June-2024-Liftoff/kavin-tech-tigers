@@ -52,4 +52,5 @@ public class CommentService {
         Optional<Ride> ride = rideRepository.findById((id) );
         return commentRepository.findByRide(ride.orElse(null));
     }
+
 }
