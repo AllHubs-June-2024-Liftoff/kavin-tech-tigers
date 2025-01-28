@@ -3,7 +3,9 @@ package TechTigers.BicycleBuddies.service;
 import TechTigers.BicycleBuddies.data.MilesTrackerRepository;
 import TechTigers.BicycleBuddies.data.RideRepository;
 import TechTigers.BicycleBuddies.data.UserRepository;
+import TechTigers.BicycleBuddies.models.Comment;
 import TechTigers.BicycleBuddies.models.MilesTracker;
+import TechTigers.BicycleBuddies.models.Ride;
 import TechTigers.BicycleBuddies.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,6 +57,10 @@ public class MilesTrackerService {
     public int totalNumRides(){
        int numOfRides= milesTracker.setNumofRides(rideRepository.findAll().size());
         return numOfRides;
+    }
+    public List<MilesTracker>getTrackingByUserId(int id){
+        Optional<User> user = userRepository.findById(id);
+        return milesTrackerRepository.findByUser(user.orElse(null));
     }
 
 

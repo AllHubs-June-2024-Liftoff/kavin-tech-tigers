@@ -42,8 +42,8 @@ public class CommentController {
         return "comments/all-comments";
     }
 
-@GetMapping("/add-comments/{rideId}")
-public String showAddCommentForm(@PathVariable Long rideId, Model model){
+    @GetMapping("/add-comments/{rideId}")
+    public String showAddCommentForm(@PathVariable Long rideId, Model model){
         Optional<Ride> ride = Optional.ofNullable(rideService.getRideById(rideId));
         if(ride.isPresent()){
             model.addAttribute("ride", ride.get());
@@ -53,24 +53,24 @@ public String showAddCommentForm(@PathVariable Long rideId, Model model){
             model.addAttribute("error", "Ride not found");
         }
         return "comments/add-comments";
-}
+    }
 
-@PostMapping("/add-comments/{rideId}/add")
+    @PostMapping("/add-comments/{rideId}/add")
     public String addComments(@PathVariable Long rideId, @ModelAttribute Comment comment, Model model){
         Optional<Ride> ride = Optional.ofNullable(rideService.getRideById(rideId));
-       if(ride.isEmpty()){
-           model.addAttribute("error", "Ride is not found");
-           return "redirect:/comments/all-comments";
-       }
-         comment.setRide(ride.get());
-         comment.setTimestamp(LocalDateTime.now());
-         comment.setLikes(0);
-         commentService.saveComment(comment);
+        if(ride.isEmpty()){
+            model.addAttribute("error", "Ride is not found");
+            return "redirect:/comments/all-comments";
+        }
+        comment.setRide(ride.get());
+        comment.setTimestamp(LocalDateTime.now());
+        comment.setLikes(0);
+        commentService.saveComment(comment);
         return "redirect:/comments/all-comments";
-}
+    }
 
-@PostMapping("/like/{id}")
-public String likeComment(@PathVariable int id, Model model) {
+    @PostMapping("/like/{id}")
+    public String likeComment(@PathVariable int id, Model model) {
         Optional<Comment> optionalComment = commentService.getCommentById(id);
 
         if (optionalComment.isPresent()) {
@@ -80,7 +80,7 @@ public String likeComment(@PathVariable int id, Model model) {
         } else {
             model.addAttribute("error", "Comment not found.");
         }
-         return "redirect:/comments/all-comments";
+        return "redirect:/comments/all-comments";
     }
 
     @GetMapping("/add-comments/{rideId}/add")

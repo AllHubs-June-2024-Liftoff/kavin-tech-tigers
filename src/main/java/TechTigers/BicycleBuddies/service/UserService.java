@@ -2,6 +2,7 @@ package TechTigers.BicycleBuddies.service;
 
 
 import TechTigers.BicycleBuddies.data.UserRepository;
+import TechTigers.BicycleBuddies.models.Ride;
 import TechTigers.BicycleBuddies.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
