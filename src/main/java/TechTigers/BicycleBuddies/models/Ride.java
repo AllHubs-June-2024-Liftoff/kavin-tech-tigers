@@ -1,8 +1,13 @@
 package TechTigers.BicycleBuddies.models;
 
-import jakarta.persistence.*;
-import java.time.LocalDate;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+
 import java.time.LocalDateTime;
+
+import static TechTigers.BicycleBuddies.models.RideStatus.scheduled;
 
 @Entity
 public class Ride extends AbstractEntity {
@@ -23,8 +28,8 @@ public class Ride extends AbstractEntity {
 
     private String route; // The route or location where the ride took place
 
-    @Column(nullable = false)
-    private String status = "scheduled"; // Default status (could be "scheduled", "completed", "canceled")
+    @Enumerated(EnumType.STRING)
+    private RideStatus status = scheduled;
 
     private double latitude;
     private double longitude;
@@ -33,7 +38,7 @@ public class Ride extends AbstractEntity {
     public Ride() {
     }
 
-    public Ride(String userNameRideOwner, LocalDateTime date, double distance, double duration, String description, String route, String status, double latitude, double longitude) {
+    public Ride(String userNameRideOwner, LocalDateTime date, double distance, double duration, String description, String route, RideStatus status, double latitude, double longitude) {
         this.userNameRideOwner = userNameRideOwner;
         this.date = date;
         this.distance = distance;
@@ -86,11 +91,11 @@ public class Ride extends AbstractEntity {
         this.route = route;
     }
 
-    public String getStatus() {
+    public RideStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(RideStatus status) {
         this.status = status;
     }
 
@@ -135,7 +140,7 @@ public class Ride extends AbstractEntity {
 
     // Method to cancel the ride (update status)
     public void cancelRide() {
-        this.status = "canceled"; // Set status to canceled
+        this.status = RideStatus.canceled; // Set status to canceled
 
     }
 }

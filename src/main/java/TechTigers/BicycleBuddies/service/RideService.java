@@ -2,6 +2,7 @@ package TechTigers.BicycleBuddies.service;
 
 
 import TechTigers.BicycleBuddies.models.Ride;
+import TechTigers.BicycleBuddies.models.RideStatus;
 import TechTigers.BicycleBuddies.models.data.RideRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,7 +35,7 @@ public class RideService {
     public void cancelRide(Long id) {
         Ride ride = rideRepository.findById(id).orElse(null);
         if (ride != null) {
-            ride.setStatus("canceled"); // Mark as "canceled"
+            ride.setStatus(RideStatus.canceled);
             rideRepository.save(ride); // Save the updated ride
         }
     }
