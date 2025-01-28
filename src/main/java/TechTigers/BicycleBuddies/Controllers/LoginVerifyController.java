@@ -112,7 +112,7 @@ public class LoginVerifyController {
         setUserInSession(request.getSession(), user);
 //        int profileId = user.getId();
 //        userService.getProfileById(profileId);
-        return "redirect:/map";
+        return "redirect:/home";
     }
 
 }
