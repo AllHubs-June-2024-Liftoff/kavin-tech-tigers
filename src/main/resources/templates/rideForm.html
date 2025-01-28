@@ -45,8 +45,8 @@
             background-color: white;
             padding: 30px;
             margin: 40px auto;
-            width: 80%;
-            max-width: 600px;
+            width: 70%;
+
             border-radius: 5px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
@@ -89,6 +89,7 @@
         .map-container {
           flex: 1; /* Map takes up the remaining width */
           height: 500px; /* Set the height for the container */
+          width: 300px;
         }
 
         /* Weather widget styling */
@@ -96,7 +97,20 @@
           width: 350px;
           height: 500px; /* Matches the height of the map */
           box-sizing: border-box;
-    }
+        }
+        .form-container {
+            display: flex;
+            flex-wrap: wrap; /* Allows wrapping if the screen is too narrow */
+            gap: 1rem; /* Adds spacing between inputs */
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            flex: 1; /* Inputs will grow evenly */
+            min-width: 150px; /* Minimum width for inputs */
+        }
+
     </style>
 </head>
 
@@ -208,24 +222,36 @@
     </div>
 </div>
 
-<form action="/rides/save" method="post" th:object="${ride}">
-    <label for="date">Date:</label>
-    <input type="datetime-local" id="date" th:field="*{date}" required><br><br>
+<form class="form-container" action="/rides/save" method="post" th:object="${ride}">
+    <div class="form-group">
+        <label for="date">Date:</label>
+        <input type="datetime-local" id="date" th:field="*{date}" required><br><br>
+    </div>
 
-    <label for="distance">Distance:</label>
-    <input type="number" id="distance" th:field="*{distance}" step="any" required><br><br>
+    <div class="form-group">
+        <label for="distance">Distance:</label>
+        <input type="number" id="distance" th:field="*{distance}" step="any" required><br><br>
+    </div>
 
-    <label for="duration">Duration (hours):</label>
-    <input type="number" id="duration" th:field="*{duration}" step="any" required><br><br>
+    <div class="form-group">
+        <label for="duration">Duration (hours):</label>
+        <input type="number" id="duration" th:field="*{duration}" step="any" required><br><br>
+    </div>
 
-    <label for="description">Description:</label>
-    <textarea id="description" th:field="*{description}"></textarea><br><br>
+    <div class="form-group">
+        <label for="description">Description:</label>
+        <textarea id="description" th:field="*{description}"></textarea><br><br>
+    </div>
 
-    <label for="route">Route:</label>
-    <input type="text" id="route" th:field="*{route}"><br><br>
+    <div class="form-group">
+        <label for="route">Route:</label>
+        <input type="text" id="route" th:field="*{route}"><br><br>
+    </div>
 
-    <label for="userNameRideOwner">Name:</label>
-    <input type="text" id="userNameRideOwner" name="userNameRideOwner"/>
+    <div class="form-group">
+        <label for="userNameRideOwner">Name:</label>
+        <input type="text" id="userNameRideOwner" name="userNameRideOwner"/>
+    </div>
 
     <input type="hidden" id="latitude" name="latitude"/>
     <input type="hidden" id="longitude" name="longitude"/>

@@ -8,20 +8,8 @@
         display: flex;
         flex-direction: row;
         align-items: stretch;
-        height: 100%; /* Optional: ensures the height is responsive */
+        height: 100%;
     }
-
-    /* Map styling */
-    .map-container {
-        flex: 1; /* Map takes up the remaining width */
-        height: 400px; /* Set the height for the container */
-    }
-
-    /* Weather widget styling */
-    .weather-widget {
-        width: 350px;
-        height: 400px; /* Matches the height of the map */
-        box-sizing: border-box;
     }
 </style>
 
@@ -71,40 +59,6 @@ async function initMap() {
     bikeLayer.setMap(map);
 
     const infoWindow = new InfoWindow();
-
-    const activeRideSelector = new google.maps.marker.PinElement({
-        scale: 1.5,
-        background: "#36f136",
-        borderColor: "#000000"
-    });
-
-    const pinRideSelector = new AdvancedMarkerElement({
-        map,
-        position: center,
-        title: "Let's Bike!",
-        gmpDraggable: true,
-        content: activeRideSelector.element,
-    });
-
-
-
-    rides.forEach(ride => {
-        const marker = new AdvancedMarkerElement({
-                    position: { lat: ride.latitude, lng: ride.longitude },
-                    map: map,
-                    title: ride.userNameRideOwner,
-                    })
-            });
-
-    pinRideSelector.addListener("dragend", (event) => {
-        const position = pinRideSelector.position;
-        infoWindow.close();
-        infoWindow.setContent(`Select Where to Meet!: ${position.lat}, ${position.lng}`);
-        infoWindow.open(pinRideSelector.map, pinRideSelector);
-        document.getElementById("latitude").value = position.lat;
-        document.getElementById("longitude").value = position.lng;
-    });
-
 }
 
 window.onload = initMap;
@@ -113,7 +67,7 @@ window.onload = initMap;
 
 <body>
 <div th:replace="~{fragments :: navbar}"></div>
-<h1>Google Maps Widget</h1>
+<h1 class="container">St. Louis Bike Trails and Roads!</h1>
 <div class="container">
     <div id="map" style="height: 500px; width: 80%"></div>
 
@@ -143,15 +97,15 @@ window.onload = initMap;
 
 </div>
 
-<form id="rideSubmitForm" th:action="@{map}" method="post">
-    <label for="userNameRideOwner">Name:</label>
-    <input type="text" id="userNameRideOwner" name="userNameRideOwner"/>
-    <input type="hidden" id="latitude" name="latitude"/>
-    <input type="hidden" id="longitude" name="longitude"/>
-    <input type="datetime-local" id="date" name="date"/>
+<!--<form id="rideSubmitForm" th:action="@{map}" method="post">-->
+<!--    <label for="userNameRideOwner">Name:</label>-->
+<!--    <input type="text" id="userNameRideOwner" name="userNameRideOwner"/>-->
+<!--    <input type="hidden" id="latitude" name="latitude"/>-->
+<!--    <input type="hidden" id="longitude" name="longitude"/>-->
+<!--    <input type="datetime-local" id="date" name="date"/>-->
 
-    <button type="submit">Submit</button>
-</form>
+<!--    <button type="submit">Submit</button>-->
+<!--</form>-->
 
 
 <!--<script th:src="@{/js/MapScript.js}"></script>-->
