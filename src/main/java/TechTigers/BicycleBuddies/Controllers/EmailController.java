@@ -103,9 +103,11 @@ public class EmailController {
         }else{
             user.setVerified(true);
             userRepository.save(user);
+            setUserInSession(request.getSession(), user);
         }
 
-        return "redirect:/login";
+//        return "redirect:/login";
+        return "redirect:/profile/profile";
     }
 
 }

@@ -56,7 +56,7 @@ public class AuthenticationController {
     @PostMapping("/register")
     public String processRegistrationForm(@ModelAttribute @Valid RegisterFormDTO registerFormDTO,
                                           Errors errors, HttpServletRequest request,
-                                          Model model, @PathVariable int profileId){
+                                          Model model){
 
         if(errors.hasErrors()){
             model.addAttribute("title", "Register");
@@ -83,9 +83,7 @@ public class AuthenticationController {
         userRepository.save(newUser);
         setUserInSession(request.getSession(), newUser);
 
-        profileId = newUser.getId();
-
-        return "redirect:/profile/{profileId}";
+        return "redirect:/email";
     }
 
     @GetMapping("/login")
