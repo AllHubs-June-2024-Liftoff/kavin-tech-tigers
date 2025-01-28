@@ -1,11 +1,8 @@
 package TechTigers.BicycleBuddies.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-
-import java.util.LinkedList;
-import java.util.Queue;
+import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 //TODO : NEEDS METHODS FOR MONTHLY TOTAL CALCULATION AND TOTAL MILES
 @Entity
@@ -15,35 +12,48 @@ public class MilesTracker extends AbstractEntity{
     @JoinColumn(name = "user_id")
     User user;
 
-    private Queue<Integer> dayTotal = new LinkedList<>();
-    private int numofRides;
-    private int milesEntered = 0;
+    @OneToMany(mappedBy = "milesTracker", cascade = CascadeType.ALL)
+    private List<Entry> entries;
+
     private int milesMonthly = 0;
     private int milesTotal = 0;
-    private final int MONTH = 30;
+    @Column(name= "month", nullable = false)
+    private int MONTH = 30;
+
 
 
     public MilesTracker(){}
 
-    public MilesTracker(User user, Queue<Integer> dayTotal, int numofRides, int milesEntered, int milesMonthly, int milesTotal) {
+    public MilesTracker( User user, int milesMonthly, int milesTotal) {
         this.user= user;
-        this.dayTotal = dayTotal;
-        this.numofRides = numofRides;
-        this.milesEntered = milesEntered;
         this.milesMonthly = milesMonthly;
         this.milesTotal = milesTotal;
     }
-
-    //method I created for adding monthly miles total & total sum of miles
-    public void trackerSum(int num){
-        if(dayTotal.size() == MONTH){
-            milesMonthly -= dayTotal.poll();
-        }
-        dayTotal.add(num);
-        milesMonthly += num;
-        milesTotal += num;
+    public MilesTracker(List<Entry> entries) {
+        this.entries = entries;
     }
 
+    //method I created for adding entries, monthly miles total & total sum of miles
+
+    public void trackerSum(int miles,Entry entry){
+       milesTotal += miles;
+       entries.add(entry);
+       if(entries.size() > 30){
+         Entry oldest = entries.remove(0);
+         milesMonthly-= oldest.getMiles();
+       }
+       milesMonthly += miles;
+    }
+
+
+
+    public List<Entry> getEntries() {
+        return entries;
+    }
+
+    public void setEntries(List<Entry> entries) {
+        this.entries = entries;
+    }
 
     public User getUser() {
         return user;
@@ -53,26 +63,8 @@ public class MilesTracker extends AbstractEntity{
         this.user = user;
     }
 
-    public Queue<Integer> getDayTotal() {
-        return dayTotal;
-    }
 
-    public int getNumofRides() {
-        return numofRides;
-    }
 
-    public int setNumofRides(int numofRides) {
-        this.numofRides = numofRides;
-        return numofRides;
-    }
-
-    public int getMilesEntered() {
-        return milesEntered;
-    }
-
-    public void setMilesEntered(int milesEntered) {
-        this.milesEntered = milesEntered;
-    }
 
     public int getMilesMonthly() {
         return milesMonthly;
@@ -97,9 +89,6 @@ public class MilesTracker extends AbstractEntity{
     @Override
     public String toString() {
         return "MilesTracker{" +
-                "dayTotal=" + dayTotal +
-                ", numofRides=" + numofRides +
-                ", milesEntered=" + milesEntered +
                 ", milesMonthly=" + milesMonthly +
                 ", milesTotal=" + milesTotal +
                 ", MONTH=" + MONTH +

@@ -1,11 +1,11 @@
 package TechTigers.BicycleBuddies.service;
 
+import TechTigers.BicycleBuddies.data.EntryRepository;
 import TechTigers.BicycleBuddies.data.MilesTrackerRepository;
 import TechTigers.BicycleBuddies.data.RideRepository;
 import TechTigers.BicycleBuddies.data.UserRepository;
-import TechTigers.BicycleBuddies.models.Comment;
+import TechTigers.BicycleBuddies.models.Entry;
 import TechTigers.BicycleBuddies.models.MilesTracker;
-import TechTigers.BicycleBuddies.models.Ride;
 import TechTigers.BicycleBuddies.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,14 +18,14 @@ import java.util.Optional;
 public class MilesTrackerService {
     MilesTracker milesTracker;
     private final MilesTrackerRepository milesTrackerRepository;
-    private final RideRepository rideRepository;
     private final UserRepository userRepository;
+    private final EntryRepository entryRepository;
 
     @Autowired
-    public MilesTrackerService(MilesTrackerRepository milesTrackerRepository, RideRepository rideRepository, UserRepository userRepository) {
+    public MilesTrackerService(MilesTrackerRepository milesTrackerRepository, UserRepository userRepository, EntryRepository entryRepository) {
         this.milesTrackerRepository = milesTrackerRepository;
-        this.rideRepository = rideRepository;
         this.userRepository = userRepository;
+        this.entryRepository = entryRepository;
     }
     public List<MilesTracker> getAllTracking(){
         return (List<MilesTracker>) milesTrackerRepository.findAll();
@@ -40,28 +40,20 @@ public class MilesTrackerService {
 
     public MilesTracker saveMilesTracker(MilesTracker milesTracker){return milesTrackerRepository.save(milesTracker); }
 
-    public MilesTracker updateTracker(int id, MilesTracker updatedTracker){
-        MilesTracker existingTracker = milesTrackerRepository.findById(id)
-                .orElseThrow(()-> new RuntimeException("Tracking with ID "+ id +" does not exist."));
-        existingTracker.setNumofRides(updatedTracker.getNumofRides());
-        existingTracker.setMilesEntered(updatedTracker.getMilesEntered());
-        existingTracker.setMilesMonthly(updatedTracker.getMilesMonthly());
-        existingTracker.setMilesTotal(updatedTracker.getMilesTotal());
-        return milesTrackerRepository.save(existingTracker);
-    }
 
     public void deleteTracker(int id){
        milesTrackerRepository.deleteById(id);
     }
 
-    public int totalNumRides(){
-       int numOfRides= milesTracker.setNumofRides(rideRepository.findAll().size());
-        return numOfRides;
-    }
-    public List<MilesTracker>getTrackingByUserId(int id){
-        Optional<User> user = userRepository.findById(id);
-        return milesTrackerRepository.findByUser(user.orElse(null));
-    }
 
+    public List<MilesTracker> getTrackerByUser(User user) {
+        return milesTrackerRepository.findByUser(user);
+    }
+    public void addEntry(Entry entry) {
+        MilesTracker milesTracker = entry.getMilesTracker();
+        milesTracker.trackerSum(entry.getMiles(), entry);
+        entryRepository.save(entry);
+        saveMilesTracker(milesTracker);
+    }
 
 }

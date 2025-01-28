@@ -12,6 +12,5 @@ import java.util.Optional;
 
 @Repository
 public interface MilesTrackerRepository extends CrudRepository<MilesTracker, Integer> {
-    List<MilesTracker> findByUser(User user);
-    Optional<MilesTracker> findById(Integer id);
+    List<MilesTracker> findByUser(User user);;
 }
