@@ -10,13 +10,10 @@ import TechTigers.BicycleBuddies.models.ScheduledEmail;
 import TechTigers.BicycleBuddies.models.User;
 import TechTigers.BicycleBuddies.models.dto.RideFormDTO;
 import TechTigers.BicycleBuddies.service.RideService;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/rides")
@@ -56,27 +53,9 @@ public class RideController {
         return "rideForm";  // Refers to rideForm.html for adding a new ride
     }
 
-    private static final String userSessionKey = "user";
-
-    public User getUserFromSession(HttpSession session) {
-        Integer userId = (Integer) session.getAttribute(userSessionKey);
-        if (userId == null) {
-            return null;
-        }
-
-        Optional<User> user = userRepository.findById(userId);
-
-        if (user.isEmpty()) {
-            return null;
-        }
-
-        return user.get();
-    }
-    
     @PostMapping("/save")
-    public String saveRide(@ModelAttribute Ride ride, @ModelAttribute RideFormDTO rideFormDTO, @RequestParam(name = "scheduledEmail", required = false) Boolean scheduled, HttpSession session) {
+    public String saveRide(@ModelAttribute Ride ride, @ModelAttribute RideFormDTO rideFormDTO, @RequestParam(name = "scheduledEmail", required = false) Boolean scheduled, @SessionAttribute(name = "user", required = false) User user) {
 
-        User userId = getUserFromSession(session);
 
         rideService.saveRide(ride);
 
@@ -84,7 +63,7 @@ public class RideController {
         if (Boolean.TRUE.equals(scheduled)) {
             RideUser rideUser = new RideUser();
             rideUser.setRide(ride);
-            rideUser.setUser(userId);
+            rideUser.setUser(user);
             rideUserRepository.save(rideUser);
 
             ScheduledEmail scheduledEmail = new ScheduledEmail();
