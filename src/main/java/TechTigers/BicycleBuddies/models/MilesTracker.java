@@ -1,69 +1,89 @@
 package TechTigers.BicycleBuddies.models;
 
-import java.util.Objects;
+import jakarta.persistence.*;
 
-//@Entity
-public class MilesTracker {
-    //@GeneratedValue
-    int id;
-    // List<Rides> rides = new HashMap()<>;
-    int numofRides;
-    int milesEntered; //miles entered by user
-    int milesMonthly;
-    int milesTotal;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+public class MilesTracker extends AbstractEntity{
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+    @OneToMany(mappedBy = "milesTracker", cascade = CascadeType.ALL)
+    private List<Entry> entries = new ArrayList<>();
+    private int milesMonthly = 0;
+    private int milesTotal = 0;
 
     public MilesTracker(){}
-
-    public MilesTracker(int id, int numofRides, int milesEntered, int milesMonthly, int milesTotal) {
-        this.id = id;
-        this.numofRides = numofRides;
-        this.milesEntered = milesEntered;
+    public MilesTracker(List<Entry> entries) {
+        this.entries = entries;
+    }
+    public MilesTracker( User user, int milesMonthly, int milesTotal) {
+        this.user= user;
         this.milesMonthly = milesMonthly;
         this.milesTotal = milesTotal;
     }
 
-    public int getId() {
-        return id;
+
+    //method I created for adding entries, monthly miles total & total sum of miles
+
+    public void trackerSum(int miles,Entry entry){
+       milesTotal += miles;
+       entries.add(entry);
+       if(entries.size() > 30){
+         Entry oldest = entries.remove(0);
+         milesMonthly-= oldest.getMiles();
+       }
+       milesMonthly += miles;
+    }
+    public void removeEntry(Entry entry){
+        this.entries.remove(entry);
+        this.milesTotal -=entry.getMiles();
+        this.milesMonthly-= entry.getMiles();
     }
 
-    public int getNumofRides() {return numofRides;}
+    public List<Entry> getEntries() {
+        return entries;
+    }
 
-    public void setNumofRides(int numofRides) {this.numofRides = numofRides;}
+    public void setEntries(List<Entry> entries) {
+        this.entries = entries;
+    }
 
-    public int getMilesEntered() {return milesEntered;}
+    public User getUser() {
+        return user;
+    }
 
-    public void setMilesEntered(int milesEntered) {this.milesEntered = milesEntered;}
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-    public int getMilesMonthly() {return milesMonthly;}
+    public int getMilesMonthly() {
+        return milesMonthly;
+    }
 
-    public void setMilesMonthly(int milesMonthly) {this.milesMonthly = milesMonthly;}
+    public void setMilesMonthly(int milesMonthly) {
+        this.milesMonthly = milesMonthly;
+    }
 
-    public int getMilesTotal() {return milesTotal;}
+    public int getMilesTotal() {
+        return milesTotal;
+    }
 
-    public void setMilesTotal(int milesTotal) {this.milesTotal = milesTotal;}
+    public void setMilesTotal(int milesTotal) {
+        this.milesTotal = milesTotal;
+    }
 
-    //TODO: needs methods for mileage
     @Override
     public String toString() {
         return "MilesTracker{" +
-                "id=" + id +
-                ", numofRides=" + numofRides +
-                ", milesEntered=" + milesEntered +
+                "user=" + user +
+                ", entries=" + entries +
                 ", milesMonthly=" + milesMonthly +
                 ", milesTotal=" + milesTotal +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        MilesTracker that = (MilesTracker) o;
-        return id == that.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
     }
 }

@@ -2,8 +2,8 @@ package TechTigers.BicycleBuddies.service;
 
 
 import TechTigers.BicycleBuddies.models.Ride;
+import TechTigers.BicycleBuddies.data.RideRepository;
 import TechTigers.BicycleBuddies.models.RideStatus;
-import TechTigers.BicycleBuddies.models.data.RideRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,4 +39,5 @@ public class RideService {
             rideRepository.save(ride); // Save the updated ride
         }
     }
+  public Ride getFirstRide(){ return rideRepository.findAll().stream().findFirst().orElse(null);}
 }
