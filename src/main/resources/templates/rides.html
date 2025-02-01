@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Rides</title>
+
+    <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
     <style>
         body {
             background-image: url('https://images.pexels.com/photos/1595483/pexels-photo-1595483.jpeg?cs=srgb&dl=beach-bicycle-bicycle-frame-1595483.jpg&fm=jpg');
@@ -33,21 +38,21 @@
             margin-top: 20px;
         }
 
-        a {
-            display: block;
-            margin: 20px;
-            padding: 10px;
-            background-color: #0066cc;
-            color: white;
-            text-decoration: none;
-            width: 200px;
-            text-align: center;
-            border-radius: 5px;
-        }
+<!--        a {-->
+<!--            display: block;-->
+<!--            margin: 20px;-->
+<!--            padding: 10px;-->
+<!--            background-color: #0066cc;-->
+<!--            color: white;-->
+<!--            text-decoration: none;-->
+<!--            width: 200px;-->
+<!--            text-align: center;-->
+<!--            border-radius: 5px;-->
+<!--        }-->
 
-        a:hover {
-            background-color: #0044cc;
-        }
+<!--        a:hover {-->
+<!--            background-color: #0044cc;-->
+<!--        }-->
 
         .ride-list {
             list-style-type: none;
@@ -71,16 +76,79 @@
         hr {
             border: 1px solid #ccc;
         }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            height: 500px; /* Optional: ensures the height is responsive */
+        }
     </style>
+
+    <script th:inline="javascript">
+        let ApiKey = [[${mapsApi.ConfigValue}]];
+        (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+          key: ApiKey,
+          v: "weekly",
+        });
+    </script>
+
+    <script th:inline="javascript">
+
+        let map, center = { lat: 38.638132, lng: -90.282402 };
+        let mapId = [[${mapId.ConfigValue}]];
+
+      async function initMap() {
+        const { Map, InfoWindow } = await google.maps.importLibrary("maps");
+        const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+        const rides = [[${rides}]];
+
+
+        map = new Map(document.getElementById("map"), {
+            center: center,
+            zoom: 10,
+            mapId: mapId,
+        });
+
+        const bikeLayer = new google.maps.BicyclingLayer();
+        bikeLayer.setMap(map);
+
+        const infoWindow = new InfoWindow();
+
+        const activeRideSelector = new google.maps.marker.PinElement({
+            scale: 1.5,
+            background: "#36f136",
+            borderColor: "#000000"
+        });
+
+        rides.forEach(ride => {
+            const marker = new AdvancedMarkerElement({
+                        position: { lat: ride.latitude, lng: ride.longitude },
+                        map: map,
+                        title: ride.userNameRideOwner,
+                        })
+                });
+      }
+
+      window.onload = initMap;
+
+    </script>
+
 </head>
 <body>
+<div th:replace="~{fragments :: navbar}"></div>
 <h1>All Rides</h1>
-
-<a href="/rides/new">Add New Ride</a>
+<div class="text-center">
+<a href="/rides/new" class="btn btn-primary ">Add New Ride</a>
+</div> <br><br>
 
 <div th:if="${#lists.isEmpty(rides)}">
     <p>No rides available.</p>
 </div>
+<div class="container">
+    <div id="map" style="height: 500px; width: 100%"></div>
+</div>
+
 
 <ul class="ride-list">
     <li th:each="ride : ${rides}">
@@ -89,10 +157,10 @@
         <strong>Duration:</strong> <span th:text="${ride.duration}"></span><br>
         <strong>Route:</strong> <span th:text="${ride.route}"></span><br>
         <strong>Description:</strong> <span th:text="${ride.description}"></span><br>
-
+        <a th:href="@{/comments/add-comments/{id}(id=${ride.id})}" class="btn btn-primary">Add a Comment</a><br><br>
         <!-- Cancel Ride Form -->
         <form th:action="@{/rides/cancel/{id}(id=${ride.id})}" method="post">
-            <button type="submit">Cancel Ride</button>
+            <button type="submit" class="btn btn-primary">Cancel Ride</button>
         </form>
 
         <hr>

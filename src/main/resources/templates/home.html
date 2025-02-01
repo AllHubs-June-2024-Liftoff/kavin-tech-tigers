@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="~{fragments :: head}">
+    <meta charset="UTF-8"/>
+    <title></title>
+</head>
+<body>
+<div th:replace="~{fragments :: navbar}"></div>
+<div style="justify-content:space-between; overflow: hidden; display: flex; align-items: center">
+    <div style="display: flex; flex-direction: column">
+        <div class="home-element" style="margin: 25px">
+            Pending Friend Invites
+        </div>
+        <div class="home-element" style="margin: 25px">
+            Pending Ride Invites
+        </div>
+    </div>
+    <div style="text-align: center">
+        <div class="home-element">
+            Reminder of Next Ride<br/>
+            Date:<br/>
+            Location:<br/>
+            With Friends
+        </div>
+    </div>
+    <img
+            id="profile-image"
+            src="https://picsum.photos/200/200"
+            alt="profile picture"
+            style="float:right">
+</div>
+
+<div class="activity-feed">
+    Activity Feed
+</div>
+
+</body>
+</html>

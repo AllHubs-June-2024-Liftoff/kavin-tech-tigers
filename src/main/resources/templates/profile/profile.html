@@ -5,6 +5,7 @@
     <title th:text="${title}"></title>
 </head>
 <body>
+<!--TODO add ride list to profile-->
 <div th:replace="~{fragments :: navbar}"></div>
 <div class="container text-center py-5">
     <div class="row">
@@ -31,7 +32,8 @@
             <div class="col-8 align-self-center">
                 <div class="mb-5">
                     <h5>Miles Biked: <span>0</span></h5>
-                    <button type="button" class="btn btn-success">View Miles Chart</button>
+                    <a th:href="@{/tracker/all-tracking/{userId}(userId=${user.id})}">
+                    <button type="button" class="btn btn-success">View Miles Tracker</button></a>
                     </div>
                 <div class="text-bg-light p-3">
                 <h5 class="mb-4">Comment Section</h5>

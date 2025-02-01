@@ -22,6 +22,21 @@
     }
 }
 
+.activity-feed {
+    background-color: honeydew;
+    margin: 25px;
+    padding: 25px;
+    text-align:center
+}
+
+.home-element{
+    display: inline-block;
+    text-align:left;
+    background-color: green;
+    border-radius: 15px;
+    padding: 10px 40px
+}
+
 th, td {
   padding-left: 10px;
   padding-right: 70px;
@@ -30,8 +45,6 @@ th, td {
 #profile-image{
 border-radius: 50%;
 }
-
-
 
 .friend-list-container{
 
@@ -49,3 +62,11 @@ border-radius: 50%;
     top:30px;
 }
 
+.heart-link {
+    color: #ff69b4;
+    text-decoration: none
+}
+
+.heart-link:hover {
+    color: #ff1493;
+}
