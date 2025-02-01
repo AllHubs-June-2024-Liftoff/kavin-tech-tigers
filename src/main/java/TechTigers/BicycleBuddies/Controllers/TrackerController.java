@@ -28,6 +28,7 @@ public class TrackerController {
         User user = userService.getProfileById(userId);
         MilesTracker milesTracker = milesTrackerService.getOrCreateTracker(user);
         List<Entry> entries = milesTracker.getEntries();
+        model.addAttribute("userId", userId);
         model.addAttribute("milesTracker", milesTracker);
         model.addAttribute("user", user);
         model.addAttribute("entries", entries);

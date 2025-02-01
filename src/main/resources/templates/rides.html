@@ -155,7 +155,7 @@
         <strong>Duration:</strong> <span th:text="${ride.duration}"></span><br>
         <strong>Route:</strong> <span th:text="${ride.route}"></span><br>
         <strong>Description:</strong> <span th:text="${ride.description}"></span><br>
-
+        <a th:href="@{/comments/add-comments/{id}(id=${ride.id})}">Add a Comment</a>
         <!-- Cancel Ride Form -->
         <form th:action="@{/rides/cancel/{id}(id=${ride.id})}" method="post">
             <button type="submit">Cancel Ride</button>
