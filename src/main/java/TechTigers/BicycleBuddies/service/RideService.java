@@ -1,8 +1,8 @@
 package TechTigers.BicycleBuddies.service;
 
 
-import TechTigers.BicycleBuddies.models.Ride;
 import TechTigers.BicycleBuddies.data.RideRepository;
+import TechTigers.BicycleBuddies.models.Ride;
 import TechTigers.BicycleBuddies.models.RideStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,21 +23,24 @@ public class RideService {
         rideRepository.save(ride);
     }
 
-    public Ride getRideById(Long id) {
+    public Ride getRideById(int id) {
         return rideRepository.findById(id).orElse(null);
     }
 
-    public void deleteRide(Long id) {
+    public void deleteRide(int id) {
         rideRepository.deleteById(id);
     }
 
     // New method to cancel a ride
-    public void cancelRide(Long id) {
+    public void cancelRide(int id) {
         Ride ride = rideRepository.findById(id).orElse(null);
         if (ride != null) {
             ride.setStatus(RideStatus.canceled);
             rideRepository.save(ride); // Save the updated ride
         }
     }
-  public Ride getFirstRide(){ return rideRepository.findAll().stream().findFirst().orElse(null);}
+
+    public Ride getFirstRide() {
+        return rideRepository.findAll().stream().findFirst().orElse(null);
+    }
 }

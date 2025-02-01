@@ -13,11 +13,13 @@ public abstract class AbstractEntity {
     @GeneratedValue
     private int id;
 
-    public long getId(){
+    public int getId() {
         return id;
     }
 
-    public void setId(int id) {this.id = id;}
+    public void setId(int id) {
+        this.id = id;
+    }
 
     @Override
     public boolean equals(Object o) {
