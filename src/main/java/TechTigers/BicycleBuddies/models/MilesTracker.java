@@ -1,37 +1,32 @@
 package TechTigers.BicycleBuddies.models;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO : NEEDS METHODS FOR MONTHLY TOTAL CALCULATION AND TOTAL MILES
 @Entity
 public class MilesTracker extends AbstractEntity{
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    User user;
-
+    private User user;
     @OneToMany(mappedBy = "milesTracker", cascade = CascadeType.ALL)
-    private List<Entry> entries;
-
+    private List<Entry> entries = new ArrayList<>();
     private int milesMonthly = 0;
     private int milesTotal = 0;
-    @Column(name= "month", nullable = false)
-    private int MONTH = 30;
-
-
 
     public MilesTracker(){}
-
+    public MilesTracker(List<Entry> entries) {
+        this.entries = entries;
+    }
     public MilesTracker( User user, int milesMonthly, int milesTotal) {
         this.user= user;
         this.milesMonthly = milesMonthly;
         this.milesTotal = milesTotal;
     }
-    public MilesTracker(List<Entry> entries) {
-        this.entries = entries;
-    }
+
 
     //method I created for adding entries, monthly miles total & total sum of miles
 
@@ -44,8 +39,11 @@ public class MilesTracker extends AbstractEntity{
        }
        milesMonthly += miles;
     }
-
-
+    public void removeEntry(Entry entry){
+        this.entries.remove(entry);
+        this.milesTotal -=entry.getMiles();
+        this.milesMonthly-= entry.getMiles();
+    }
 
     public List<Entry> getEntries() {
         return entries;
@@ -63,9 +61,6 @@ public class MilesTracker extends AbstractEntity{
         this.user = user;
     }
 
-
-
-
     public int getMilesMonthly() {
         return milesMonthly;
     }
@@ -82,16 +77,13 @@ public class MilesTracker extends AbstractEntity{
         this.milesTotal = milesTotal;
     }
 
-    public int getMONTH() {
-        return MONTH;
-    }
-
     @Override
     public String toString() {
         return "MilesTracker{" +
+                "user=" + user +
+                ", entries=" + entries +
                 ", milesMonthly=" + milesMonthly +
                 ", milesTotal=" + milesTotal +
-                ", MONTH=" + MONTH +
                 '}';
     }
 }

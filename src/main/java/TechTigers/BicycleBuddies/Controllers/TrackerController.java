@@ -16,36 +16,18 @@ import java.util.Optional;
 @Controller
 @RequestMapping("tracker")
 public class TrackerController {
-
-    private final MilesTrackerService milesTrackerService;
-    private final UserService userService;
-    private final EntryRepository entryRepository;
-
-
     @Autowired
-    public TrackerController(MilesTrackerService milesTrackerService, UserService userService, EntryRepository entryRepository) {
-        this.milesTrackerService = milesTrackerService;
-        this.userService = userService;
-        this.entryRepository = entryRepository;
-    }
-
-
+    private MilesTrackerService milesTrackerService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private EntryRepository entryRepository;
 
     @GetMapping("/all-tracking/{userId}")
     public String viewAllTracking(Model model, @PathVariable int userId){
-        Optional<User> userOptional = userService.getProfileById(userId);
-        if(userOptional.isEmpty()){
-            model.addAttribute("error", "User not found");
-            return "tracker/all-tracking";
-        }
-        User user= userOptional.get();
-        MilesTracker milesTracker = milesTrackerService.getTrackerByUser(user).stream().findFirst().orElse(null);
-       if(milesTracker == null){
-           model.addAttribute("error", "Tracker not found for user");
-           return "tracker/all-tracking";
-       }
-        List<Entry> entries = entryRepository.findByMilesTracker(milesTracker);
-
+        User user = userService.getProfileById(userId);
+        MilesTracker milesTracker = milesTrackerService.getOrCreateTracker(user);
+        List<Entry> entries = milesTracker.getEntries();
         model.addAttribute("milesTracker", milesTracker);
         model.addAttribute("user", user);
         model.addAttribute("entries", entries);
@@ -55,51 +37,34 @@ public class TrackerController {
 
     @GetMapping("/add-tracking/{userId}")
     public String showAddTrackingForm(@PathVariable int userId, Model model){
-        Optional<User> optionalUser = userService.getProfileById(userId);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            MilesTracker milesTracker = milesTrackerService.getTrackerByUser(user).stream().findFirst().orElse(null);
-            if(milesTracker == null){
-                milesTracker = new MilesTracker();
-                milesTracker.setUser(user);
-                milesTrackerService.saveMilesTracker(milesTracker);
-            }
+            User user = userService.getProfileById(userId);
             model.addAttribute("user", user);
             model.addAttribute("entry", new Entry());
             model.addAttribute("title", "Add to Tracker");
-        } else{
-            model.addAttribute("error", "tracker not found");
-        }
+
         return "tracker/add-tracking";
     }
 
     @PostMapping("/add-tracking/{userId}/add")
     public String addTracking(@PathVariable int userId, @ModelAttribute Entry entry, Model model){
-        Optional<User> userOptional = userService.getProfileById(userId);
-        if(userOptional.isEmpty()){
-            model.addAttribute("error", "user is not found");
-            return "redirect:/tracker/all-tracking" + userId;
-        }
-        User user= userOptional.get();
-        MilesTracker milesTracker = milesTrackerService.getTrackerByUser(user).stream().findFirst().orElse(null);
-
-        if(milesTracker == null){
-            milesTracker = new MilesTracker();
-            milesTracker.setUser(user);
-            milesTracker = milesTrackerService.saveMilesTracker(milesTracker);
-        }
-
-        entry.setMilesTracker(milesTracker);
+       User user = userService.getProfileById(userId);
+       MilesTracker tracker = milesTrackerService.getOrCreateTracker(user);
+        entry.setMilesTracker(tracker);
         milesTrackerService.addEntry(entry);
         entryRepository.save(entry);
-        milesTrackerService.saveMilesTracker(milesTracker);
+        milesTrackerService.saveMilesTracker(tracker);
         return "redirect:/tracker/all-tracking/" + userId;
     }
 
 
-    @DeleteMapping("/delete/{trackerId}")
-    public String deleteTracker(@PathVariable int trackerId) {
-        milesTrackerService.deleteTracker(trackerId);
-        return "redirect:/tracker/all-tracking";
+    @DeleteMapping("/delete/{userId}/{entryId}")
+    public String deleteEntry(@PathVariable int userId, @PathVariable int entryId) {
+        User user = userService.getProfileById(userId);
+        Entry entry = entryRepository.findById(entryId).orElseThrow(); //the orElseThrow was because intelliJ was angry
+        MilesTracker milesTracker = milesTrackerService.getOrCreateTracker(user);
+        milesTracker.removeEntry(entry);
+        milesTrackerService.saveMilesTracker(milesTracker);
+        entryRepository.deleteById(entryId);
+        return "redirect:/tracker/all-tracking/" + userId;
     }
 }

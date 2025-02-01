@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<head>
     <head th:replace="~{fragments :: head}">
         <meta charset="UTF-8"/>
         <title th:text="${title}"></title>
-    </head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
 </head>
 <body>
@@ -34,8 +32,6 @@
     <div class="card-header">
         <h3 class="card-title">Entries</h3>
     </div>
-    <p th:text="${error}"></p>
-
     <div class="card-body">
         <table class="table table-striped">
             <thead>
@@ -53,8 +49,18 @@
                 <td th:text="${entry.date}"></td>
                 <td th:text="${entry.description}"></td>
                 <td th:text="${entry.miles}"></td>
+               <td> <form th:action="@{/tracker/delete/{userId}/{entryId}(userId=${user.id}, entryId=${entry.id})}" method="post">
+                    <input type="hidden" name="_method" value="delete" />
+                    <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" class="text-danger">
+                        <small>Delete</small>
+                    </a>
+                </form>
+               </td>
             </tr>
             </tbody>
+
+
+
         </table>
     </div>
 </div>

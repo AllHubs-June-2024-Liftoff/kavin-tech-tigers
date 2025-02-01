@@ -10,26 +10,27 @@ import TechTigers.BicycleBuddies.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 //TODO: finish service layer
 @Service
 public class MilesTrackerService {
-    MilesTracker milesTracker;
-    private final MilesTrackerRepository milesTrackerRepository;
-    private final UserRepository userRepository;
-    private final EntryRepository entryRepository;
-
+    private User user;
     @Autowired
-    public MilesTrackerService(MilesTrackerRepository milesTrackerRepository, UserRepository userRepository, EntryRepository entryRepository) {
-        this.milesTrackerRepository = milesTrackerRepository;
-        this.userRepository = userRepository;
-        this.entryRepository = entryRepository;
-    }
+    private MilesTrackerRepository milesTrackerRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private EntryRepository entryRepository;
+    private Entry entries;
+
+
     public List<MilesTracker> getAllTracking(){
         return (List<MilesTracker>) milesTrackerRepository.findAll();
     };
+
     public MilesTracker createTracker(MilesTracker milesTracker){
         return milesTrackerRepository.save(milesTracker);
     }
@@ -40,15 +41,28 @@ public class MilesTrackerService {
 
     public MilesTracker saveMilesTracker(MilesTracker milesTracker){return milesTrackerRepository.save(milesTracker); }
 
-
     public void deleteTracker(int id){
        milesTrackerRepository.deleteById(id);
     }
 
-
     public List<MilesTracker> getTrackerByUser(User user) {
         return milesTrackerRepository.findByUser(user);
     }
+
+    //this method checks if user has a milestracker if not it will create one for them
+    public MilesTracker getOrCreateTracker(User user){
+        List<MilesTracker> tracker = milesTrackerRepository.findByUser(user);
+        if(!tracker.isEmpty()){
+            return tracker.get(0);
+        } else {
+            MilesTracker newTracker;
+            newTracker = new MilesTracker();
+            newTracker.setUser(user);
+            newTracker.setEntries(new ArrayList<>());
+            return milesTrackerRepository.save(newTracker);
+        }
+    }
+
     public void addEntry(Entry entry) {
         MilesTracker milesTracker = entry.getMilesTracker();
         milesTracker.trackerSum(entry.getMiles(), entry);

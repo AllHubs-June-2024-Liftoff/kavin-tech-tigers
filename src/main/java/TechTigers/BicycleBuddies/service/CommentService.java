@@ -4,6 +4,7 @@ import TechTigers.BicycleBuddies.data.CommentRepository;
 import TechTigers.BicycleBuddies.models.Comment;
 import TechTigers.BicycleBuddies.models.Ride;
 import TechTigers.BicycleBuddies.data.RideRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,24 +13,19 @@ import java.util.Optional;
 
 @Service
 public class CommentService {
-    private final CommentRepository commentRepository;
-    private final RideRepository rideRepository;
-
     @Autowired
-    public CommentService(CommentRepository commentRepository, RideRepository rideRepository) {
-        this.commentRepository= commentRepository;
-        this.rideRepository= rideRepository;
-    }
+    private CommentRepository commentRepository;
+    @Autowired
+    private RideRepository rideRepository;
+
 
     public List<Comment> getAllComments(){
         return (List<Comment>) commentRepository.findAll();
     }
 
-    public Optional<Comment> getCommentById(int id){
-        if(!commentRepository.existsById(id)) {
-            throw new RuntimeException("Comment with ID " +id+ " doesn't exist.");
-        }
-        return commentRepository.findById(id);
+    public Comment getCommentById(int id){
+
+        return commentRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Ride not found"));
     }
 
     public Comment saveComment(Comment comment) {

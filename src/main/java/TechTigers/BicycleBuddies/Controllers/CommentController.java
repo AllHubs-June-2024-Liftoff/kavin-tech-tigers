@@ -18,23 +18,14 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/comments")
 public class CommentController {
-//TODO: Update & Delete methods
-    private CommentService commentService;
-    private RideService rideService;
-
     @Autowired
-    public CommentController(RideService rideService, CommentService commentService) {
-        this.rideService= rideService;
-        this.commentService= commentService;}
-
-
+    private CommentService commentService;
+    @Autowired
+    private RideService rideService;
 
     @GetMapping("/all-comments")
     public String viewAllComments(Model model){
         Ride ride = rideService.getFirstRide();
-        if(ride == null){
-            model.addAttribute("error", "No rides found");
-        }
         List<Comment> comments = commentService.getCommentsByRideId(ride.getId());
         model.addAttribute("ride", ride);
         model.addAttribute("comments", comments);
@@ -44,25 +35,17 @@ public class CommentController {
 
     @GetMapping("/add-comments/{rideId}")
     public String showAddCommentForm(@PathVariable Long rideId, Model model){
-        Optional<Ride> ride = Optional.ofNullable(rideService.getRideById(rideId));
-        if(ride.isPresent()){
-            model.addAttribute("ride", ride.get());
-            model.addAttribute("comment", new Comment());
-            model.addAttribute("title", "Add a Comment");
-        } else{
-            model.addAttribute("error", "Ride not found");
-        }
+        Ride ride = rideService.getRideById(rideId);
+        model.addAttribute("ride", ride);
+        model.addAttribute("comment", new Comment());
+        model.addAttribute("title", "Add a Comment");
         return "comments/add-comments";
     }
 
     @PostMapping("/add-comments/{rideId}/add")
     public String addComments(@PathVariable Long rideId, @ModelAttribute Comment comment, Model model){
-        Optional<Ride> ride = Optional.ofNullable(rideService.getRideById(rideId));
-        if(ride.isEmpty()){
-            model.addAttribute("error", "Ride is not found");
-            return "redirect:/comments/all-comments";
-        }
-        comment.setRide(ride.get());
+        Ride ride = rideService.getRideById(rideId);
+        comment.setRide(ride);
         comment.setTimestamp(LocalDateTime.now());
         comment.setLikes(0);
         commentService.saveComment(comment);
@@ -71,21 +54,10 @@ public class CommentController {
 
     @PostMapping("/like/{id}")
     public String likeComment(@PathVariable int id, Model model) {
-        Optional<Comment> optionalComment = commentService.getCommentById(id);
-
-        if (optionalComment.isPresent()) {
-            Comment comment = optionalComment.get();
-            comment.addLike();
-            commentService.saveComment(comment);
-        } else {
-            model.addAttribute("error", "Comment not found.");
-        }
+        Comment comment = commentService.getCommentById(id);
+        comment.addLike();
+        commentService.saveComment(comment);
         return "redirect:/comments/all-comments";
-    }
-
-    @GetMapping("/add-comments/{rideId}/add")
-    public String redirectToAddCommentForm(@PathVariable Long rideId) {
-        return "redirect:/comments/add-comments/" + rideId;
     }
 
     @DeleteMapping("/delete/{commentId}")
