@@ -1,9 +1,7 @@
 package TechTigers.BicycleBuddies.Controllers;
 
-import TechTigers.BicycleBuddies.models.MilesTracker;
 import TechTigers.BicycleBuddies.models.User;
 import TechTigers.BicycleBuddies.service.CommentService;
-import TechTigers.BicycleBuddies.service.MilesTrackerService;
 import TechTigers.BicycleBuddies.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,7 +26,7 @@ public class ProfileController {
         return "profile/all-profiles";
     }
 
-    @GetMapping("profile/{profileId}")
+    @GetMapping("/profile/{profileId}")
     public String profileViewById(@PathVariable int profileId, Model model){
         User user = userService.getProfileById(profileId);
         model.addAttribute("user", user);
@@ -51,7 +49,7 @@ public class ProfileController {
         return "redirect:/profile/profile/" + profileId;
     }
 
-    @GetMapping("create-profile")
+    @GetMapping("/profile/create-profile")
     public String displayCreateProfile(Model model){
         model.addAttribute("title", "Create a new profile");
         model.addAttribute("user", new User());
