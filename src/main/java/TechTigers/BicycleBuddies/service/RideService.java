@@ -23,16 +23,16 @@ public class RideService {
         rideRepository.save(ride);
     }
 
-    public Ride getRideById(Long id) {
+    public Ride getRideById(int id) {
         return rideRepository.findById(id).orElse(null);
     }
 
-    public void deleteRide(Long id) {
+    public void deleteRide(int id) {
         rideRepository.deleteById(id);
     }
 
     // New method to cancel a ride
-    public void cancelRide(Long id) {
+    public void cancelRide(int id) {
         Ride ride = rideRepository.findById(id).orElse(null);
         if (ride != null) {
             ride.setStatus(RideStatus.canceled);

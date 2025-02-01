@@ -34,7 +34,7 @@ public class CommentController {
     }
 
     @GetMapping("/add-comments/{rideId}")
-    public String showAddCommentForm(@PathVariable Long rideId, Model model){
+    public String showAddCommentForm(@PathVariable int rideId, Model model){
         Ride ride = rideService.getRideById(rideId);
         model.addAttribute("ride", ride);
         model.addAttribute("comment", new Comment());
@@ -43,7 +43,7 @@ public class CommentController {
     }
 
     @PostMapping("/add-comments/{rideId}/add")
-    public String addComments(@PathVariable Long rideId, @ModelAttribute Comment comment, Model model){
+    public String addComments(@PathVariable int rideId, @ModelAttribute Comment comment, Model model){
         Ride ride = rideService.getRideById(rideId);
         comment.setRide(ride);
         comment.setTimestamp(LocalDateTime.now());

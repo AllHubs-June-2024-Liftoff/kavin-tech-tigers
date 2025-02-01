@@ -77,14 +77,14 @@ public class RideController {
 
     // Delete a ride by ID
     @GetMapping("/delete/{id}")
-    public String deleteRide(@PathVariable Long id) {
+    public String deleteRide(@PathVariable int id) {
         rideService.deleteRide(id);  // Call service to delete the ride
         return "redirect:/rides";  // Redirect back to the list of rides after deletion
     }
 
     // View a single ride by ID
     @GetMapping("/{id}")
-    public String getRideById(@PathVariable Long id, Model model) {
+    public String getRideById(@PathVariable int id, Model model) {
         Ride ride = rideService.getRideById(id);  // Fetch ride by ID
         if (ride != null) {
             model.addAttribute("ride", ride);  // Add the ride to the model
@@ -95,7 +95,7 @@ public class RideController {
 
     // Cancel a ride by ID (new functionality)
     @PostMapping("/cancel/{id}")
-    public String cancelRide(@PathVariable Long id) {
+    public String cancelRide(@PathVariable int id) {
         rideService.cancelRide(id);  // Call service to cancel the ride
         return "redirect:/rides";  // Redirect back to the list of rides after canceling
     }

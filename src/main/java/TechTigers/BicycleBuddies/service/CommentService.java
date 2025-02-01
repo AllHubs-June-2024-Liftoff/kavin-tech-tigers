@@ -44,7 +44,7 @@ public class CommentService {
         return commentRepository.save(existingComment);
     }
 
-    public List<Comment>getCommentsByRideId(Long id){
+    public List<Comment>getCommentsByRideId(int id){
         Optional<Ride> ride = rideRepository.findById((id) );
         return commentRepository.findByRide(ride.orElse(null));
     }
