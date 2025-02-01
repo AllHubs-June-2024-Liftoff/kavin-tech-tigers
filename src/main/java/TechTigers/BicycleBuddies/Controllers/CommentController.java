@@ -2,10 +2,8 @@ package TechTigers.BicycleBuddies.Controllers;
 
 import TechTigers.BicycleBuddies.models.Comment;
 import TechTigers.BicycleBuddies.models.Ride;
-import TechTigers.BicycleBuddies.models.User;
 import TechTigers.BicycleBuddies.service.CommentService;
 import TechTigers.BicycleBuddies.service.RideService;
-import TechTigers.BicycleBuddies.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/comments")
@@ -24,7 +21,7 @@ public class CommentController {
     private RideService rideService;
 
     @GetMapping("/all-comments")
-    public String viewAllComments(Model model){
+    public String viewAllComments(Model model) {
         Ride ride = rideService.getFirstRide();
         List<Comment> comments = commentService.getCommentsByRideId(ride.getId());
         model.addAttribute("ride", ride);
@@ -34,7 +31,7 @@ public class CommentController {
     }
 
     @GetMapping("/add-comments/{rideId}")
-    public String showAddCommentForm(@PathVariable Long rideId, Model model){
+    public String showAddCommentForm(@PathVariable int rideId, Model model) {
         Ride ride = rideService.getRideById(rideId);
         model.addAttribute("ride", ride);
         model.addAttribute("comment", new Comment());
@@ -43,7 +40,7 @@ public class CommentController {
     }
 
     @PostMapping("/add-comments/{rideId}/add")
-    public String addComments(@PathVariable Long rideId, @ModelAttribute Comment comment, Model model){
+    public String addComments(@PathVariable int rideId, @ModelAttribute Comment comment, Model model) {
         Ride ride = rideService.getRideById(rideId);
         comment.setRide(ride);
         comment.setTimestamp(LocalDateTime.now());

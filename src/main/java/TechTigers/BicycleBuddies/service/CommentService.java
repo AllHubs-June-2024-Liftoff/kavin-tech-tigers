@@ -1,9 +1,9 @@
 package TechTigers.BicycleBuddies.service;
 
 import TechTigers.BicycleBuddies.data.CommentRepository;
+import TechTigers.BicycleBuddies.data.RideRepository;
 import TechTigers.BicycleBuddies.models.Comment;
 import TechTigers.BicycleBuddies.models.Ride;
-import TechTigers.BicycleBuddies.data.RideRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,24 +19,26 @@ public class CommentService {
     private RideRepository rideRepository;
 
 
-    public List<Comment> getAllComments(){
+    public List<Comment> getAllComments() {
         return (List<Comment>) commentRepository.findAll();
     }
 
-    public Comment getCommentById(int id){
+    public Comment getCommentById(int id) {
 
-        return commentRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Ride not found"));
+        return commentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Ride not found"));
     }
 
     public Comment saveComment(Comment comment) {
         return commentRepository.save(comment);
     }
 
-    public void deleteComment(int id) { commentRepository.deleteById(id);}
+    public void deleteComment(int id) {
+        commentRepository.deleteById(id);
+    }
 
-    public Comment updateComment(int id, Comment updatedComment){
+    public Comment updateComment(int id, Comment updatedComment) {
         Comment existingComment = commentRepository.findById(id)
-                .orElseThrow(()-> new RuntimeException("Comment with ID "+ id +" does not exist."));
+                .orElseThrow(() -> new RuntimeException("Comment with ID " + id + " does not exist."));
         existingComment.setAuthor(updatedComment.getAuthor());
         existingComment.setContent(updatedComment.getContent());
         existingComment.setTimestamp(updatedComment.getTimestamp());
@@ -44,8 +46,8 @@ public class CommentService {
         return commentRepository.save(existingComment);
     }
 
-    public List<Comment>getCommentsByRideId(Long id){
-        Optional<Ride> ride = rideRepository.findById((id) );
+    public List<Comment> getCommentsByRideId(int id) {
+        Optional<Ride> ride = rideRepository.findById((id));
         return commentRepository.findByRide(ride.orElse(null));
     }
 
