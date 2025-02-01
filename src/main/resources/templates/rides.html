@@ -38,21 +38,21 @@
             margin-top: 20px;
         }
 
-        a {
-            display: block;
-            margin: 20px;
-            padding: 10px;
-            background-color: #0066cc;
-            color: white;
-            text-decoration: none;
-            width: 200px;
-            text-align: center;
-            border-radius: 5px;
-        }
+<!--        a {-->
+<!--            display: block;-->
+<!--            margin: 20px;-->
+<!--            padding: 10px;-->
+<!--            background-color: #0066cc;-->
+<!--            color: white;-->
+<!--            text-decoration: none;-->
+<!--            width: 200px;-->
+<!--            text-align: center;-->
+<!--            border-radius: 5px;-->
+<!--        }-->
 
-        a:hover {
-            background-color: #0044cc;
-        }
+<!--        a:hover {-->
+<!--            background-color: #0044cc;-->
+<!--        }-->
 
         .ride-list {
             list-style-type: none;
@@ -138,7 +138,9 @@
 <body>
 <div th:replace="~{fragments :: navbar}"></div>
 <h1>All Rides</h1>
-<a href="/rides/new">Add New Ride</a>
+<div class="text-center">
+<a href="/rides/new" class="btn btn-primary ">Add New Ride</a>
+</div> <br><br>
 
 <div th:if="${#lists.isEmpty(rides)}">
     <p>No rides available.</p>
@@ -155,10 +157,10 @@
         <strong>Duration:</strong> <span th:text="${ride.duration}"></span><br>
         <strong>Route:</strong> <span th:text="${ride.route}"></span><br>
         <strong>Description:</strong> <span th:text="${ride.description}"></span><br>
-        <a th:href="@{/comments/add-comments/{id}(id=${ride.id})}">Add a Comment</a>
+        <a th:href="@{/comments/add-comments/{id}(id=${ride.id})}" class="btn btn-primary">Add a Comment</a><br><br>
         <!-- Cancel Ride Form -->
         <form th:action="@{/rides/cancel/{id}(id=${ride.id})}" method="post">
-            <button type="submit">Cancel Ride</button>
+            <button type="submit" class="btn btn-primary">Cancel Ride</button>
         </form>
 
         <hr>
