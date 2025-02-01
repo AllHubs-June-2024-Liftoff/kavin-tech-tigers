@@ -20,7 +20,7 @@ public class UserService {
         return (List<User>) userRepository.findAll();
     }
 
-    public User getProfileById(int userId){
+    public User getProfileById(Long userId){
 
         return userRepository.findById(userId).orElseThrow(()-> new EntityNotFoundException("User not found"));
     }
@@ -31,9 +31,9 @@ public class UserService {
 
     public User saveProfile(User user) {return userRepository.save(user);}
 
-    public void deleteProfile(int id) { userRepository.deleteById(id);}
+    public void deleteProfile(Long id) { userRepository.deleteById(id);}
 
-    public User updateProfile(int id, User updatedUser){
+    public User updateProfile(Long id, User updatedUser){
         User existingUser = userRepository.findById(id)
                 .orElseThrow(()-> new RuntimeException("Profile with ID "+ id +" does not exist."));
         existingUser.setDisplayName(updatedUser.getDisplayName());

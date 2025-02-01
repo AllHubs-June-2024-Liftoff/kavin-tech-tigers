@@ -24,7 +24,7 @@ public class TrackerController {
     private EntryRepository entryRepository;
 
     @GetMapping("/all-tracking/{userId}")
-    public String viewAllTracking(Model model, @PathVariable int userId){
+    public String viewAllTracking(Model model, @PathVariable Long userId){
         User user = userService.getProfileById(userId);
         MilesTracker milesTracker = milesTrackerService.getOrCreateTracker(user);
         List<Entry> entries = milesTracker.getEntries();
@@ -36,7 +36,7 @@ public class TrackerController {
     }
 
     @GetMapping("/add-tracking/{userId}")
-    public String showAddTrackingForm(@PathVariable int userId, Model model){
+    public String showAddTrackingForm(@PathVariable Long userId, Model model){
             User user = userService.getProfileById(userId);
             model.addAttribute("user", user);
             model.addAttribute("entry", new Entry());
@@ -46,7 +46,7 @@ public class TrackerController {
     }
 
     @PostMapping("/add-tracking/{userId}/add")
-    public String addTracking(@PathVariable int userId, @ModelAttribute Entry entry, Model model){
+    public String addTracking(@PathVariable Long userId, @ModelAttribute Entry entry, Model model){
        User user = userService.getProfileById(userId);
        MilesTracker tracker = milesTrackerService.getOrCreateTracker(user);
         entry.setMilesTracker(tracker);
@@ -58,7 +58,7 @@ public class TrackerController {
 
 
     @DeleteMapping("/delete/{userId}/{entryId}")
-    public String deleteEntry(@PathVariable int userId, @PathVariable int entryId) {
+    public String deleteEntry(@PathVariable Long userId, @PathVariable int entryId) {
         User user = userService.getProfileById(userId);
         Entry entry = entryRepository.findById(entryId).orElseThrow(); //the orElseThrow was because intelliJ was angry
         MilesTracker milesTracker = milesTrackerService.getOrCreateTracker(user);

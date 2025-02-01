@@ -29,7 +29,7 @@ public class ProfileController {
     }
 
     @GetMapping("profile/{profileId}")
-    public String profileViewById(@PathVariable int profileId, Model model){
+    public String profileViewById(@PathVariable Long profileId, Model model){
         User user = userService.getProfileById(profileId);
         model.addAttribute("user", user);
         model.addAttribute("userName", user.getDisplayName());
@@ -38,14 +38,14 @@ public class ProfileController {
     }
 
     @GetMapping("/profile-edit/{profileId}")
-    public String profileEdit(@PathVariable int profileId, Model model){
+    public String profileEdit(@PathVariable Long profileId, Model model){
         User user = userService.getProfileById(profileId);
         model.addAttribute("user", user);
         return "profile/profile-edit";
     }
 
     @PostMapping("/profile-edit/{profileId}/edit")
-    public String profileUpdate(@PathVariable int profileId,User updatedUser,Model model){
+    public String profileUpdate(@PathVariable Long profileId,User updatedUser,Model model){
         User updatedProfile = userService.updateProfile(profileId, updatedUser);
         model.addAttribute("title", updatedUser.getUserName() + " 's profile");
         return "redirect:/profile/profile/" + profileId;
@@ -65,7 +65,7 @@ public class ProfileController {
     }
 
     @DeleteMapping("profile-edit/{profileId}/delete")
-    public String deleteProfile(@PathVariable int profileId){
+    public String deleteProfile(@PathVariable Long profileId){
         userService.deleteProfile(profileId);
         return "redirect:/profile/all-profiles";
     }

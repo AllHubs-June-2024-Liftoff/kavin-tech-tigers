@@ -32,22 +32,10 @@ public class LoginVerifyController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    AuthenticationController authenticationController;
+
     private static final String userSessionKey = "user";
-
-    public User getUserFromSession(HttpSession session){
-        Integer userId = (Integer) session.getAttribute(userSessionKey);
-        if (userId == null){
-            return null;
-        }
-
-        Optional<User> user = userRepository.findById(userId);
-
-        if(user.isEmpty()){
-            return null;
-        }
-
-        return user.get();
-    }
 
     private static void setUserInSession(HttpSession session, User user){
         session.setAttribute(userSessionKey, user.getId());
@@ -62,7 +50,7 @@ public class LoginVerifyController {
     @GetMapping("")
     public String sendSMS(HttpServletRequest request){
 
-        User user = getUserFromSession(request.getSession());
+        User user = authenticationController.getUserFromSession(request.getSession());
         String userEmail = user.getEmail();
 
         //generates new token upon every login attempt
@@ -100,7 +88,7 @@ public class LoginVerifyController {
             return "login-verification/login-email-sent";
         }
 
-        User user = getUserFromSession(request.getSession());
+        User user = authenticationController.getUserFromSession(request.getSession());
         int userSubmittedEmailVerification = emailVerificationFormDTO.getUserSubmittedEmailVerification();
         int userGivenEmailVerification = user.getEmailVerificationCode();
 
