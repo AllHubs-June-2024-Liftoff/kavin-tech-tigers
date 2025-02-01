@@ -13,7 +13,7 @@ public abstract class AbstractEntity {
     @GeneratedValue
     private int id;
 
-    public int getId(){
+    public long getId(){
         return id;
     }
 

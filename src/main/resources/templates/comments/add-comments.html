@@ -12,11 +12,14 @@
     </div>
 </div>
 <div class="container">
-    <form action="@{/comments/add-comments}" method="post">
-        <input type="hidden" name="profileId" value="${user.id}" />
+    <form th:action="@{/comments/add-comments/{rideId}/add(rideId=${ride.id})}" method="post" th:object="${comment}">
+        <div class="mb-3">
+            <label for="author">Name:</label>
+            <input type="text" id="author" th:field="*{author}" class="form-control" />
+        </div>
         <div class="mb-3">
             <label for="content">Comment: </label>
-            <textarea id="content" th:field="*{comment.content}" name="content" class="form-control"></textarea>
+            <textarea id="content" th:field="*{content}" class="form-control"></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Add Comment</button>
     </form>

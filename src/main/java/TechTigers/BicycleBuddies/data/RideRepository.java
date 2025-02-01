@@ -1,4 +1,4 @@
-package TechTigers.BicycleBuddies.models.data;
+package TechTigers.BicycleBuddies.data;
 
 import TechTigers.BicycleBuddies.models.Ride;
 import org.springframework.data.jpa.repository.JpaRepository;

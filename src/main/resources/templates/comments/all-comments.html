@@ -1,27 +1,72 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<head th:replace="~{fragments :: head}">
-    <meta charset="UTF-8"/>
-    <title th:text="${title}"></title>
+<head>
+    <head th:replace="~{fragments :: head}">
+        <meta charset="UTF-8"/>
+        <title th:text="${title}"></title>
+    </head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
 </head>
 <body>
 <div th:replace="~{fragments :: navbar}"></div>
 <div class="container text-center py-5">
     <div class="row">
-        <h1 class="display-5" th:text="${title}"></h1>
+        <h1 class="display-5" th:text="${title}">All Comments</h1>
     </div>
 </div>
 <div class="container">
-    <div th:each="comment : ${comments}" class="card mb-3">
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4>Ride Information</h4>
+        </div>
         <div class="card-body">
-            <h5 class="card-title">
-                <span th:text="${comment.author}"></span>
-                <span class="text-muted" th:text="${#dates.format(comment.timestamp, 'yyyy-mm-dd HH:mm')}"></span>
-            </h5>
-            <p class="card-text" th:text="${comment.content}"></p>
+            <p class="card-text">
+                <strong>Date:</strong> <span th:text="${ride.date}"></span><br>
+                <strong>Distance:</strong> <span th:text="${ride.distance}"></span> miles<br>
+                <strong>Description:</strong> <span th:text="${ride.description}"></span>
+            </p>
+            <div class="mt-3">
+                <a th:href="@{/comments/add-comments/{rideId}(rideId=${ride.id})}" class="btn btn-success">
+                    Add a Comment
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h4>Comments</h4>
+        </div>
+        <div class="card-body">
+            <div th:each="comment : ${comments}">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <p class="card-text mb-0 small">
+                                <strong th:text="${comment.author}"></strong>
+                                <span class="text-muted ml-2">
+                                        <span th:text="${comment.timestamp != null} ? ${#temporals.format(comment.timestamp, 'yyyy-MM-dd HH:mm')} : 'N/A'"></span>
+                                    </span>
+                            </p>
+                            <form th:action="@{/comments/like/{id}(id=${comment.id})}" method="post" class="ml-2">
+                                <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" class="heart-link small">
+                                    &#9829; <span th:text="${comment.likes}"></span>
+                                </a>
+                            </form>
+                        </div>
+                        <p class="card-text mt-2" th:text="${comment.content}"></p>
+                        <div class="d-flex justify-content-end">
+                            <form th:action="@{/comments/delete/{id}(id=${comment.id})}" method="post">
+                                <input type="hidden" name="_method" value="delete" />
+                                <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" class="text-danger">
+                                    <small>Delete Comment</small>
+                                </a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
 </body>
 </html>
