@@ -233,10 +233,9 @@
         <input type="text" id="route" th:field="*{route}"><br><br>
     </div>
 
-    <div class="form-group">
-        <label for="userNameRideOwner">Name:</label>
-        <input type="text" id="userNameRideOwner" name="userNameRideOwner"/>
-    </div>
+
+    <input type="hidden" th:field="*{userNameRideOwner}"/>
+
 
     <div class="form-group">
         <label for="scheduledEmail">Email Reminder?:</label>

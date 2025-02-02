@@ -1,12 +1,13 @@
 package TechTigers.BicycleBuddies.models.dto;
 
 import TechTigers.BicycleBuddies.models.RideStatus;
+import TechTigers.BicycleBuddies.models.User;
 
 import java.time.LocalDateTime;
 
 public class RideFormDTO {
 
-    private String userNameRideOwner;
+    private User userNameRideOwner;
     private LocalDateTime date;
     private double distance;
     private double duration;
@@ -17,11 +18,11 @@ public class RideFormDTO {
     private double longitude;
     private Boolean scheduledEmail;
 
-    public String getUserNameRideOwner() {
+    public User getUserNameRideOwner() {
         return userNameRideOwner;
     }
 
-    public void setUserNameRideOwner(String userNameRideOwner) {
+    public void setUserNameRideOwner(User userNameRideOwner) {
         this.userNameRideOwner = userNameRideOwner;
     }
 

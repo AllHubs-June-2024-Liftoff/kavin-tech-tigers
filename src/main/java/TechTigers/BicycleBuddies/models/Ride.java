@@ -1,9 +1,6 @@
 package TechTigers.BicycleBuddies.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
@@ -12,7 +9,9 @@ import static TechTigers.BicycleBuddies.models.RideStatus.scheduled;
 @Entity
 public class Ride extends AbstractEntity {
 
-    private String userNameRideOwner;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User userNameRideOwner;
 
     @Column(nullable = false)
     private LocalDateTime date; // Date of the ride
@@ -38,7 +37,7 @@ public class Ride extends AbstractEntity {
     public Ride() {
     }
 
-    public Ride(String userNameRideOwner, LocalDateTime date, double distance, double duration, String description, String route, RideStatus status, double latitude, double longitude) {
+    public Ride(User userNameRideOwner, LocalDateTime date, double distance, double duration, String description, String route, RideStatus status, double latitude, double longitude) {
         this.userNameRideOwner = userNameRideOwner;
         this.date = date;
         this.distance = distance;
@@ -115,11 +114,11 @@ public class Ride extends AbstractEntity {
         this.latitude = latitude;
     }
 
-    public String getUserNameRideOwner() {
+    public User getUserNameRideOwner() {
         return userNameRideOwner;
     }
 
-    public void setUserNameRideOwner(String userNameRideOwner) {
+    public void setUserNameRideOwner(User userNameRideOwner) {
         this.userNameRideOwner = userNameRideOwner;
     }
 

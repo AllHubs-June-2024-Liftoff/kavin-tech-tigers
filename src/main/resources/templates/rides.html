@@ -125,7 +125,7 @@
             const marker = new AdvancedMarkerElement({
                         position: { lat: ride.latitude, lng: ride.longitude },
                         map: map,
-                        title: `${ride.userNameRideOwner}\n${ride.date}`,
+                        title: `${ride.userNameRideOwner.displayName}\n${ride.date}`,
                         })
                 });
       }
