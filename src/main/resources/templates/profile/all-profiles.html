@@ -13,8 +13,6 @@
 <div class="container py-5">
     <ul class="list-group list-group-flush">
         <li class="list-group-item" th:each="user : ${profiles}">
-            <a th:href="@{/profile/profile/{id}(id=${user.id})}" th:text="${user.id}">User Id</a>
-            -
             <a th:href="@{/profile/profile/{id}(id=${user.id})}" th:text="${user.displayName}">User Display Name</a>
             - <span th:text="${user.location}">Location</span>
         </li>
