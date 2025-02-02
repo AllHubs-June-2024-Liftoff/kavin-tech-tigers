@@ -21,22 +21,7 @@
     });
 </script>
 
-<script>
-    (function(d, s, id) {
-        if (d.getElementById(id)) {
-            if (window.__TOMORROW__) {
-                window.__TOMORROW__.renderWidget();
-            }
-            return;
-        }
-        const fjs = d.getElementsByTagName(s)[0];
-        const js = d.createElement(s);
-        js.id = id;
-        js.src = "https://www.tomorrow.io/v1/widget/sdk/sdk.bundle.min.js";
-
-        fjs.parentNode.insertBefore(js, fjs);
-    })(document, 'script', 'tomorrow-sdk');
-</script>
+<script th:src="@{/js/weatherScript.js}"></script>
 
 <script th:inline="javascript">
 
@@ -99,36 +84,5 @@ window.onload = initMap;
 <div class="container">
     <img th:src="@{Bike_Trail_Legend.jpg}" alt="">
 </div>
-<!--<form id="rideSubmitForm" th:action="@{map}" method="post">-->
-<!--    <label for="userNameRideOwner">Name:</label>-->
-<!--    <input type="text" id="userNameRideOwner" name="userNameRideOwner"/>-->
-<!--    <input type="hidden" id="latitude" name="latitude"/>-->
-<!--    <input type="hidden" id="longitude" name="longitude"/>-->
-<!--    <input type="datetime-local" id="date" name="date"/>-->
-
-<!--    <button type="submit">Submit</button>-->
-<!--</form>-->
-
-
-<!--<script th:src="@{/js/MapScript.js}"></script>-->
-
-
-<!--<div id="rideTable" th:if="${ not#lists.isEmpty(rides)}">-->
-<!--    <table>-->
-<!--        <tr>-->
-<!--            &lt;!&ndash;            <th>Latitude</th>&ndash;&gt;-->
-<!--            &lt;!&ndash;            <th>Longitude</th>&ndash;&gt;-->
-<!--            &lt;!&ndash;            <th>Name</th>&ndash;&gt;-->
-<!--            <th>Date</th>-->
-<!--        </tr>-->
-<!--        <tr th:each="ride : ${rides}">-->
-<!--            &lt;!&ndash;            <td th:text="${ride.latitude}"></td>&ndash;&gt;-->
-<!--            &lt;!&ndash;            <td th:text="${ride.longitude}"></td>&ndash;&gt;-->
-<!--            &lt;!&ndash;            <td th:text="${ride.userNameRideOwner}"></td>&ndash;&gt;-->
-<!--            <td th:text="${ride.date}"></td>-->
-<!--        </tr>-->
-<!--    </table>-->
-<!--</div>-->
-
 </body>
 </html>
