@@ -60,10 +60,11 @@ public class User extends AbstractEntity{
 
 
 
-    public User(String userName, String password, String email) {
+    public User(String userName, String password, String email, String displayName) {
         this.userName = userName;
         this.pwHash = encoder.encode(password);
         this.email = email;
+        this.displayName = displayName;
     }
 
     public void setUserName(String userName) {
