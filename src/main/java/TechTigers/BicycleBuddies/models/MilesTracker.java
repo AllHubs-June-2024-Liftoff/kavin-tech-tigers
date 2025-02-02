@@ -87,3 +87,4 @@ public class MilesTracker extends AbstractEntity{
                 '}';
     }
 }
+
