@@ -33,7 +33,9 @@ public class Ride extends AbstractEntity {
     private double latitude;
     private double longitude;
 
-    // Default constructor (required by JPA)
+
+
+    // Default constructor (required by JPA).
     public Ride() {
     }
 
