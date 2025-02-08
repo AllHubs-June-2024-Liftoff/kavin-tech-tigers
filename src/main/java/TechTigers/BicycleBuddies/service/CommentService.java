@@ -1,10 +1,9 @@
 package TechTigers.BicycleBuddies.service;
 
 import TechTigers.BicycleBuddies.data.CommentRepository;
-import TechTigers.BicycleBuddies.data.RideRepository;
+import TechTigers.BicycleBuddies.data.UserRepository;
 import TechTigers.BicycleBuddies.models.Comment;
-import TechTigers.BicycleBuddies.models.Ride;
-import jakarta.persistence.EntityNotFoundException;
+import TechTigers.BicycleBuddies.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,30 +12,38 @@ import java.util.Optional;
 
 @Service
 public class CommentService {
-    @Autowired
-    private CommentRepository commentRepository;
-    @Autowired
-    private RideRepository rideRepository;
+    private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
 
+    @Autowired
+    public CommentService(CommentRepository commentRepository, UserRepository userRepository) {
+        this.commentRepository = commentRepository;
+        this.userRepository = userRepository;
+    }
 
-    public List<Comment> getAllComments() {
+    public List<Comment> getAllComments(){
         return (List<Comment>) commentRepository.findAll();
     }
 
-    public Comment getCommentById(int id) {
-
-        return commentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Ride not found"));
+    public Optional<Comment> getCommentById(Long id){ // Changed Integer to Long
+        if(!commentRepository.existsById(id)) {
+            throw new RuntimeException("Comment with ID " + id + " doesn't exist.");
+        }
+        return commentRepository.findById(id);
     }
 
     public Comment saveComment(Comment comment) {
         return commentRepository.save(comment);
     }
 
-    public void deleteComment(int id) {
+    public void deleteComment(Long id) { // Changed Integer to Long
+        if (!commentRepository.existsById(id)) {
+            throw new RuntimeException("Comment with ID " + id + " doesn't exist.");
+        }
         commentRepository.deleteById(id);
     }
 
-    public Comment updateComment(int id, Comment updatedComment) {
+    public Comment updateComment(Long id, Comment updatedComment){ // Changed Integer to Long
         Comment existingComment = commentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Comment with ID " + id + " does not exist."));
         existingComment.setAuthor(updatedComment.getAuthor());
@@ -46,9 +53,9 @@ public class CommentService {
         return commentRepository.save(existingComment);
     }
 
-    public List<Comment> getCommentsByRideId(int id) {
-        Optional<Ride> ride = rideRepository.findById((id));
-        return commentRepository.findByRide(ride.orElse(null));
+    public List<Comment> getCommentsByProfileId(Long id){ // Changed Integer to Long
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Profile not found."));
+        return commentRepository.findByUser(user);
     }
-
 }

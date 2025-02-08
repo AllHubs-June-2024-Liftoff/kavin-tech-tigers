@@ -1,47 +1,52 @@
 package TechTigers.BicycleBuddies.service;
 
-
 import TechTigers.BicycleBuddies.data.UserRepository;
-import TechTigers.BicycleBuddies.models.Ride;
 import TechTigers.BicycleBuddies.models.User;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class UserService {
+
     @Autowired
     private UserRepository userRepository;
 
-    public List<User> getAllProfiles(){
-        return (List<User>) userRepository.findAll();
+    // Get all profiles as List
+    public List<User> getAllProfiles() {
+        return StreamSupport.stream(userRepository.findAll().spliterator(), false)
+                .collect(Collectors.toList());
     }
 
-    public User getProfileById(int userId){
-
-        return userRepository.findById(userId).orElseThrow(()-> new EntityNotFoundException("User not found"));
+    // Get profile by ID
+    public Optional<User> getProfileById(Long profileId) {
+        return userRepository.findById(profileId);
     }
 
-    public User findUserByUsername(String userName){
-        return userRepository.findByUserName(userName);
+    // Save a new profile
+    public User saveProfile(User user) {
+        return userRepository.save(user);
     }
 
-    public User saveProfile(User user) {return userRepository.save(user);}
+    // Update an existing profile
+    public User updateProfile(Long profileId, User updatedUser) {
+        Optional<User> existingUser = userRepository.findById(profileId);
+        if (existingUser.isPresent()) {
+            User user = existingUser.get();
+            user.setUserName(updatedUser.getUserName()); // Changed to setUserName
+            user.setEmail(updatedUser.getEmail());       // Setting email
+            // Add other properties here to update
+            return userRepository.save(user);
+        }
+        return null; // Or throw an exception as needed
+    }
 
-    public void deleteProfile(int id) { userRepository.deleteById(id);}
-
-    public User updateProfile(int id, User updatedUser){
-        User existingUser = userRepository.findById(id)
-                .orElseThrow(()-> new RuntimeException("Profile with ID "+ id +" does not exist."));
-        existingUser.setDisplayName(updatedUser.getDisplayName());
-        existingUser.setLocation(updatedUser.getLocation());
-        existingUser.setBio(updatedUser.getBio());
-        return userRepository.save(existingUser);
+    // Delete a profile
+    public void deleteProfile(Long profileId) {
+        userRepository.deleteById(profileId);
     }
 }
-
-
-

@@ -1,16 +1,17 @@
 package TechTigers.BicycleBuddies.models.dto;
 
-//used for logging in
+import javax.validation.constraints.NotNull;
+
 public class EmailVerificationFormDTO {
 
-    private int userSubmittedEmailVerification;
+    @NotNull(message = "Verification code is required")
+    private Integer userSubmittedEmailVerification;
 
-    public int getUserSubmittedEmailVerification() {
+    public Integer getUserSubmittedEmailVerification() {
         return userSubmittedEmailVerification;
     }
 
-    public void setUserSubmittedEmailVerification(int userSubmittedEmailVerification) {
+    public void setUserSubmittedEmailVerification(Integer userSubmittedEmailVerification) {
         this.userSubmittedEmailVerification = userSubmittedEmailVerification;
     }
-
 }

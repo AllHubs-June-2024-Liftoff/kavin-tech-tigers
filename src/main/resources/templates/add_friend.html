@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Friend</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h2>Add a Friend</h2>
+
+<form action="/friends/search" method="GET">
+    <input type="text" name="query" placeholder="Search by name or email" required>
+    <button type="submit">Search</button>
+</form>
+
+<div id="searchResults">
+    <!-- Search results will be displayed here -->
+</div>
+
+<script>
+    function sendFriendRequest(userId) {
+        fetch(`/friends/add/${userId}`, { method: 'POST' })
+        .then(response => response.json())
+        .then(data => alert(data.message))
+        .catch(error => console.error('Error:', error));
+    }
+</script>
+</body>
+</html>

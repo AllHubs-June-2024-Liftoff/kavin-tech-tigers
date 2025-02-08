@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Friend</title>
+</head>
+<body>
+<h2>Add Friend</h2>
+
+<form action="/friends/add" method="POST">
+  <label for="userId">Your User ID:</label>
+  <input type="text" id="userId" name="userId" value="${user.id}" readonly>
+
+  <label for="friendId">Friend's User ID:</label>
+  <input type="text" id="friendId" name="friendId" placeholder="Enter Friend's ID" required>
+
+  <button type="submit">Add Friend</button>
+</form>
+
+<div>
+  <h3>Search for users to add:</h3>
+  <!-- Implement search logic -->
+</div>
+</body>
+</html>

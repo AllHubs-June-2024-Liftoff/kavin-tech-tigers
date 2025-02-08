@@ -1,9 +1,9 @@
 package TechTigers.BicycleBuddies.Controllers;
 
 import TechTigers.BicycleBuddies.models.Comment;
-import TechTigers.BicycleBuddies.models.Ride;
+import TechTigers.BicycleBuddies.models.User;
 import TechTigers.BicycleBuddies.service.CommentService;
-import TechTigers.BicycleBuddies.service.RideService;
+import TechTigers.BicycleBuddies.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,56 +11,49 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/comments")
 public class CommentController {
-    @Autowired
     private CommentService commentService;
+    private UserService userService;
+
     @Autowired
-    private RideService rideService;
+    public CommentController(UserService userService, CommentService commentService) {
+        this.userService = userService;
+        this.commentService = commentService;
+    }
 
     @GetMapping("/all-comments")
     public String viewAllComments(Model model) {
-        Ride ride = rideService.getFirstRide();
-        List<Comment> comments = commentService.getCommentsByRideId(ride.getId());
-        model.addAttribute("ride", ride);
+        List<Comment> comments = commentService.getAllComments();
         model.addAttribute("comments", comments);
         model.addAttribute("title", "All Comments");
-        return "comments/all-comments";
+        return "all-comments";
     }
 
-    @GetMapping("/add-comments/{rideId}")
-    public String showAddCommentForm(@PathVariable int rideId, Model model) {
-        Ride ride = rideService.getRideById(rideId);
-        model.addAttribute("ride", ride);
-        model.addAttribute("comment", new Comment());
-        model.addAttribute("title", "Add a Comment");
-        return "comments/add-comments";
+    @GetMapping("/add-comments/{profileId}")
+    public String showAddCommentForm(@PathVariable Long profileId, Model model) {
+        Optional<User> user = userService.getProfileById(profileId); // Calls the new method in UserService
+        if (user.isPresent()) {
+            model.addAttribute("user", user.get());
+            model.addAttribute("title", "Add a Comment");
+        } else {
+            model.addAttribute("error", "User not found");
+        }
+        return "/add-comments";
     }
 
-    @PostMapping("/add-comments/{rideId}/add")
-    public String addComments(@PathVariable int rideId, @ModelAttribute Comment comment, Model model) {
-        Ride ride = rideService.getRideById(rideId);
-        comment.setRide(ride);
+    @PostMapping("/add-comments/{profileId}/add")
+    public String addComments(@RequestParam Long profileId, @RequestParam String content, Model model) {
+        Optional<User> user = userService.getProfileById(profileId); // Calls the new method in UserService
+        Comment comment = new Comment();
+        comment.setContent(content);
         comment.setTimestamp(LocalDateTime.now());
         comment.setLikes(0);
+        comment.setUser(user.orElse(null));
         commentService.saveComment(comment);
-        return "redirect:/comments/all-comments";
-    }
-
-    @PostMapping("/like/{id}")
-    public String likeComment(@PathVariable int id, Model model) {
-        Comment comment = commentService.getCommentById(id);
-        comment.addLike();
-        commentService.saveComment(comment);
-        return "redirect:/comments/all-comments";
-    }
-
-    @DeleteMapping("/delete/{commentId}")
-    public String deleteProfile(@PathVariable int commentId) {
-        commentService.deleteComment(commentId);
         return "redirect:/comments/all-comments";
     }
 }
-

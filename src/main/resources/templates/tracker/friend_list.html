@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Friends List</title>
+  <!-- Add JSTL taglib declaration -->
+  <taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" />
+</head>
+<body>
+<h2>Your Friends List</h2>
+
+<div>
+  <h3>Friends of ${user.username}:</h3>
+  <ul>
+    <c:forEach var="friend" items="${friends}">
+      <li>
+        ${friend.username}
+        <form action="/friends/remove" method="POST" style="display:inline;">
+          <input type="hidden" name="userId" value="${user.id}">
+          <input type="hidden" name="friendId" value="${friend.id}">
+          <button type="submit">Remove</button>
+        </form>
+      </li>
+    </c:forEach>
+  </ul>
+</div>
+
+<div>
+  <a href="/friends/search/${user.id}">Search for more friends</a>
+</div>
+</body>
+</html>

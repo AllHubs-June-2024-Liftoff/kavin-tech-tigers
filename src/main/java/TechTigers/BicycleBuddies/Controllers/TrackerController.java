@@ -24,8 +24,15 @@ public class TrackerController {
     private EntryRepository entryRepository;
 
     @GetMapping("/all-tracking/{userId}")
-    public String viewAllTracking(Model model, @PathVariable int userId){
-        User user = userService.getProfileById(userId);
+    public String viewAllTracking(Model model, @PathVariable Long userId){
+        Optional<User> userOptional = userService.getProfileById(userId);  // Returns Optional<User>
+        if (userOptional.isEmpty()) {
+            // Handle the case where the user is not found
+            model.addAttribute("error", "User not found");
+            return "error";  // Or redirect to a different page, e.g., "error"
+        }
+
+        User user = userOptional.get();  // Get the User object from the Optional
         MilesTracker milesTracker = milesTrackerService.getOrCreateTracker(user);
         List<Entry> entries = milesTracker.getEntries();
         model.addAttribute("userId", userId);
@@ -37,19 +44,31 @@ public class TrackerController {
     }
 
     @GetMapping("/add-tracking/{userId}")
-    public String showAddTrackingForm(@PathVariable int userId, Model model){
-            User user = userService.getProfileById(userId);
-            model.addAttribute("user", user);
-            model.addAttribute("entry", new Entry());
-            model.addAttribute("title", "Add to Tracker");
+    public String showAddTrackingForm(@PathVariable Long userId, Model model){
+        Optional<User> userOptional = userService.getProfileById(userId);
+        if (userOptional.isEmpty()) {
+            model.addAttribute("error", "User not found");
+            return "error";
+        }
+
+        User user = userOptional.get();  // Get the User object from the Optional
+        model.addAttribute("user", user);
+        model.addAttribute("entry", new Entry());
+        model.addAttribute("title", "Add to Tracker");
 
         return "tracker/add-tracking";
     }
 
     @PostMapping("/add-tracking/{userId}/add")
-    public String addTracking(@PathVariable int userId, @ModelAttribute Entry entry, Model model){
-       User user = userService.getProfileById(userId);
-       MilesTracker tracker = milesTrackerService.getOrCreateTracker(user);
+    public String addTracking(@PathVariable Long userId, @ModelAttribute Entry entry, Model model){
+        Optional<User> userOptional = userService.getProfileById(userId);
+        if (userOptional.isEmpty()) {
+            model.addAttribute("error", "User not found");
+            return "error";
+        }
+
+        User user = userOptional.get();  // Get the User object from the Optional
+        MilesTracker tracker = milesTrackerService.getOrCreateTracker(user);
         entry.setMilesTracker(tracker);
         milesTrackerService.addEntry(entry);
         entryRepository.save(entry);
@@ -57,11 +76,16 @@ public class TrackerController {
         return "redirect:/tracker/all-tracking/" + userId;
     }
 
-
     @DeleteMapping("/delete/{userId}/{entryId}")
-    public String deleteEntry(@PathVariable int userId, @PathVariable int entryId) {
-        User user = userService.getProfileById(userId);
-        Entry entry = entryRepository.findById(entryId).orElseThrow(); //the orElseThrow was because intelliJ was angry
+    public String deleteEntry(@PathVariable Long userId, @PathVariable int entryId) {
+        Optional<User> userOptional = userService.getProfileById(userId);
+        if (userOptional.isEmpty()) {
+            return "error";  // Or handle the error appropriately
+        }
+
+        User user = userOptional.get();  // Get the User object from the Optional
+        Entry entry = entryRepository.findById(entryId)
+                .orElseThrow(() -> new RuntimeException("Entry not found")); // Fixed the error here
         MilesTracker milesTracker = milesTrackerService.getOrCreateTracker(user);
         milesTracker.removeEntry(entry);
         milesTrackerService.saveMilesTracker(milesTracker);

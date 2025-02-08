@@ -37,21 +37,19 @@ public class EmailService {
         List<RideUser> rideUsers = rideUserRepository.findByRide(ride);
 
         for (RideUser rideUser : rideUsers) {
-            if (rideUser.getUser() != null && rideUser.getUser().getEmail() != null) {
-                sendRideReminderEmail(rideUser);
+            if (rideUser.getUser().getEmail() != null) {
+                sendEmail(rideUser.getUser().getEmail());
             } else {
                 System.err.println("no valid email address");
             }
         }
     }
 
-    private void sendRideReminderEmail(RideUser rideUser) {
-
+    private void sendEmail(String emailAddress) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(rideUser.getUser().getEmail());
-        message.setSubject(rideUser.getUser().getUserName() + " You have an upcoming ride!");
-        message.setText("Hello " + rideUser.getUser().getUserName() + "\nYour ride starts at: " + rideUser.getRide().getDate() + "\nThe GPS co-ordinates for the meet up are:\n"
-                + rideUser.getRide().getLatitude() + " Latitude\n" + rideUser.getRide().getLongitude() + " Longitude\n\nGo Have fun!");
+        message.setTo(emailAddress);
+        message.setSubject("Time for Ride Test Subject");
+        message.setText("Time for Ride Test Body");
         mailSender.send(message);
     }
 }

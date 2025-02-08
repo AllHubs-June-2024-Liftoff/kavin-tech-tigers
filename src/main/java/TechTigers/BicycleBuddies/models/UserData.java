@@ -10,7 +10,7 @@ public class UserData {
 
         for (User user : allUsers) {
 
-            if(user.getDisplayName().toLowerCase().contains(value.toLowerCase())){
+            if(user.getUserName().toLowerCase().contains(value.toLowerCase())){
                 results.add(user);
             }
         }

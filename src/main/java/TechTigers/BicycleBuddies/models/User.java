@@ -1,91 +1,77 @@
 package TechTigers.BicycleBuddies.models;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-import java.awt.*;
-import java.util.List;
-import java.util.Random;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import javax.validation.constraints.NotNull;
-
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.Id;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
-public class User extends AbstractEntity{
+public class User {
 
-    @NotNull
-    @NotBlank
+    @Id
+    private Long id;  // Add the ID field
     private String userName;
-
     private String fullName;
-
-    @NotNull
-    @Email
     private String email;
-
     private String pwHash;
     private String location;
     private boolean isVerified;
-    private final int verificationCode = generateToken();
-    private int emailVerificationCode;
-
-    @NotBlank(message = "Name must not be blank.")
-    @Size(min = 3, max = 15, message = "Name must be between 3 and 15 characters.")
-    private String displayName; // display name entered by user for profile
-
+    private String displayName;
     private String bio;
-//    private Image bioPicture;  // not sure if this is the right datatype found in Java Documentation https://docs.oracle.com/javase/8/docs/api/java/awt/Image.html
-    @OneToMany(mappedBy = "author", cascade= CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comments;
 
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    public User () {}
-
-    public User(String userName, String fullName, String email, String password, String location, String displayName, String bio, Image bioPicture) {
+    // Constructor for AuthenticationController (simplified version)
+    public User(String userName, String email, String password, String displayName) {
         this.userName = userName;
-        this.fullName = fullName;
         this.email = email;
-        this.pwHash = encoder.encode(password);
-        this.location = location;
+        this.pwHash = encoder.encode(password);  // Hash the password
         this.displayName = displayName;
-        this.bio = bio;
-//        this.bioPicture = bioPicture;
+        this.isVerified = false;  // Set a default value for verification status
+        // Default empty values for other fields (if necessary)
+        this.fullName = "";
+        this.location = "";
+        this.bio = "";
     }
 
-
-
-    public User(String userName, String password, String email, String displayName) {
-        this.userName = userName;
-        this.pwHash = encoder.encode(password);
-        this.email = email;
-        this.displayName = displayName;
+    // Getters and Setters
+    public Long getId() {
+        return id;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getUserName() {
         return userName;
     }
 
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     public String getFullName() {
         return fullName;
     }
 
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
 
     public String getEmail() {
         return email;
     }
 
-    public boolean isMatchingPassword(String password){
-        return encoder.matches(password, pwHash);
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPwHash() {
+        return pwHash;
+    }
+
+    public void setPwHash(String pwHash) {
+        this.pwHash = pwHash;
     }
 
     public String getLocation() {
@@ -96,11 +82,19 @@ public class User extends AbstractEntity{
         this.location = location;
     }
 
-    public @NotBlank(message = "Name must not be blank.") @Size(min = 3, max = 15, message = "Name must be between 3 and 15 characters.") String getDisplayName() {
+    public boolean isVerified() {
+        return isVerified;
+    }
+
+    public void setVerified(boolean verified) {
+        isVerified = verified;
+    }
+
+    public String getDisplayName() {
         return displayName;
     }
 
-    public void setDisplayName(@NotBlank(message = "Name must not be blank.") @Size(min = 3, max = 15, message = "Name must be between 3 and 15 characters.") String displayName) {
+    public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
 
@@ -112,49 +106,13 @@ public class User extends AbstractEntity{
         this.bio = bio;
     }
 
-//    public Image getBioPicture() {
-//        return bioPicture;
-//    }
-
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userName='" + userName + '\'' +
-                ", fullName='" + fullName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" +  + '\'' +
-                ", location='" + location + '\'' +
-                ", displayName='" + displayName + '\'' +
-                ", bio='" + bio + '\'' +
-//                ", bioPicture=" + bioPicture +
-                '}';
+    // Password matching method
+    public boolean isMatchingPassword(String password) {
+        return encoder.matches(password, pwHash);
     }
 
-    public boolean isVerified() {
-        return isVerified;
+    // Method to generate and validate verification token
+    public static int generateToken() {
+        return (int) (Math.random() * 900000) + 100000;
     }
-
-    public void setVerified(boolean verified) {
-        isVerified = verified;
-    }
-
-    public int getVerificationCode() {
-        return verificationCode;
-    }
-
-    public int getEmailVerificationCode() {
-        return emailVerificationCode;
-    }
-
-    public void setEmailVerificationCode(int emailVerificationCode) {
-        this.emailVerificationCode = emailVerificationCode;
-    }
-
-    //Generates a number between 100000 and 999999
-    public static int generateToken(){
-        Random generator = new Random();
-        return generator.nextInt(900000) + 100000;
-    }
-
 }

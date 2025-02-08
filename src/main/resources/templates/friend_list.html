@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Friend List</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h2>Your Friends</h2>
+
+<ul id="friendList">
+  <!-- Friends will be dynamically inserted here -->
+</ul>
+
+<script>
+  // Fetch and display friends list
+  fetch('/friends/list')
+  .then(response => response.json())
+  .then(friends => {
+      let list = document.getElementById('friendList');
+      list.innerHTML = '';
+      friends.forEach(friend => {
+          let li = document.createElement('li');
+          li.textContent = friend.name + ' (' + friend.email + ')';
+          list.appendChild(li);
+      });
+  })
+  .catch(error => console.error('Error:', error));
+</script>
+</body>
+</html>
