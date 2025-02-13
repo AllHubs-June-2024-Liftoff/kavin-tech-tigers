@@ -1,70 +1,52 @@
 package TechTigers.BicycleBuddies.Controllers;
 
 import TechTigers.BicycleBuddies.models.User;
-import TechTigers.BicycleBuddies.service.CommentService;
 import TechTigers.BicycleBuddies.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
 @Controller
-@RequestMapping("profile")
+@RequestMapping("/profile")
 public class ProfileController {
+
     @Autowired
     private UserService userService;
-    @Autowired
-    private CommentService commentService;
 
-    @GetMapping("/all-profiles")
-    public String getAllProfiles(Model model){
-        List<User> profiles= userService.getAllProfiles();
-        model.addAttribute("title", "List of all Profiles");
+    private static final String USER_SESSION_KEY = "user";
+
+    private User getUserFromSession(HttpSession session) {
+        Integer userId = (Integer) session.getAttribute(USER_SESSION_KEY);
+        return (userId != null) ? userService.getProfileById(userId) : null;
+    }
+
+    @GetMapping("")
+    public String displayProfile(HttpSession session, Model model) {
+        User user = getUserFromSession(session);
+        if (user == null) {
+            return "redirect:/login"; // Redirect if no user is logged in
+        }
+
+        // ✅ Use the correct method names from `User.java`
+        model.addAttribute("username", user.getUsername());  // ✅ FIXED
+        model.addAttribute("displayName", user.getDisplayName());
+        model.addAttribute("email", user.getEmail());
+        model.addAttribute("bio", user.getBio());
+        model.addAttribute("location", user.getLocation());
+
+        return "profile";  // ✅ Ensure you have profile.html
+    }
+
+    @GetMapping("/all-profiles")  // ✅ Ensure this matches the URL in your template
+    public String getAllProfiles(Model model) {
+        List<User> profiles = userService.getAllProfiles();
         model.addAttribute("profiles", profiles);
-        return "profile/all-profiles";
-    }
-
-    @GetMapping("/profile/{profileId}")
-    public String profileViewById(@PathVariable int profileId, Model model){
-        User user = userService.getProfileById(profileId);
-        model.addAttribute("user", user);
-        model.addAttribute("userName", user.getDisplayName());
-        model.addAttribute("title", user.getDisplayName() + "'s profile");
-        return "profile/profile";
-    }
-
-    @GetMapping("/profile-edit/{profileId}")
-    public String profileEdit(@PathVariable int profileId, Model model){
-        User user = userService.getProfileById(profileId);
-        model.addAttribute("user", user);
-        return "profile/profile-edit";
-    }
-
-    @PostMapping("/profile-edit/{profileId}/edit")
-    public String profileUpdate(@PathVariable int profileId,User updatedUser,Model model){
-        User updatedProfile = userService.updateProfile(profileId, updatedUser);
-        model.addAttribute("title", updatedUser.getUserName() + " 's profile");
-        return "redirect:/profile/profile/" + profileId;
-    }
-
-    @GetMapping("/profile/create-profile")
-    public String displayCreateProfile(Model model){
-        model.addAttribute("title", "Create a new profile");
-        model.addAttribute("user", new User());
-        return "profile/create-profile";
-    }
-
-    @PostMapping("/create-profile")
-    public String createProfile(@ModelAttribute User user, Model model){
-        User savedProfile = userService.saveProfile(user);
-        return "redirect:/profile/profile/" + savedProfile.getId();
-    }
-
-    @DeleteMapping("profile-edit/{profileId}/delete")
-    public String deleteProfile(@PathVariable int profileId){
-        userService.deleteProfile(profileId);
-        return "redirect:/profile/all-profiles";
+        model.addAttribute("title", "All Profiles");
+        return "profile/all-profiles";  // ✅ This must match the actual Thymeleaf template name
     }
 }

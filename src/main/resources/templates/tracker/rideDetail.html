@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Ride Details</title>
+</head>
+<body>
+
+<h1>Ride Details</h1>
+<h3 th:text="'Ride: ' + ${ride.route}"></h3>
+
+<!-- Form to invite friends -->
+<h3>Invite Friends</h3>
+<form action="#" th:action="@{/rides/{id}/invite(id=${ride.id})}" th:object="${ride}" method="post">
+  <label for="friendId">Select Friend</label>
+  <select id="friendId" name="friendId">
+    <option th:each="friend : ${friends}" th:value="${friend.id}" th:text="${friend.displayName}"></option>
+  </select>
+  <button type="submit">Send Invitation</button>
+</form>
+
+<!-- Display invitations for the ride -->
+<h3>Invitations</h3>
+<table>
+  <thead>
+  <tr>
+    <th>Friend</th>
+    <th>Invitation Status</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="invitation : ${invitations}">
+    <td th:text="${invitation.user.displayName}"></td>
+    <td th:text="${invitation.status}"></td>
+  </tr>
+  </tbody>
+</table>
+
+</body>
+</html>

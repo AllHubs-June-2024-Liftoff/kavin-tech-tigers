@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Invite Friends to Ride</title>
+</head>
+<body>
+<h1>Invite Friends to Ride</h1>
+
+<!-- Form to invite a friend to the ride -->
+<form action="/rides/${ride.id}/invite-friends" method="post">
+  <label for="friendId">Friend ID:</label>
+  <input type="text" id="friendId" name="friendId" required>
+
+  <button type="submit">Invite</button>
+</form>
+
+<!-- Link to cancel the ride -->
+<form action="/rides/${ride.id}/cancel" method="post">
+  <button type="submit">Cancel Ride</button>
+</form>
+</body>
+</html>

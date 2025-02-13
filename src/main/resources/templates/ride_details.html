@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Ride Details</title>
+</head>
+<body>
+
+<h1>Ride Details</h1>
+
+<div>
+  <h3>Ride Information:</h3>
+  <p>User ID: <span th:text="${ride.user.id}"></span></p>
+  <p>Date: <span th:text="${ride.date}"></span></p>
+  <p>Route: <span th:text="${ride.route}"></span></p>
+  <p>Distance: <span th:text="${ride.distance}"></span></p>
+  <p>Status: <span th:text="${ride.status}"></span></p>
+</div>
+
+</body>
+</html>

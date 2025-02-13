@@ -5,39 +5,39 @@
     <title></title>
 </head>
 <body>
-    <div th:replace="~{fragments :: navbar}"></div>
-    <div style="text-align:center">
-        <h2>Search for Friends</h2>
+<div th:replace="~{fragments :: navbar}"></div>
+<div style="text-align:center">
+    <h2>Search for Friends</h2>
 
-        <form th:action="@{/friends/search/results}" method="post">
+    <form th:action="@{/friends/search/results}" method="post">
 
-            <p>
-                <label for="searchTerm">Display Name</label>
-                <input type="text" name="searchTerm" id="searchTerm" />
-            </p>
+        <p>
+            <label for="searchTerm">Display Name</label>
+            <input type="text" name="searchTerm" id="searchTerm" />
+        </p>
 
-            <input type="submit" value="Search" />
+        <input type="submit" value="Search" />
 
-        </form>
+    </form>
 
-        <div style="display:flex; justify-content:center; align-items:center">
-            <ul style="list-style:none">
-                <li th:each="user : ${users}">
-                    <div style="width:600px">
-                        <div class="text-bg-light p-3 friend-container">
-                            <p th:text="${user.displayName}" style="text-align:left"></p>
-                            <p style="text-align:left">Miles:</p>
-                            <div>
-                                <img src="https://picsum.photos/200" style="position:absolute; right:15px; bottom:15px" id="profile-image" alt="Profile Image" />
-                            </div>
-                            <button class="add-friend-button">Add Friend</button>
+    <div style="display:flex; justify-content:center; align-items:center">
+        <ul style="list-style:none">
+            <li th:each="user : ${users}">
+                <div style="width:600px">
+                    <div class="text-bg-light p-3 friend-container">
+                        <p th:text="${user.displayName}" style="text-align:left"></p>
+                        <p style="text-align:left">Miles:</p>
+                        <div>
+                            <img src="https://picsum.photos/200" style="position:absolute; right:15px; bottom:15px" id="profile-image" alt="Profile Image" />
                         </div>
+                        <button class="add-friend-button">Add Friend</button>
                     </div>
-                </li>
-            </ul>
+                </div>
+            </li>
+        </ul>
 
-        </div>
     </div>
+</div>
 
 
 

@@ -38,18 +38,18 @@ public class TrackerController {
 
     @GetMapping("/add-tracking/{userId}")
     public String showAddTrackingForm(@PathVariable int userId, Model model){
-            User user = userService.getProfileById(userId);
-            model.addAttribute("user", user);
-            model.addAttribute("entry", new Entry());
-            model.addAttribute("title", "Add to Tracker");
+        User user = userService.getProfileById(userId);
+        model.addAttribute("user", user);
+        model.addAttribute("entry", new Entry());
+        model.addAttribute("title", "Add to Tracker");
 
         return "tracker/add-tracking";
     }
 
     @PostMapping("/add-tracking/{userId}/add")
     public String addTracking(@PathVariable int userId, @ModelAttribute Entry entry, Model model){
-       User user = userService.getProfileById(userId);
-       MilesTracker tracker = milesTrackerService.getOrCreateTracker(user);
+        User user = userService.getProfileById(userId);
+        MilesTracker tracker = milesTrackerService.getOrCreateTracker(user);
         entry.setMilesTracker(tracker);
         milesTrackerService.addEntry(entry);
         entryRepository.save(entry);

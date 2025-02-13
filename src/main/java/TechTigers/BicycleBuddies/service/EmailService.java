@@ -49,8 +49,8 @@ public class EmailService {
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(rideUser.getUser().getEmail());
-        message.setSubject(rideUser.getUser().getUserName() + " You have an upcoming ride!");
-        message.setText("Hello " + rideUser.getUser().getUserName() + "\nYour ride starts at: " + rideUser.getRide().getDate() + "\nThe GPS co-ordinates for the meet up are:\n"
+        message.setSubject(rideUser.getUser().getUsername() + " You have an upcoming ride!");
+        message.setText("Hello " + rideUser.getUser().getUsername() + "\nYour ride starts at: " + rideUser.getRide().getDate() + "\nThe GPS co-ordinates for the meet up are:\n"
                 + rideUser.getRide().getLatitude() + " Latitude\n" + rideUser.getRide().getLongitude() + " Longitude\n\nGo Have fun!");
         mailSender.send(message);
     }

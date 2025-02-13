@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invite Friends to Ride</title>
+</head>
+<body>
+<h1>Invite a Friend to Ride</h1>
+<form action="/rides/${ride.id}/invite" method="post">
+  <label for="friendId">Select a friend:</label>
+  <select id="friendId" name="friendId">
+    <!-- Loop through the user's friends and display them -->
+    <option value="1">Friend 1</option>
+    <option value="2">Friend 2</option>
+    <!-- Add more friends dynamically -->
+  </select>
+  <button type="submit">Invite</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Rides</title>
+</head>
+<body>
+<h1>All Rides</h1>
+<div>
+  <ul>
+    <!-- Loop through the rides object and display each ride's details -->
+    <th:block th:each="ride : ${rides}">
+      <li>
+        <!-- Display ride details using th:text -->
+        <p>Ride ID: <span th:text="${ride.id}"></span></p>
+        <p>Ride Name: <span th:text="${ride.name}"></span></p>
+        <p>Ride Date: <span th:text="${ride.date}"></span></p>
+      </li>
+    </th:block>
+  </ul>
+</div>
+<a href="/rides">Back to Rides</a>
+</body>
+</html>

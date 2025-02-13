@@ -56,7 +56,7 @@ public class EmailController {
 
         User user = getUserFromSession(request.getSession());
         String userEmail = user.getEmail();
-        int userVerifyCode = user.getVerificationCode();
+        int userVerifyCode = user.getEmailVerificationCode();
 
         //Your antivirus might throw an error here
         try {
@@ -86,8 +86,8 @@ public class EmailController {
 
     @PostMapping("verification-email-sent")
     public String processVerifyForm(@ModelAttribute @Valid VerifyFormDTO verifyFormDTO,
-                                          Errors errors, HttpServletRequest request,
-                                          Model model, RegisterFormDTO registerFormDTO){
+                                    Errors errors, HttpServletRequest request,
+                                    Model model, RegisterFormDTO registerFormDTO){
 
         if(errors.hasErrors()){
             return "email/verification-email-sent";
@@ -95,7 +95,7 @@ public class EmailController {
 
         User user = getUserFromSession(request.getSession());
         int userSubmittedVerification = verifyFormDTO.getUserSubmittedVerification();
-        int userGivenVerification = user.getVerificationCode();
+        int userGivenVerification = user.getEmailVerificationCode();
 
         if(userGivenVerification != userSubmittedVerification){
             errors.rejectValue("userSubmittedVerification", "userSubmittedVerification.incorrect", "Verification code does not match");

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Invite a Friend</title>
+</head>
+<body>
+<h1>Invite a Friend to Join the Ride</h1>
+
+<!-- Display a message from the controller -->
+<p th:text="${message}"></p>
+
+<!-- Form to invite a friend -->
+<form action="/rides/{ride.id}/invite" method="post">
+    <input type="hidden" th:value="${ride.id}" name="rideId" />
+
+    <!-- Input field for friend's ID -->
+    <label for="friendId">Friend's ID:</label>
+    <input type="number" id="friendId" name="friendId" required />
+
+    <button type="submit">Invite</button>
+</form>
+
+<a href="/rides/{ride.id}">Back to Ride Details</a>
+</body>
+</html>

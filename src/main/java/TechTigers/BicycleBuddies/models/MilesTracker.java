@@ -31,13 +31,13 @@ public class MilesTracker extends AbstractEntity{
     //method I created for adding entries, monthly miles total & total sum of miles
 
     public void trackerSum(int miles,Entry entry){
-       milesTotal += miles;
-       entries.add(entry);
-       if(entries.size() > 30){
-         Entry oldest = entries.remove(0);
-         milesMonthly-= oldest.getMiles();
-       }
-       milesMonthly += miles;
+        milesTotal += miles;
+        entries.add(entry);
+        if(entries.size() > 30){
+            Entry oldest = entries.remove(0);
+            milesMonthly-= oldest.getMiles();
+        }
+        milesMonthly += miles;
     }
     public void removeEntry(Entry entry){
         this.entries.remove(entry);
@@ -87,4 +87,3 @@ public class MilesTracker extends AbstractEntity{
                 '}';
     }
 }
-

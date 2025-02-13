@@ -63,4 +63,3 @@ public class CommentController {
         return "redirect:/comments/all-comments";
     }
 }
-
