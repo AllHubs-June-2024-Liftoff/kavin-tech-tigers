@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Friends List</title>
+  <script>
+    // Function to get userId from hidden input
+    function getUserId() {
+        return document.getElementById("userId").value;
+    }
+
+    // Function to get the friend list (fetch API for dynamic rendering)
+    function getFriends() {
+        let userId = getUserId();
+        fetch(`/friends?userId=${userId}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => console.error("Error:", error));
+    }
+
+    // Function to send a friend request
+    function addFriend(friendId) {
+        let userId = getUserId();
+        fetch(`/friends/add?userId=${userId}&friendUserId=${friendId}`, { method: "POST" })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+                location.reload(); // Reload the page after adding a friend
+            })
+            .catch(error => console.error("Error:", error));
+    }
+
+    // Function to remove a friend
+    function removeFriend(friendId) {
+        let userId = getUserId();
+        fetch(`/friends/remove?userId=${userId}&friendUserId=${friendId}`, { method: "POST" })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+                location.reload(); // Reload the page after removing a friend
+            })
+            .catch(error => console.error("Error:", error));
+    }
+
+    // Function to search for friends dynamically
+    function searchFriends() {
+        let name = document.getElementById("searchInput").value;
+        fetch(`/friends/search?name=${name}`)
+            .then(response => response.json())
+            .then(data => {
+                let resultsList = document.getElementById("searchResults");
+                resultsList.innerHTML = ""; // Clear previous results
+
+                data.forEach(user => {
+                    let li = document.createElement("li");
+                    li.innerHTML = `${user.displayName} <button onclick="addFriend(${user.id})">Add Friend</button>`;
+                    resultsList.appendChild(li);
+                });
+            })
+            .catch(error => console.error("Error:", error));
+    }
+  </script>
+</head>
+<body>
+
+<h2>Friends List</h2>
+<ul>
+  <li th:each="friend : ${friendsList}">
+    <span th:text="${friend.displayName}"></span>
+    <button th:attr="onclick='removeFriend(' + ${friend.id} + ')'" style="color: red;">Remove</button>
+  </li>
+</ul>
+
+<!-- Hidden field to store logged-in userId -->
+<input type="hidden" id="userId" th:value="${loggedInUserId}" />
+
+<!-- Search Section -->
+<h3>Search for Friends</h3>
+<input type="text" id="searchInput" placeholder="Enter name">
+<button onclick="searchFriends()">Search</button>
+
+<ul id="searchResults"></ul>
+
+</body>
+</html>

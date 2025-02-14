@@ -1,28 +1,41 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<head th:replace="~{fragments :: head}">
-    <meta charset="UTF-8"/>
-    <title></title>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friend List</title>
+    <link rel="stylesheet" href="path/to/your/styles.css">
 </head>
 <body>
-    <div th:replace="~{fragments :: navbar}"></div>
 
-    <div style="text-align:center">
+<!-- Navbar -->
+<div class="navbar1">
+    <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Friends</a></li>
+        <li><a href="#">Rides</a></li>
+        <li><a href="#">Profile</a></li>
+    </ul>
+</div>
 
-        <p th:unless="${friends} and ${friends.size()}">You don't have any friends yet!</p>
+<!-- Friend List -->
+<div class="friend-list-container">
+    <h2>Friend List</h2>
 
-        <div >
-            <h2>Friends</h2>
-            <ul>
-                <li th:each="friend : ${friends}">
-                    <a th:href="@{'/friends/view/' + {friend.id}}" th:text="${friend.name}"></a>
-                </li>
-            </ul>
-            <a th:href="@{'/friends/search'}">Search for Friends</a>
-        </div>
-
+    <!-- Loop through friends -->
+    <div class="friend-container" th:each="friend : ${friendsList}">
+        <img src="friend-profile-image.jpg" alt="Friend Name" id="profile-image" width="100" height="100">
+        <!-- Display friend name dynamically -->
+        <p th:text="${friend.friend.name}"></p>
+        <form th:action="@{/friends/add}" method="post">
+            <input type="hidden" name="userId" value="1" />
+            <input type="hidden" name="friendUserId" th:value="${friend.friend.id}" />
+            <button type="submit">Add Friend</button>
+        </form>
     </div>
 
+    <!-- Add more friends here -->
+</div>
 
 </body>
 </html>

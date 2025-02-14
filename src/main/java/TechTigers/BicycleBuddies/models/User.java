@@ -1,134 +1,82 @@
 package TechTigers.BicycleBuddies.models;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-import java.awt.*;
+import jakarta.persistence.*;
 import java.util.List;
 import java.util.Random;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import javax.validation.constraints.NotNull;
-
-import jakarta.persistence.OneToMany;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 @Entity
-public class User extends AbstractEntity{
+@Table(name = "users")
+public class User {
 
-    @NotNull
-    @NotBlank
-    private String userName;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-    private String fullName;
-
-    @NotNull
-    @Email
+    private String username;
     private String email;
+    private String passwordHash;
 
-    private String pwHash;
-    private String location;
+    private String displayName;  // Add display name
+    private String location;     // Add location
+    private String bio;          // Add bio
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Friendship> friends;
+
     private boolean isVerified;
-    private final int verificationCode = generateToken();
+
+    // Change verificationCode to Integer
+    private Integer verificationCode;
+
     private int emailVerificationCode;
 
-    @NotBlank(message = "Name must not be blank.")
-    @Size(min = 3, max = 15, message = "Name must be between 3 and 15 characters.")
-    private String displayName; // display name entered by user for profile
+    public User() {
+        this.verificationCode = generateToken();  // Generate the token in the constructor
+    }
 
-    private String bio;
-//    private Image bioPicture;  // not sure if this is the right datatype found in Java Documentation https://docs.oracle.com/javase/8/docs/api/java/awt/Image.html
-    @OneToMany(mappedBy = "author", cascade= CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comments;
-
-    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
-    public User () {}
-
-    public User(String userName, String fullName, String email, String password, String location, String displayName, String bio, Image bioPicture) {
-        this.userName = userName;
-        this.fullName = fullName;
+    public User(String username, String passwordHash, String email) {
+        this.username = username;
+        this.passwordHash = passwordHash;
         this.email = email;
-        this.pwHash = encoder.encode(password);
-        this.location = location;
-        this.displayName = displayName;
-        this.bio = bio;
-//        this.bioPicture = bioPicture;
+        this.isVerified = false;
+        this.verificationCode = generateToken();  // Generate the token in the constructor
     }
 
-
-
-    public User(String userName, String password, String email, String displayName) {
-        this.userName = userName;
-        this.pwHash = encoder.encode(password);
-        this.email = email;
-        this.displayName = displayName;
+    // Getters and Setters
+    public int getId() {
+        return id;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public String getUsername() {
+        return username;
     }
 
-    public String getUserName() {
-        return userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
-
-    public String getFullName() {
-        return fullName;
-    }
-
 
     public String getEmail() {
         return email;
     }
 
-    public boolean isMatchingPassword(String password){
-        return encoder.matches(password, pwHash);
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getLocation() {
-        return location;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
-    public @NotBlank(message = "Name must not be blank.") @Size(min = 3, max = 15, message = "Name must be between 3 and 15 characters.") String getDisplayName() {
-        return displayName;
+    public List<Friendship> getFriends() {
+        return friends;
     }
 
-    public void setDisplayName(@NotBlank(message = "Name must not be blank.") @Size(min = 3, max = 15, message = "Name must be between 3 and 15 characters.") String displayName) {
-        this.displayName = displayName;
-    }
-
-    public String getBio() {
-        return bio;
-    }
-
-    public void setBio(String bio) {
-        this.bio = bio;
-    }
-
-//    public Image getBioPicture() {
-//        return bioPicture;
-//    }
-
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userName='" + userName + '\'' +
-                ", fullName='" + fullName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" +  + '\'' +
-                ", location='" + location + '\'' +
-                ", displayName='" + displayName + '\'' +
-                ", bio='" + bio + '\'' +
-//                ", bioPicture=" + bioPicture +
-                '}';
+    public void setFriends(List<Friendship> friends) {
+        this.friends = friends;
     }
 
     public boolean isVerified() {
@@ -139,8 +87,12 @@ public class User extends AbstractEntity{
         isVerified = verified;
     }
 
-    public int getVerificationCode() {
+    public Integer getVerificationCode() {
         return verificationCode;
+    }
+
+    public void setVerificationCode(Integer verificationCode) {
+        this.verificationCode = verificationCode;
     }
 
     public int getEmailVerificationCode() {
@@ -151,10 +103,53 @@ public class User extends AbstractEntity{
         this.emailVerificationCode = emailVerificationCode;
     }
 
-    //Generates a number between 100000 and 999999
-    public static int generateToken(){
+    // Add getters and setters for displayName, location, and bio
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    // Method to generate random 6-digit token
+    public static int generateToken() {
         Random generator = new Random();
         return generator.nextInt(900000) + 100000;
     }
 
+    // Method to check if entered password matches the stored hash
+    public boolean isMatchingPassword(String password) {
+        return this.passwordHash.equals(password); // You might want to use a password hash comparison here
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", displayName='" + displayName + '\'' +
+                ", location='" + location + '\'' +
+                ", bio='" + bio + '\'' +
+                ", isVerified=" + isVerified +
+                ", verificationCode=" + verificationCode +
+                '}';
+    }
 }

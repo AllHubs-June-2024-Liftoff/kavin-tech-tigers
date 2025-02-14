@@ -9,9 +9,11 @@ import static TechTigers.BicycleBuddies.models.RideStatus.scheduled;
 @Entity
 public class Ride extends AbstractEntity {
 
+    private String userNameRideOwner;
+
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User userNameRideOwner;
+    @JoinColumn(name = "user_id", nullable = false)  // Foreign key to User table
+    private User user;  // Reference to the User object
 
     @Column(nullable = false)
     private LocalDateTime date; // Date of the ride
@@ -33,13 +35,11 @@ public class Ride extends AbstractEntity {
     private double latitude;
     private double longitude;
 
-
-
     // Default constructor (required by JPA).
     public Ride() {
     }
 
-    public Ride(User userNameRideOwner, LocalDateTime date, double distance, double duration, String description, String route, RideStatus status, double latitude, double longitude) {
+    public Ride(String userNameRideOwner, LocalDateTime date, double distance, double duration, String description, String route, RideStatus status, double latitude, double longitude, User user) {
         this.userNameRideOwner = userNameRideOwner;
         this.date = date;
         this.distance = distance;
@@ -49,6 +49,7 @@ public class Ride extends AbstractEntity {
         this.status = status;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.user = user;  // Set user
     }
 
     // Getters and Setters
@@ -116,12 +117,20 @@ public class Ride extends AbstractEntity {
         this.latitude = latitude;
     }
 
-    public User getUserNameRideOwner() {
+    public String getUserNameRideOwner() {
         return userNameRideOwner;
     }
 
-    public void setUserNameRideOwner(User userNameRideOwner) {
+    public void setUserNameRideOwner(String userNameRideOwner) {
         this.userNameRideOwner = userNameRideOwner;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -136,12 +145,12 @@ public class Ride extends AbstractEntity {
                 ", status='" + status + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
-                '}';
+                ", user=" + user +
+                '}';  // Include user in toString
     }
 
     // Method to cancel the ride (update status)
     public void cancelRide() {
         this.status = RideStatus.canceled; // Set status to canceled
-
     }
 }

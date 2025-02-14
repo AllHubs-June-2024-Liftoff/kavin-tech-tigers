@@ -125,7 +125,7 @@
             const marker = new AdvancedMarkerElement({
                         position: { lat: ride.latitude, lng: ride.longitude },
                         map: map,
-                        title: `${ride.userNameRideOwner.displayName}\n${ride.date}`,
+                        title: ride.userNameRideOwner,
                         })
                 });
       }
@@ -140,8 +140,7 @@
 <h1>All Rides</h1>
 <div class="text-center">
     <a href="/rides/new" class="btn btn-primary ">Add New Ride</a>
-</div>
-<br><br>
+</div> <br><br>
 
 <div th:if="${#lists.isEmpty(rides)}">
     <p>No rides available.</p>

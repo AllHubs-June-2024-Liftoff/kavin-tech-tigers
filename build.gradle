@@ -31,11 +31,19 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
 	implementation "com.twilio.sdk:twilio:10.5.1"
-//	compile group: "com.twilio.sdk", name:"twilio", version: "10.5.1"
 
-	implementation 'mysql:mysql-connector-java:8.0.28'
+//compile group: "com.twilio.sdk", name:"twilio", version: "10.5.1"
+
+
+	//implementation 'mysql:mysql-connector-java:8.0.28'
 	implementation 'mysql:mysql-connector-java:8.0.32'
+
+	// Add this line to include the correct servlet API for Jakarta
+	//implementation 'jakarta.servlet:jakarta.servlet-api:5.0.0'  // For HttpSession
+	//implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+
 }
+
 
 tasks.named('test') {
 	useJUnitPlatform()

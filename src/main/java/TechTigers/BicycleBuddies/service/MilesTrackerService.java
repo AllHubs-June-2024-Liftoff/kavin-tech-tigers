@@ -42,7 +42,7 @@ public class MilesTrackerService {
     public MilesTracker saveMilesTracker(MilesTracker milesTracker){return milesTrackerRepository.save(milesTracker); }
 
     public void deleteTracker(int id){
-       milesTrackerRepository.deleteById(id);
+        milesTrackerRepository.deleteById(id);
     }
 
     public List<MilesTracker> getTrackerByUser(User user) {

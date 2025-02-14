@@ -56,7 +56,7 @@ public class RideController {
     @PostMapping("/save")
     public String saveRide(@ModelAttribute Ride ride, @ModelAttribute RideFormDTO rideFormDTO, @RequestParam(name = "scheduledEmail", required = false) Boolean scheduled, @SessionAttribute(name = "user", required = false) User user) {
 
-        ride.setUserNameRideOwner(user);
+
         rideService.saveRide(ride);
 
 

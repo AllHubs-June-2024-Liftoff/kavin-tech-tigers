@@ -27,31 +27,31 @@
             </div>
         </div>
 
-<div class="col-8 text-bg-light p-3">
-    <h4>Add Profile Information</h4>
-    <form th:action="@{/profile/create-profile}" method="post" th:object="${user}">
-        <div class="mb-3">
-            <label for="user-name">Username:</label>
-            <input type="text" id="user-name" name="user-name" th:field="*{userName}" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label for="display-name">Name:</label>
-            <input type="text" id="display-name" name="displayName" th:field="*{displayName}" class="form-control">
-            </div>
-        <div class="mb-3">
-            <label for="location">Location:</label>
-            <input type="text" id="location" name="location" th:field="*{location}" class="form-control">
-        </div>
+        <div class="col-8 text-bg-light p-3">
+            <h4>Add Profile Information</h4>
+            <form th:action="@{/profile/create-profile}" method="post" th:object="${user}">
+                <div class="mb-3">
+                    <label for="user-name">Username:</label>
+                    <input type="text" id="user-name" name="user-name" th:field="*{userName}" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="display-name">Name:</label>
+                    <input type="text" id="display-name" name="displayName" th:field="*{displayName}" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="location">Location:</label>
+                    <input type="text" id="location" name="location" th:field="*{location}" class="form-control">
+                </div>
 
-        <div class="mb-3">
-            <label for="bio">Bio:</label>
-            <textarea id="bio" name="bio" th:field="*{bio}" class="form-control"></textarea>
-            </div>
-        <div class="mb-3">
-            <button type="submit" class="btn btn-success">Create Profile</button>
+                <div class="mb-3">
+                    <label for="bio">Bio:</label>
+                    <textarea id="bio" name="bio" th:field="*{bio}" class="form-control"></textarea>
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-success">Create Profile</button>
+                </div>
+            </form>
         </div>
-    </form>
-</div>
     </div>
 </div>
 </body>

@@ -86,8 +86,8 @@ public class EmailController {
 
     @PostMapping("verification-email-sent")
     public String processVerifyForm(@ModelAttribute @Valid VerifyFormDTO verifyFormDTO,
-                                          Errors errors, HttpServletRequest request,
-                                          Model model, RegisterFormDTO registerFormDTO){
+                                    Errors errors, HttpServletRequest request,
+                                    Model model, RegisterFormDTO registerFormDTO){
 
         if(errors.hasErrors()){
             return "email/verification-email-sent";
@@ -103,12 +103,9 @@ public class EmailController {
         }else{
             user.setVerified(true);
             userRepository.save(user);
-            setUserInSession(request.getSession(), user);
         }
 
         return "redirect:/login";
-        //TODO:Redirect user to Edit Profile after verifying account
-//        return "redirect:/profile/profile";
     }
 
 }
