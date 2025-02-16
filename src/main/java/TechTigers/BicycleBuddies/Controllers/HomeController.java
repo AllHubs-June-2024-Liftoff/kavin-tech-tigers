@@ -2,32 +2,31 @@ package TechTigers.BicycleBuddies.Controllers;
 
 import TechTigers.BicycleBuddies.data.UserRepository;
 import TechTigers.BicycleBuddies.models.User;
+import TechTigers.BicycleBuddies.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.Optional;
-
 @Controller
 public class HomeController {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    AuthenticationController authenticationController;
+    private UserService userService; // Use UserService instead of AuthenticationController
 
     private static final String userSessionKey = "user";
 
     @GetMapping("")
-    public String index(HttpServletRequest request){
+    public String index(HttpServletRequest request) {
 
         HttpSession session = request.getSession();
-        User user = authenticationController.getUserFromSession(session);
+        User user = userService.getUserFromSession(session); // Use userService instead of authenticationController
 
-        if(user == null){
+        if (user == null) {
             return "redirect:/login";
         } else {
             return "redirect:/home";
@@ -35,7 +34,7 @@ public class HomeController {
     }
 
     @GetMapping("/home")
-    public String homePageLoggedOut(){
+    public String homePageLoggedOut() {
         return "home";
     }
 }

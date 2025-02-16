@@ -2,32 +2,37 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head">
     <meta charset="UTF-8"/>
-    <title></title>
+    <title>Login - Bicycle Buddies</title>
 </head>
 <body>
 
-    <div style="text-align:center">
-        <h1>Welcome to Bicycle Buddies!</h1>
-        <form method="post" style="padding:5px">
-            <div style="padding:5px">
-                <label th:for="userName">Username
-                    <input th:field="${loginFormDTO.userName}">
-                </label>
-                <p th:errors="${loginFormDTO.userName}"></p>
-            </div>
-            <div style="padding:5px">
-                <label>Password
-                    <input th:field="${loginFormDTO.password}" type="password">
-                </label>
-                <p th:errors="${loginFormDTO.password}"></p>
-            </div>
+<div style="text-align:center">
+    <h1>Welcome to Bicycle Buddies!</h1>
 
-            <input type="submit" value="Log In" style="padding:5px"/>
-        </form>
+    <!-- Display error message if login fails -->
+    <p th:if="${errorMessage}" class="error-message" style="color: red;">
+        <span th:text="${errorMessage}"></span>
+    </p>
 
-        <p style="padding:5px">Don't have an account? <a href="/register">Register for one here!</a></p>
-    </div>
+    <form method="post" action="/login" style="padding:5px">
+        <div style="padding:5px">
+            <label th:for="userName">Username
+                <input th:field="${loginFormDTO.userName}" required>
+            </label>
+            <p th:errors="${loginFormDTO.userName}" style="color: red;"></p>
+        </div>
+        <div style="padding:5px">
+            <label>Password
+                <input th:field="${loginFormDTO.password}" type="password" required>
+            </label>
+            <p th:errors="${loginFormDTO.password}" style="color: red;"></p>
+        </div>
 
+        <input type="submit" value="Log In" style="padding:5px"/>
+    </form>
+
+    <p style="padding:5px">Don't have an account? <a href="/register">Register for one here!</a></p>
+</div>
 
 </body>
 </html>

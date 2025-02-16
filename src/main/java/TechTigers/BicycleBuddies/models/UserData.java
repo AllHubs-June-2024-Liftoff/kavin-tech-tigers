@@ -4,19 +4,20 @@ import java.util.ArrayList;
 
 public class UserData {
 
-    public static ArrayList<User> findByValue(String value, Iterable<User> allUsers){
-
+    public static ArrayList<User> findByValue(String value, Iterable<User> allUsers) {
         ArrayList<User> results = new ArrayList<>();
 
         for (User user : allUsers) {
+            String displayName = user.getDisplayName(); // Get the display name
 
-            if(user.getDisplayName().toLowerCase().contains(value.toLowerCase())){
+            // Check if displayName is null before calling .toLowerCase()
+            if (displayName != null && displayName.toLowerCase().contains(value.toLowerCase())) {
                 results.add(user);
             }
         }
 
         return results;
-
     }
+
 
 }

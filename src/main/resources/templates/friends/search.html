@@ -30,7 +30,12 @@
                             <div>
                                 <img src="https://picsum.photos/200" style="position:absolute; right:15px; bottom:15px" id="profile-image" alt="Profile Image" />
                             </div>
-                            <button class="add-friend-button">Add Friend</button>
+                            <!-- Add Friend Form -->
+                            <form th:action="@{/friends/add}" method="post">
+                                <input type="hidden" name="userId" th:value="1"/> <!-- Replace with actual logged-in user ID -->
+                                <input type="hidden" name="friendUserId" th:value="${user.id}"/>
+                                <input type="submit" value="Add Friend"/>
+                            </form>
                         </div>
                     </div>
                 </li>
