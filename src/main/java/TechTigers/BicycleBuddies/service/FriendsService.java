@@ -19,6 +19,7 @@ public class FriendsService {
     private FriendsRepository friendsRepository;
 
 
+
     // Method to get all friends for a user (dummy data for now)
     //public List<User> getAllFriends() {
     // Convert Iterable<User> to List<User>
