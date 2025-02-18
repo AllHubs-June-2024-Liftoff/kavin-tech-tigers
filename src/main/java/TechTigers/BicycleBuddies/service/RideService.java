@@ -40,6 +40,7 @@ public class RideService {
         }
     }
 
+
     public Ride getFirstRide() {
         return rideRepository.findAll().stream().findFirst().orElse(null);
     }

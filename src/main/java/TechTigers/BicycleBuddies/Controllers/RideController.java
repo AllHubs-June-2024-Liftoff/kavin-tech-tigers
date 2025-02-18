@@ -82,6 +82,7 @@ public class RideController {
         return "redirect:/rides";  // Redirect back to the list of rides after deletion
     }
 
+
     // View a single ride by ID
     @GetMapping("/{id}")
     public String getRideById(@PathVariable int id, Model model) {
