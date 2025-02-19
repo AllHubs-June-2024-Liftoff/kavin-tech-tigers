@@ -136,6 +136,16 @@
 
 </head>
 <body>
+<!-- Success Alert -->
+
+<!-- ✅ Show Pop-Up with OK Button -->
+<script th:if="${successMessage}">
+    window.onload = function() {
+        alert([[${successMessage}]]);
+    }
+</script>
+
+
 <div th:replace="~{fragments :: navbar}"></div>
 <h1>All Rides</h1>
 <div class="text-center">
@@ -160,6 +170,8 @@
         <strong>Description:</strong> <span th:text="${ride.description}"></span><br>
 
         <a th:href="@{/comments/add-comments/{id}(id=${ride.id})}" class="btn btn-primary">Add a Comment</a><br><br>
+        <!-- Invite Friends Button -->
+        <a th:href="@{/rides/invite/{id}(id=${ride.id})}" class="btn btn-success">Invite Friends</a><br><br>
         <!-- Cancel Ride Form -->
         <form th:action="@{/rides/cancel/{id}(id=${ride.id})}" method="post">
             <button type="submit" class="btn btn-primary">Cancel Ride</button>
