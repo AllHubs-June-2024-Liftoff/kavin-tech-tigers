@@ -1,7 +1,10 @@
 package TechTigers.BicycleBuddies.service;
 
+import TechTigers.BicycleBuddies.Controllers.AuthenticationController;
 import TechTigers.BicycleBuddies.models.*;
 import TechTigers.BicycleBuddies.data.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +20,8 @@ public class FriendsService {
     private UserRepository userRepository;
     @Autowired
     private FriendsRepository friendsRepository;
-
+    @Autowired
+    AuthenticationController authenticationController;
 
 
     // Method to get all friends for a user (dummy data for now)
@@ -29,7 +33,9 @@ public class FriendsService {
     //return userList; // Now returns a List<User>
     // }
     public List<User> getAllFriends(int userId) {
-        Optional<User> userOpt = userRepository.findById(userId);
+        HttpServletRequest request = null;
+        HttpSession session = request.getSession();
+        Optional<User> userOpt = Optional.ofNullable(authenticationController.getUserFromSession(session));
 
         if (userOpt.isPresent()) {
             User user = userOpt.get();
