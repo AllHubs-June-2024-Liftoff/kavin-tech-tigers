@@ -17,6 +17,15 @@ public class RideFormDTO {
     private double latitude;
     private double longitude;
     private Boolean scheduledEmail;
+    private String friend_email_id;
+
+    public String getFriend_email_id() {
+        return friend_email_id;
+    }
+
+    public void setFriend_email_id(String friend_email_id) {
+        this.friend_email_id = friend_email_id;
+    }
 
     public User getUserNameRideOwner() {
         return userNameRideOwner;
