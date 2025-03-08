@@ -40,7 +40,6 @@ public class SearchController {
     @PostMapping("results")
     public String displaySearchResults(Model model, @RequestParam String searchTerm,
                                        @ModelAttribute @Valid User user, Errors errors){
-//        MilesTracker milesTracker = milesTrackerService.getTrackerByUser(user), 0, 0;
         MilesTracker milesTracker = milesTrackerService.getOrCreateTracker(user);
         if (errors.hasErrors()) {
             return "friends/search";
