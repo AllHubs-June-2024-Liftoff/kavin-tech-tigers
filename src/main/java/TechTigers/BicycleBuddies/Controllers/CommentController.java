@@ -19,7 +19,9 @@ public class CommentController {
     private CommentService commentService;
     @Autowired
     private RideService rideService;
-
+//TODO: improvement would be displaying ride entries and comments on the profile page
+    //and creating a @SET for likes, to display the users that liked the profiles
+    //and so only one user can like the comment once
     @GetMapping("/all-comments")
     public String viewAllComments(Model model) {
         Ride ride = rideService.getFirstRide();

@@ -23,8 +23,12 @@ public class TrackerController {
     @Autowired
     private EntryRepository entryRepository;
 
+    //TODO: for improvement, create a method to pass the ride information
+    //from the rides form to tally up the ride mileage from those entries as well
+    //add Google Graph API
     @GetMapping("/all-tracking/{userId}")
     public String viewAllTracking(Model model, @PathVariable int userId){
+
         User user = userService.getProfileById(userId);
         MilesTracker milesTracker = milesTrackerService.getOrCreateTracker(user);
         List<Entry> entries = milesTracker.getEntries();

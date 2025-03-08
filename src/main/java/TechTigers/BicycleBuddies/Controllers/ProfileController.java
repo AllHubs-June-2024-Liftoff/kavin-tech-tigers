@@ -1,7 +1,9 @@
 package TechTigers.BicycleBuddies.Controllers;
 
+import TechTigers.BicycleBuddies.models.MilesTracker;
 import TechTigers.BicycleBuddies.models.User;
 import TechTigers.BicycleBuddies.service.CommentService;
+import TechTigers.BicycleBuddies.service.MilesTrackerService;
 import TechTigers.BicycleBuddies.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,9 +17,15 @@ import java.util.List;
 public class ProfileController {
     @Autowired
     private UserService userService;
+
     @Autowired
     private CommentService commentService;
 
+    @Autowired
+    private MilesTrackerService milesTrackerService;
+
+//TODO: improve profile by creating a session to pass the User information
+    //once the user has logged on & being able to upload a photo of the bio
     @GetMapping("/all-profiles")
     public String getAllProfiles(Model model){
         List<User> profiles= userService.getAllProfiles();
@@ -29,7 +37,9 @@ public class ProfileController {
     @GetMapping("/profile/{profileId}")
     public String profileViewById(@PathVariable int profileId, Model model){
         User user = userService.getProfileById(profileId);
+        MilesTracker milesTracker = milesTrackerService.getOrCreateTracker(user);
         model.addAttribute("user", user);
+        model.addAttribute("milesTracker", milesTracker);
         model.addAttribute("userName", user.getDisplayName());
         model.addAttribute("title", user.getDisplayName() + "'s profile");
         return "profile/profile";
