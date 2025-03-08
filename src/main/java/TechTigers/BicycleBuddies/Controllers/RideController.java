@@ -9,16 +9,15 @@ import TechTigers.BicycleBuddies.models.RideUser;
 import TechTigers.BicycleBuddies.models.ScheduledEmail;
 import TechTigers.BicycleBuddies.models.User;
 import TechTigers.BicycleBuddies.models.dto.RideFormDTO;
-import TechTigers.BicycleBuddies.service.RideService;
 import TechTigers.BicycleBuddies.service.FriendsService;
+import TechTigers.BicycleBuddies.service.RideService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/rides")
@@ -67,12 +66,12 @@ public class RideController {
         ride.setUserNameRideOwner(user);
         rideService.saveRide(ride);
 
+        RideUser rideUser = new RideUser();
+        rideUser.setRide(ride);
+        rideUser.setUser(user);
+        rideUserRepository.save(rideUser);
 
         if (Boolean.TRUE.equals(scheduled)) {
-            RideUser rideUser = new RideUser();
-            rideUser.setRide(ride);
-            rideUser.setUser(user);
-            rideUserRepository.save(rideUser);
 
             ScheduledEmail scheduledEmail = new ScheduledEmail();
             scheduledEmail.setRide(ride);
@@ -144,7 +143,7 @@ public class RideController {
         redirectAttributes.addFlashAttribute("successMessage", "Invitation sent successfully!");
         return "redirect:/rides"; // Redirect back to the rides page
     }
-        }
+}
 
 
 
