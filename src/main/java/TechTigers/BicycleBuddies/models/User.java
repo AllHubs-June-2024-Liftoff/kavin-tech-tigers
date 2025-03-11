@@ -28,6 +28,9 @@ public class User extends AbstractEntity{
     @Email
     private String email;
 
+    @OneToMany(mappedBy = "milesTracker")
+    private MilesTracker milesTracker;
+
     private String pwHash;
     private String location;
     private boolean isVerified;
