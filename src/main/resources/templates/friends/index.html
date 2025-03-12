@@ -2,27 +2,26 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="~{fragments :: head}">
     <meta charset="UTF-8"/>
-    <title></title>
+    <title>Friends List</title>
 </head>
 <body>
-    <div th:replace="~{fragments :: navbar}"></div>
+<div th:replace="~{fragments :: navbar}"></div>
 
-    <div style="text-align:center">
+<div style="text-align:center">
+    <p th:if="${friendsList == null or friendsList.isEmpty()}">You don't have any friends yet!</p>
 
-        <p th:unless="${friends} and ${friends.size()}">You don't have any friends yet!</p>
-
-        <div >
-            <h2>Friends</h2>
-            <ul>
-                <li th:each="friend : ${friends}">
-                    <a th:href="@{'/friends/view/' + {friend.id}}" th:text="${friend.name}"></a>
-                </li>
-            </ul>
-            <a th:href="@{'/friends/search'}">Search for Friends</a>
-        </div>
-
+    <div th:if="${friendsList != null and not friendsList.isEmpty()}">
+        <h2>Friends</h2>
+        <ul>
+            <li th:each="friend : ${friendsList}">
+                <a th:href="@{'/friends/view/' + ${friend.id}}" th:text="${friend.displayName}"></a>
+            </li>
+        </ul>
     </div>
 
+    <a th:href="@{'/friends/search'}">Search for Friends</a>
+</div>
 
 </body>
 </html>
+

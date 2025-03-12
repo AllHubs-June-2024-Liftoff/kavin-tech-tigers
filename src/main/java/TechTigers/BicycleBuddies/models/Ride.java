@@ -25,6 +25,7 @@ public class Ride extends AbstractEntity {
     @Column(length = 500)
     private String description; // Optional description of the ride
 
+
     private String route; // The route or location where the ride took place
 
     @Enumerated(EnumType.STRING)

@@ -1,8 +1,8 @@
 package TechTigers.BicycleBuddies.service;
 
 
-import TechTigers.BicycleBuddies.data.RideRepository;
-import TechTigers.BicycleBuddies.models.Ride;
+import TechTigers.BicycleBuddies.data.*;
+import TechTigers.BicycleBuddies.models.*;
 import TechTigers.BicycleBuddies.models.RideStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +14,9 @@ public class RideService {
 
     @Autowired
     private RideRepository rideRepository;
+    @Autowired
+    private RideUserRepository rideUserRepository;
+
 
     public List<Ride> getAllRides() {
         return rideRepository.findAll();
@@ -40,7 +43,23 @@ public class RideService {
         }
     }
 
+
     public Ride getFirstRide() {
         return rideRepository.findAll().stream().findFirst().orElse(null);
+    }
+
+    public void inviteFriendsToRide(int rideId, List<Integer> friendIds) {
+        Ride ride = getRideById(rideId);
+        if (ride != null) {
+            for (int friendId : friendIds) {
+                User friend = new User();
+                friend.setId(friendId);
+
+                RideUser rideUser = new RideUser();
+                rideUser.setRide(ride);
+                rideUser.setUser(friend);
+                rideUserRepository.save(rideUser); // Save invitation
+            }
+        }
     }
 }
