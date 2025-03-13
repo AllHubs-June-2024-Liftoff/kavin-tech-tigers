@@ -1,10 +1,11 @@
 package TechTigers.BicycleBuddies.service;
 
-import TechTigers.BicycleBuddies.models.*;
-import TechTigers.BicycleBuddies.data.*;
+import TechTigers.BicycleBuddies.data.FriendsRepository;
+import TechTigers.BicycleBuddies.data.UserRepository;
+import TechTigers.BicycleBuddies.models.Friends;
+import TechTigers.BicycleBuddies.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,9 @@ public class FriendsService {
 
     // Method to add a friend
     public boolean addFriend(int userId, int friendId) {
+        if (userId == friendId) {
+            return false;
+        }
         Optional<User> userOpt = userRepository.findById(userId);
         Optional<User> friendOpt = userRepository.findById(friendId);
         System.out.println("iam in line 54 in friendsservice");
@@ -110,7 +114,6 @@ public class FriendsService {
         }
         return false;
     }
-
 
 
     // Other methods (e.g., for sending requests, accepting requests) can be added here...

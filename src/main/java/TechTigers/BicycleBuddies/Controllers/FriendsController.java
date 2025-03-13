@@ -40,8 +40,8 @@ public class FriendsController {
 
     // Add a friend (send friend request)
     @PostMapping("/add")
-    public String addFriend(@RequestParam int userId, @RequestParam int friendUserId, Model model) {
-        boolean success = friendsService.addFriend(userId, friendUserId);
+    public String addFriend(@SessionAttribute(name = "user", required = false) User user, @RequestParam int friendUserId, Model model) {
+        boolean success = friendsService.addFriend(user.getId(), friendUserId);
         //model.addAttribute("message", "Friend request sent!");
         //return "redirect:/friends";
         //System.out.println("iam in line 48 in friendscontroller");
