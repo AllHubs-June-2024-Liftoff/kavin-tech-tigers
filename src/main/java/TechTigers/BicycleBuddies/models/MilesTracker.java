@@ -10,7 +10,7 @@ import java.util.List;
 public class MilesTracker extends AbstractEntity{
 
     @OneToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "milesTracker_id")
     private User user;
     @OneToMany(mappedBy = "milesTracker", cascade = CascadeType.ALL)
     private List<Entry> entries = new ArrayList<>();

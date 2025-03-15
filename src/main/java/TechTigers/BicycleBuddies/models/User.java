@@ -27,8 +27,7 @@ public class User extends AbstractEntity{
     @Email
     private String email;
 
-    @OneToOne(mappedBy = "user")
-    @Valid
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     public MilesTracker milesTracker;
 
     private String pwHash;
