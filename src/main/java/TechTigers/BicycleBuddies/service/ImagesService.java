@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -41,7 +42,18 @@ public class ImagesService {
         imagesRepository.save(images);
     }
 
+    public List<Images> getAllImages(){
+        return (List<Images>) imagesRepository.findAll();
+    }
+
     public Images getImage(int id){
         return imagesRepository.findById(id).orElseThrow(()-> new RuntimeException("Image not found"));
+    }
+
+    public void deleteImage(int id) throws IOException {
+        Images images = imagesRepository.findById(id).orElseThrow(()-> new RuntimeException("Image not found"));
+        Path filePath = Paths.get(images.getFilePath());
+        Files.deleteIfExists(filePath);
+        imagesRepository.delete(images);
     }
 }
