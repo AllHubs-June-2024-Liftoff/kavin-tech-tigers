@@ -1,6 +1,5 @@
 package TechTigers.BicycleBuddies.models;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -8,10 +7,12 @@ import java.awt.*;
 import java.util.List;
 import java.util.Random;
 
-import jakarta.persistence.*;
-
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
+import jakarta.persistence.OneToMany;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
@@ -26,10 +27,6 @@ public class User extends AbstractEntity{
     @NotNull
     @Email
     private String email;
-
-    @OneToOne(mappedBy = "user")
-    @Valid
-    public MilesTracker milesTracker;
 
     private String pwHash;
     private String location;
