@@ -54,8 +54,9 @@ public class EmailController {
     @GetMapping("")
     public String sendEmail(HttpServletRequest request){
 
-        User user = getUserFromSession(request.getSession());
-        String userEmail = user.getEmail();
+        //Commented out to remove validation for testing purposes
+//        User user = getUserFromSession(request.getSession());
+//        String userEmail = user.getEmail();
 //        int userVerifyCode = user.getVerificationCode();
 //
 //        //Your antivirus might throw an error here
@@ -89,6 +90,7 @@ public class EmailController {
                                           Errors errors, HttpServletRequest request,
                                           Model model, RegisterFormDTO registerFormDTO){
 
+        //Commented out to remove validation for testing purposes
 //        if(errors.hasErrors()){
 //            return "email/verification-email-sent";
 //        }

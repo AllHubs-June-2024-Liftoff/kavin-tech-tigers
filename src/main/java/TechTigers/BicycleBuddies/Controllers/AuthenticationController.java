@@ -120,6 +120,7 @@ public class AuthenticationController {
             return "login";
         }
 
+        //Commented out to remove validation for testing purposes
 //        if(theUser.isVerified() == false){
 //            errors.rejectValue("password", "password.invalid", "Account not yet verified!");
 //            model.addAttribute("title", "Log In");
@@ -128,7 +129,9 @@ public class AuthenticationController {
 
         setUserInSession(request.getSession(), theUser);
 
+        //Commented out to remove validation for testing purposes
 //        return "redirect:/login-verification";
+        //Temporary redirect with no validation
         return "redirect:/home";
     }
 

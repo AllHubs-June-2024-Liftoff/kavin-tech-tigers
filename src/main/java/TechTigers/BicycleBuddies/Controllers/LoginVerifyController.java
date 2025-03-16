@@ -101,6 +101,7 @@ public class LoginVerifyController {
         }
 
         User user = getUserFromSession(request.getSession());
+        //Commented out to remove validation for testing purposes
 //        int userSubmittedEmailVerification = emailVerificationFormDTO.getUserSubmittedEmailVerification();
 //        int userGivenEmailVerification = user.getEmailVerificationCode();
 

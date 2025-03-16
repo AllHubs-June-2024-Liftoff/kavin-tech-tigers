@@ -30,9 +30,10 @@ public class User extends AbstractEntity{
 
     private String pwHash;
     private String location;
-//    private boolean isVerified;
-//    private final int verificationCode = generateToken();
-//    private int emailVerificationCode;
+    //Temporarily set to true for testing purposes
+    private boolean isVerified = true;
+    private final int verificationCode = generateToken();
+    private int emailVerificationCode;
 
     @NotBlank(message = "Name must not be blank.")
     @Size(min = 3, max = 15, message = "Name must be between 3 and 15 characters.")
@@ -131,6 +132,7 @@ public class User extends AbstractEntity{
                 '}';
     }
 
+    //Commented out to remove validation for testing purposes
 //    public boolean isVerified() {
 //        return isVerified;
 //    }
