@@ -56,21 +56,21 @@ public class EmailController {
 
         User user = getUserFromSession(request.getSession());
         String userEmail = user.getEmail();
-        int userVerifyCode = user.getVerificationCode();
-
-        //Your antivirus might throw an error here
+//        int userVerifyCode = user.getVerificationCode();
+//
+//        //Your antivirus might throw an error here
         try {
-            SimpleMailMessage message = new SimpleMailMessage();
-
-
-            message.setFrom("bicyclebuddies8080@gmail.com");
-            //Message may be sent to spam folder
-            message.setTo(userEmail);
-            message.setSubject("Please Verify Your Account");
-            message.setText("Your verification code is " + userVerifyCode + ". Use this code to finish setting up your account.");
-
-            mailSender.send(message);
-
+//            SimpleMailMessage message = new SimpleMailMessage();
+//
+//
+//            message.setFrom("bicyclebuddies8080@gmail.com");
+//            //Message may be sent to spam folder
+//            message.setTo(userEmail);
+//            message.setSubject("Please Verify Your Account");
+//            message.setText("Your verification code is " + userVerifyCode + ". Use this code to finish setting up your account.");
+//
+//            mailSender.send(message);
+//
             return "redirect:/email/verification-email-sent";
         } catch (Exception e){
             return e.getMessage();
@@ -80,7 +80,7 @@ public class EmailController {
 
     @GetMapping("verification-email-sent")
     public String displayVerifyForm(Model model){
-        model.addAttribute(new VerifyFormDTO());
+//        model.addAttribute(new VerifyFormDTO());
         return "email/verification-email-sent";
     }
 
@@ -89,22 +89,22 @@ public class EmailController {
                                           Errors errors, HttpServletRequest request,
                                           Model model, RegisterFormDTO registerFormDTO){
 
-        if(errors.hasErrors()){
-            return "email/verification-email-sent";
-        }
-
-        User user = getUserFromSession(request.getSession());
-        int userSubmittedVerification = verifyFormDTO.getUserSubmittedVerification();
-        int userGivenVerification = user.getVerificationCode();
-
-        if(userGivenVerification != userSubmittedVerification){
-            errors.rejectValue("userSubmittedVerification", "userSubmittedVerification.incorrect", "Verification code does not match");
-            return "email/verification-email-sent";
-        }else{
-            user.setVerified(true);
-            userRepository.save(user);
-            setUserInSession(request.getSession(), user);
-        }
+//        if(errors.hasErrors()){
+//            return "email/verification-email-sent";
+//        }
+//
+//        User user = getUserFromSession(request.getSession());
+//        int userSubmittedVerification = verifyFormDTO.getUserSubmittedVerification();
+//        int userGivenVerification = user.getVerificationCode();
+//
+//        if(userGivenVerification != userSubmittedVerification){
+//            errors.rejectValue("userSubmittedVerification", "userSubmittedVerification.incorrect", "Verification code does not match");
+//            return "email/verification-email-sent";
+//        }else{
+//            user.setVerified(true);
+//            userRepository.save(user);
+//            setUserInSession(request.getSession(), user);
+//        }
 
         return "redirect:/login";
         //TODO:Redirect user to Edit Profile after verifying account
