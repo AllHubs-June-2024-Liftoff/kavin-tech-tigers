@@ -9,11 +9,12 @@ import java.util.List;
 @Entity
 public class MilesTracker extends AbstractEntity{
 
-    @OneToOne
-    @JoinColumn(name = "milesTracker_id")
+    @OneToOne(mappedBy = "milesTracker", cascade = CascadeType.ALL)
     private User user;
+
     @OneToMany(mappedBy = "milesTracker", cascade = CascadeType.ALL)
     private List<Entry> entries = new ArrayList<>();
+
     private int milesMonthly = 0;
     private int milesTotal = 0;
 
@@ -21,8 +22,7 @@ public class MilesTracker extends AbstractEntity{
     public MilesTracker(List<Entry> entries) {
         this.entries = entries;
     }
-    public MilesTracker( User user, int milesMonthly, int milesTotal) {
-        this.user= user;
+    public MilesTracker(int milesMonthly, int milesTotal) {
         this.milesMonthly = milesMonthly;
         this.milesTotal = milesTotal;
     }
