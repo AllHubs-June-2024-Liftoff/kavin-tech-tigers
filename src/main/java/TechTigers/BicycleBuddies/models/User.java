@@ -1,5 +1,6 @@
 package TechTigers.BicycleBuddies.models;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -7,12 +8,10 @@ import java.awt.*;
 import java.util.List;
 import java.util.Random;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
+
 import javax.validation.constraints.NotNull;
 
-import jakarta.persistence.OneToMany;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
@@ -43,6 +42,10 @@ public class User extends AbstractEntity{
 //    private Image bioPicture;  // not sure if this is the right datatype found in Java Documentation https://docs.oracle.com/javase/8/docs/api/java/awt/Image.html
     @OneToMany(mappedBy = "author", cascade= CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
+
+    @OneToOne(mappedBy = "user")
+    @Valid
+    public MilesTracker milesTracker;
 
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 

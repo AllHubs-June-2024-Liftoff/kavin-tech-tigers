@@ -26,7 +26,7 @@
                 <div style="width:600px">
                     <div class="text-bg-light p-3 friend-container">
                         <p th:text="${user.displayName}" style="text-align:left"></p>
-                        <p style="text-align:left">Miles:</p>
+                        <p th:text="${'Miles: ' + user.milesTracker.milesTotal}" style="text-align:left">Miles: Total Miles</p>
                         <div>
                             <img src="https://picsum.photos/200" style="position:absolute; right:15px; bottom:15px" id="profile-image" alt="Profile Image" />
                         </div>

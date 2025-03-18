@@ -1,8 +1,10 @@
 package TechTigers.BicycleBuddies.Controllers;
 
+import TechTigers.BicycleBuddies.models.MilesTracker;
 import TechTigers.BicycleBuddies.models.User;
 import TechTigers.BicycleBuddies.models.UserData;
 import TechTigers.BicycleBuddies.data.UserRepository;
+import TechTigers.BicycleBuddies.service.MilesTrackerService;
 import TechTigers.BicycleBuddies.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,10 @@ public class SearchController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private MilesTrackerService milesTrackerService;
+
+
     @RequestMapping("")
     public String search(Model model){
         model.addAttribute("users", userRepository.findAll());
@@ -34,6 +40,7 @@ public class SearchController {
     @PostMapping("results")
     public String displaySearchResults(Model model, @RequestParam String searchTerm,
                                        @ModelAttribute @Valid User user, Errors errors){
+        MilesTracker milesTracker = milesTrackerService.getOrCreateTracker(user);
         if (errors.hasErrors()) {
             return "friends/search";
         }
@@ -42,9 +49,11 @@ public class SearchController {
         if (searchTerm.toLowerCase().equals("all") || searchTerm.equals("")){
             users = userRepository.findAll();
             model.addAttribute("users", users);
+            model.addAttribute("milesTracker", milesTracker);
         } else {
             users = UserData.findByValue(searchTerm, userRepository.findAll());
             model.addAttribute("users", users);
+            model.addAttribute("milesTracker", milesTracker);
         }
 
         return "friends/search";
