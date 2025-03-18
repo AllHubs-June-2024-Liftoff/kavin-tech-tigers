@@ -1,6 +1,5 @@
 package TechTigers.BicycleBuddies.models;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -8,10 +7,12 @@ import java.awt.*;
 import java.util.List;
 import java.util.Random;
 
-import jakarta.persistence.*;
-
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
+import jakarta.persistence.OneToMany;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
@@ -27,12 +28,10 @@ public class User extends AbstractEntity{
     @Email
     private String email;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    public MilesTracker milesTracker;
-
     private String pwHash;
     private String location;
-    private boolean isVerified;
+    //Temporarily set to true for testing purposes
+    private boolean isVerified = true;
     private final int verificationCode = generateToken();
     private int emailVerificationCode;
 
@@ -133,25 +132,26 @@ public class User extends AbstractEntity{
                 '}';
     }
 
-    public boolean isVerified() {
-        return isVerified;
-    }
-
-    public void setVerified(boolean verified) {
-        isVerified = verified;
-    }
-
-    public int getVerificationCode() {
-        return verificationCode;
-    }
-
-    public int getEmailVerificationCode() {
-        return emailVerificationCode;
-    }
-
-    public void setEmailVerificationCode(int emailVerificationCode) {
-        this.emailVerificationCode = emailVerificationCode;
-    }
+    //Commented out to remove validation for testing purposes
+//    public boolean isVerified() {
+//        return isVerified;
+//    }
+//
+//    public void setVerified(boolean verified) {
+//        isVerified = verified;
+//    }
+//
+//    public int getVerificationCode() {
+//        return verificationCode;
+//    }
+//
+//    public int getEmailVerificationCode() {
+//        return emailVerificationCode;
+//    }
+//
+//    public void setEmailVerificationCode(int emailVerificationCode) {
+//        this.emailVerificationCode = emailVerificationCode;
+//    }
 
     //Generates a number between 100000 and 999999
     public static int generateToken(){
