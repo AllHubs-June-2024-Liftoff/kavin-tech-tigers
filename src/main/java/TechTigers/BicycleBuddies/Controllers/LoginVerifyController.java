@@ -62,23 +62,23 @@ public class LoginVerifyController {
     @GetMapping("")
     public String sendSMS(HttpServletRequest request){
 
-        User user = getUserFromSession(request.getSession());
-        String userEmail = user.getEmail();
+//        User user = getUserFromSession(request.getSession());
+//        String userEmail = user.getEmail();
 
         //generates new token upon every login attempt
-        user.setEmailVerificationCode(generateToken());
-        userRepository.save(user);
-        int userVerifyCode = user.getEmailVerificationCode();
+//        user.setEmailVerificationCode(generateToken());
+//        userRepository.save(user);
+//        int userVerifyCode = user.getEmailVerificationCode();
 
-        SimpleMailMessage message = new SimpleMailMessage();
-
-        message.setFrom("bicyclebuddies8080@gmail.com");
+//        SimpleMailMessage message = new SimpleMailMessage();
+//
+//        message.setFrom("bicyclebuddies8080@gmail.com");
         //Message may be sent to spam folder
-        message.setTo(userEmail);
-        message.setSubject("Login Code from Bicycle Buddies");
-        message.setText("Your login code is " + userVerifyCode);
+//        message.setTo(userEmail);
+//        message.setSubject("Login Code from Bicycle Buddies");
+//        message.setText("Your login code is " + userVerifyCode);
 
-        mailSender.send(message);
+//        mailSender.send(message);
 
         return "redirect:/login-verification/login-email-sent";
 
@@ -101,13 +101,14 @@ public class LoginVerifyController {
         }
 
         User user = getUserFromSession(request.getSession());
-        int userSubmittedEmailVerification = emailVerificationFormDTO.getUserSubmittedEmailVerification();
-        int userGivenEmailVerification = user.getEmailVerificationCode();
+        //Commented out to remove validation for testing purposes
+//        int userSubmittedEmailVerification = emailVerificationFormDTO.getUserSubmittedEmailVerification();
+//        int userGivenEmailVerification = user.getEmailVerificationCode();
 
-        if(userGivenEmailVerification != userSubmittedEmailVerification){
-            errors.rejectValue("userSubmittedSMSVerification", "userSubmittedSMSVerification.incorrect", "Verification code does not match");
-            return "login-verification/login-email-sent";
-        }
+//        if(userGivenEmailVerification != userSubmittedEmailVerification){
+//            errors.rejectValue("userSubmittedSMSVerification", "userSubmittedSMSVerification.incorrect", "Verification code does not match");
+//            return "login-verification/login-email-sent";
+//        }
 
         setUserInSession(request.getSession(), user);
 //        int profileId = user.getId();

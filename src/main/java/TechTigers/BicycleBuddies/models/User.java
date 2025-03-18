@@ -30,7 +30,8 @@ public class User extends AbstractEntity{
 
     private String pwHash;
     private String location;
-    private boolean isVerified;
+    //Temporarily set to true for testing purposes
+    private boolean isVerified = true;
     private final int verificationCode = generateToken();
     private int emailVerificationCode;
 
@@ -131,25 +132,26 @@ public class User extends AbstractEntity{
                 '}';
     }
 
-    public boolean isVerified() {
-        return isVerified;
-    }
-
-    public void setVerified(boolean verified) {
-        isVerified = verified;
-    }
-
-    public int getVerificationCode() {
-        return verificationCode;
-    }
-
-    public int getEmailVerificationCode() {
-        return emailVerificationCode;
-    }
-
-    public void setEmailVerificationCode(int emailVerificationCode) {
-        this.emailVerificationCode = emailVerificationCode;
-    }
+    //Commented out to remove validation for testing purposes
+//    public boolean isVerified() {
+//        return isVerified;
+//    }
+//
+//    public void setVerified(boolean verified) {
+//        isVerified = verified;
+//    }
+//
+//    public int getVerificationCode() {
+//        return verificationCode;
+//    }
+//
+//    public int getEmailVerificationCode() {
+//        return emailVerificationCode;
+//    }
+//
+//    public void setEmailVerificationCode(int emailVerificationCode) {
+//        this.emailVerificationCode = emailVerificationCode;
+//    }
 
     //Generates a number between 100000 and 999999
     public static int generateToken(){
