@@ -40,7 +40,16 @@ public class SearchController {
     @PostMapping("results")
     public String displaySearchResults(Model model, @RequestParam String searchTerm,
                                        @ModelAttribute @Valid User user, Errors errors){
+
+        //TODO: Finish this code so that the search page doesn't crash if a user doesn't have a miles tracker filled out
+        //Checks to see if user has a miles tracker and if not, sets milesTotal to 0
         MilesTracker milesTracker = milesTrackerService.getOrCreateTracker(user);
+        milesTrackerService.saveMilesTracker(milesTracker);
+
+//        if (user.milesTracker == null){
+//            user.milesTracker.setMilesTotal(0);
+//            userService.saveProfile(user);
+//        }
         if (errors.hasErrors()) {
             return "friends/search";
         }

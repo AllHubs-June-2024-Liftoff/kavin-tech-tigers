@@ -8,6 +8,7 @@ import java.awt.*;
 import java.util.List;
 import java.util.Random;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import javax.validation.constraints.NotNull;
@@ -39,11 +40,15 @@ public class User extends AbstractEntity{
     private String displayName; // display name entered by user for profile
 
     private String bio;
+
 //    private Image bioPicture;  // not sure if this is the right datatype found in Java Documentation https://docs.oracle.com/javase/8/docs/api/java/awt/Image.html
     @OneToMany(mappedBy = "author", cascade= CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
 
-    @OneToOne(mappedBy = "user")
+    @JsonManagedReference
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+//    @JoinColumn(name = "milesTracker_id", referencedColumnName = "id")
+    @PrimaryKeyJoinColumn
     @Valid
     public MilesTracker milesTracker;
 
@@ -116,7 +121,7 @@ public class User extends AbstractEntity{
         this.bio = bio;
     }
 
-//    public Image getBioPicture() {
+    //    public Image getBioPicture() {
 //        return bioPicture;
 //    }
 

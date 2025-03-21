@@ -1,5 +1,6 @@
 package TechTigers.BicycleBuddies.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -9,7 +10,9 @@ import java.util.List;
 @Entity
 public class MilesTracker extends AbstractEntity{
 
+    @JsonBackReference
     @OneToOne
+    @MapsId
     @JoinColumn(name = "user_id")
     private User user;
 
