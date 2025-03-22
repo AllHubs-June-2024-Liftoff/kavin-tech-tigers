@@ -12,7 +12,7 @@
 
     <div th:if="${friendsList != null and not friendsList.isEmpty()}">
         <h2>Friends</h2>
-        <ul>
+        <ul style="list-style-type: none">
             <li th:each="friend : ${friendsList}">
                 <a th:href="@{'/friends/view/' + ${friend.id}}" th:text="${friend.displayName}"></a>
             </li>
