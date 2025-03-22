@@ -2,14 +2,18 @@ package TechTigers.BicycleBuddies.Controllers;
 
 import TechTigers.BicycleBuddies.data.EntryRepository;
 import TechTigers.BicycleBuddies.models.*;
+import TechTigers.BicycleBuddies.models.dto.MilesTrackerEntryFormDTO;
 import TechTigers.BicycleBuddies.service.MilesTrackerService;
 import TechTigers.BicycleBuddies.service.RideService;
 import TechTigers.BicycleBuddies.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,10 +44,28 @@ public class TrackerController {
     public String showAddTrackingForm(@PathVariable int userId, Model model){
             User user = userService.getProfileById(userId);
             model.addAttribute("user", user);
-            model.addAttribute("entry", new Entry());
+            model.addAttribute(new MilesTrackerEntryFormDTO());
+//            model.addAttribute("entry", new Entry());
             model.addAttribute("title", "Add to Tracker");
 
         return "tracker/add-tracking";
+    }
+
+    @PostMapping("/register")
+    public String processMilesTrackerEntryForm(@ModelAttribute @Valid MilesTrackerEntryFormDTO milesTrackerEntryFormDTO,
+                                               Errors errors, HttpServletRequest request,
+                                               Model model) {
+
+        if (errors.hasErrors()) {
+            model.addAttribute("title", "Add to Tracker");
+            return "tracker/add-tracking";
+        }
+
+//        Entry newEntry = new Entry(milesTrackerEntryFormDTO.getDate(), milesTrackerEntryFormDTO.getDescription(), milesTrackerEntryFormDTO.getMiles(), milesTrackerEntryFormDTO.getMilesTracker());
+        Entry newEntry = new Entry(milesTrackerEntryFormDTO.getDate(), milesTrackerEntryFormDTO.getDescription(), milesTrackerEntryFormDTO.getMiles());
+        entryRepository.save(newEntry);
+
+        return "redirect:";
     }
 
     @PostMapping("/add-tracking/{userId}/add")

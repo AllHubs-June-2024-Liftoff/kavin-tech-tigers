@@ -15,18 +15,22 @@
     </div>
 </div>
 <div class="container">
-    <form th:object="${entry}" th:action="@{/tracker/add-tracking/{userId}/add(userId=${user.id})}" method="post" >
+<!--    <form th:object="${entry}" th:action="@{/tracker/add-tracking/{userId}/add(userId=${user.id})}" method="post" >-->
+    <form th:action="@{/tracker/add-tracking/{userId}/add(userId=${user.id})}" method="post" >
         <div class="mb-3">
             <label for="date">Date:</label>
-            <input type="datetime-local" id="date" th:field="*{date}" class="form-control" required/>
+<!--            <input type="datetime-local" id="date" th:field="*{date}" class="form-control" required/>-->
+            <input type="datetime-local" id="date" th:field="*{milesTrackerEntryFormDTO.date}" class="form-control" required/>
         </div>
         <div class="mb-3">
             <label for="description">Description: </label>
-            <input type="text" id="description" th:field="*{description}" class="form-control" />
+<!--            <input type="text" id="description" th:field="*{description}" class="form-control" />-->
+            <input type="text" id="description" th:field="*{milesTrackerEntryFormDTO.description}" class="form-control" />
         </div>
         <div class="mb-3">
             <label for="miles">Miles: </label>
-            <input type="number" id="miles" th:field="*{miles}" class="form-control" />
+<!--            <input type="number" id="miles" th:field="*{miles}" class="form-control" />-->
+            <input type="number" id="miles" th:field="*{milesTrackerEntryFormDTO.miles}" class="form-control" />
         </div>
         <button type="submit" class="btn btn-primary">Add Tracking</button>
     </form>

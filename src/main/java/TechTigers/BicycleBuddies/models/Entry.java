@@ -14,15 +14,17 @@ public class Entry extends AbstractEntity{
     private int miles;
 
     @ManyToOne
-    @JoinColumn(name="tracker_id")
+    //TODO: Find out why Rides and Maps page works when this line of code is commented out
+//    @JoinColumn(name="tracker_id")
     private MilesTracker milesTracker;
 
     public Entry(){}
-    public Entry(LocalDateTime date, String description, int miles, MilesTracker milesTracker) {
+//    public Entry(LocalDateTime date, String description, int miles, MilesTracker milesTracker) {
+        public Entry(LocalDateTime date, String description, int miles) {
         this.date = date;
         this.description = description;
         this.miles = miles;
-        this.milesTracker = milesTracker;
+//        this.milesTracker = milesTracker;
     }
 
     public LocalDateTime getDate() {
