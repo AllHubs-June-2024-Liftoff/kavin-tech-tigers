@@ -107,7 +107,7 @@ public class AuthenticationController {
         User theUser = userRepository.findByUserName(loginFormDTO.getUserName());
 
         if (theUser == null){
-            errors.rejectValue("username", "user.invalid", "The given username does not exist");
+            errors.rejectValue("userName", "user.invalid", "The given username does not exist");
             model.addAttribute("title", "Log In");
             return "login";
         }
