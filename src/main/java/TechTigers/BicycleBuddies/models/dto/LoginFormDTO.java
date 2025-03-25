@@ -7,7 +7,7 @@ import javax.validation.constraints.Size;
 public class LoginFormDTO {
 
     @NotNull
-    @NotBlank
+    @NotBlank(message = "Username field must not be blank.")
     @Size(min=3, max=20, message = "Invalid username. Must be between 3 and 20 characters.")
     private String userName;
 
