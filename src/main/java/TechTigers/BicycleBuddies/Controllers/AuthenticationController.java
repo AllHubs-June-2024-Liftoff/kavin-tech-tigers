@@ -83,8 +83,8 @@ public class AuthenticationController {
         userRepository.save(newUser);
         setUserInSession(request.getSession(), newUser);
 
-//        return "redirect:/email";
-        return "redirect:/login";
+        return "redirect:/email";
+//        return "redirect:/login";
     }
 
     @GetMapping("/login")
@@ -121,18 +121,18 @@ public class AuthenticationController {
         }
 
         //Commented out to remove validation for testing purposes
-//        if(theUser.isVerified() == false){
-//            errors.rejectValue("password", "password.invalid", "Account not yet verified!");
-//            model.addAttribute("title", "Log In");
-//            return "login";
-//        }
+        if(theUser.isVerified() == false){
+            errors.rejectValue("password", "password.invalid", "Account not yet verified!");
+            model.addAttribute("title", "Log In");
+            return "login";
+        }
 
         setUserInSession(request.getSession(), theUser);
 
         //Commented out to remove validation for testing purposes
-//        return "redirect:/login-verification";
+        return "redirect:/login-verification";
         //Temporary redirect with no validation
-        return "redirect:/home";
+//        return "redirect:/home";
     }
 
     @GetMapping("/logout")
