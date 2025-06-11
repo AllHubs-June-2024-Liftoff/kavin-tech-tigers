@@ -1,7 +1,8 @@
 package TechTigers.BicycleBuddies.models.dto;
 
 //used for logging in
-public class EmailVerificationFormDTO {
+public class
+EmailVerificationFormDTO {
 
     private int userSubmittedEmailVerification;
 
